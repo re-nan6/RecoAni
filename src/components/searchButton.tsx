@@ -8,7 +8,7 @@ type Props = {
 const SearchButton: React.FC<Props> = () => {
   return (
     <div>
-        <button className={styles.btn}>おすすめのアニメを検索</button>
+      <button className={styles.btn}>おすすめのアニメを検索</button>
     </div>
   );
 };

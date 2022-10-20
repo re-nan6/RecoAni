@@ -10,12 +10,20 @@ import AnimeCard from './components/animeCard';
 function App() {
   const [anime,setAnime] = useState<string>("");
   return (
-    <div>
-      <Title/>
-      <SearchBox setAnime={setAnime}/>
-      {anime}
-      <AnimeCard/>
-      <SearchButton/>
+    <div className='App'>
+      <div className="main">
+        <Title/>
+        <SearchBox setAnime={setAnime}/>
+        {anime}
+        <div className='animebox'>
+          <div className='animes'>
+            <AnimeCard annictID="01" animeUrl="https://kaguya.love/og_220318.png" media="映画" animeTitle='かぐや様は告らせたい-ファーストキッスは終わらない-'/>
+            <AnimeCard annictID="02" animeUrl="https://lycoris-recoil.com/ogp3.png" media="TV" animeTitle='リコリス・リコイル'/>
+            <AnimeCard annictID="03" animeUrl="https://engage-kiss.com/ogp.png?0617" media="TV" animeTitle='Engage Kiss'/>
+          </div>
+        </div>
+        <SearchButton/>
+      </div>
     </div>
   );
 }

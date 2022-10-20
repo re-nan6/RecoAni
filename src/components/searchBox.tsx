@@ -7,8 +7,8 @@ type Props = {
 
 const SearchBox: React.FC<Props> = ({setAnime}) => {
   return (
-      <div className={styles.Box}>
-         <input type="text" placeholder="キーワードを入力" onChange={e => setAnime(e.target.value)}/>
+      <div className={styles.box}>
+        <input type="text" placeholder="キーワードを入力" onChange={e => setAnime(e.target.value)}/>
       </div>
   );
 };
