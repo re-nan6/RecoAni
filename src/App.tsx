@@ -1,38 +1,48 @@
 import React from 'react';
-import logo from './logo.svg';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import './App.css';
 import Title from './components/title';
 import SearchBox from './components/searchBox';
 import SearchButton from './components/searchButton';
 import AnimeCard from './components/animeCard';
-import { ApolloProvider, gql, useLazyQuery, DocumentNode} from '@apollo/client';
+import {gql, useLazyQuery, DocumentNode} from '@apollo/client';
 
 function App() {
 
+  //annictAPIから受け取れるjsonファイルの中身の型定義の一部
+  interface imageInterface {
+    __typename:string
+    recommendedImageUrl:string
+  }
+
+  //annictAPIから受け取れるjsonファイルの中身の型定義
+  interface animeInterface{
+    __typename: string
+    title: string
+    media: string
+    image: imageInterface | null
+  }
+
   //アニメカードの表示に必要な変数の定義
-  const [titleList,setTitleList] = useState<Array<string>>([]);
-  const [imageList,setImageList] = useState<Array<string>>([]);
-  const [mediaList,setMediaList] = useState<Array<string>>([]);
+  //とりあえず初期値はテキトーなので直す余地あり
+  const [animeList,setAnimeList] = useState<Array<animeInterface>>([]);
   const [SEARCH_ANIME,setSEARCH_ANIME] = useState<DocumentNode>(gql`
   query {
     searchWorks(
       orderBy: { field: WATCHERS_COUNT, direction: DESC },
-      first: 3,
-      titles:["あ"]
+      first: 10,
+      titles: []
     ) {
-      edges {
-        node {
-          annictId
+        nodes {
           title
-          watchersCount
-        }
+          media
+          image{recommendedImageUrl}
       }
     }
   }
   `);
 
-  //graphQLを適宜呼び出すためのもの
+  //graphQLでannictAPIを適宜呼び出すためのもの
   const [inputAnime, { called, loading, error, data }] = useLazyQuery(SEARCH_ANIME);
 
   //テキストボックスに入力された文字列を元にqueryを作成
@@ -55,12 +65,29 @@ function App() {
   }
 
   //テキストボックスの中身が変わるたびにこの関数が実行される
-  //queryの定義とGQLの呼び出しと
+  //queryの定義とannictAPIの使用
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     search(e.target.value);
     inputAnime();
-    console.log(data);
   }
+
+  //検索した結果出てきたアニメの情報をリストに格納してる
+  const makeAnimeList = () => {
+    if (data) {
+      let li = [];
+      for (let i = 0; i < data.searchWorks.nodes.length; i++){
+        li.push(data.searchWorks.nodes[i]);
+      }
+      setAnimeList(li);
+      console.log(li)
+    }
+  }
+
+  //data(graphQLの実行結果)の値が変わる度にmakeAnimeList関数が実行される
+  useEffect(makeAnimeList,[data])
+
+
+  //なんかページ読み込んだタイミングで何もアニメカードが表示されないから直したい
   return (
     <div className='App'>
       <div className="main">
@@ -68,9 +95,13 @@ function App() {
         <SearchBox onChange={(e) => handleChange(e)}/>
         <div className='animebox'>
           <div className='animes'>
-            <AnimeCard annictID="01" animeUrl="https://kaguya.love/og_220318.png" media="映画" animeTitle='かぐや様は告らせたい-ファーストキッスは終わらない-'/>
-            <AnimeCard annictID="02" animeUrl="https://lycoris-recoil.com/ogp3.png" media="TV" animeTitle='リコリス・リコイル'/>
-            <AnimeCard annictID="03" animeUrl="https://engage-kiss.com/ogp.png?0617" media="TV" animeTitle='Engage Kiss'/>
+            {animeList.map((info,index) => {
+              return (
+                info.image?
+                (<AnimeCard annictID={info.title} animeUrl={info.image.recommendedImageUrl} media={info.media} animeTitle={info.title}/>)
+                :(<AnimeCard annictID={info.title} animeUrl='' media={info.media} animeTitle={info.title}/>)
+                )
+            })}
           </div>
         </div>
         <SearchButton/>
