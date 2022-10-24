@@ -1,3 +1,4 @@
+import { request } from 'https';
 import React from 'react'
 import styles from './animeCard.module.css';
 
@@ -17,14 +18,22 @@ type Props = {
   animeUrl:string;
   media:string;
   animeTitle:string;
+  value:string;
+  onChange:(e: React.ChangeEvent<HTMLInputElement>) => void;
+  checked:boolean;
 }
 
-const AnimeCard: React.FC<Props> = ({annictID,animeUrl,media,animeTitle}) => {
+
+const AnimeCard: React.FC<Props> = ({annictID,animeUrl,media,animeTitle,value,onChange,checked}) => {
+  if (animeUrl === ''){
+    animeUrl = `${process.env.PUBLIC_URL}/noimage.png`;
+  }
+
   return (
     <div className={styles.anime}>
-      <input type="checkbox" id={annictID}/>
+      <input type="checkbox" id={annictID} value={value} onChange={onChange} checked={checked}/>
       <label htmlFor={annictID}>
-        <div>
+        <div className='colorfilter'>
           <img className={styles.ogp} loading='lazy' src={animeUrl}/>
         </div>
         <div className={styles.title}>

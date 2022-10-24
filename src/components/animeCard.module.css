@@ -11,6 +11,15 @@
     vertical-align: top;
 }
 
+.anime img {
+    width:100%;
+    vertical-align: middle;
+    object-fit: cover;
+    transition: all ease .3s;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
 label::before {
     display: block;
     position: absolute;
@@ -73,10 +82,19 @@ label::after {
     font-weight: 6;
 }
 
+.colorfilter {
+    background-color: blue;
+}
+
 input[type="checkbox"]{
     display: none;
   }
   
 input[type="checkbox"]:checked + label::after{
     opacity: 1;
+}
+
+.anime:has(>input[type="checkbox"]:checked){
+    border:1px solid pink;
+    opacity: 0.2;
 }

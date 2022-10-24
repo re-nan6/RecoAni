@@ -7,13 +7,13 @@ import styles from './searchButton.module.css';
 //@return 検索ボタンが表示される
 
 type Props = {
-
+  onClick:() => void[];
 }
 
-const SearchButton: React.FC<Props> = () => {
+const SearchButton: React.FC<Props> = ({onClick}) => {
   return (
     <div>
-      <button className={styles.btn}>おすすめのアニメを検索</button>
+      <button className={styles.btn} onClick={onClick}>おすすめのアニメを検索</button>
     </div>
   );
 };

@@ -18,6 +18,7 @@ function App() {
   //annictAPIから受け取れるjsonファイルの中身の型定義
   interface animeInterface{
     __typename: string
+    annictId:string
     title: string
     media: string
     image: imageInterface | null
@@ -26,6 +27,7 @@ function App() {
   //アニメカードの表示に必要な変数の定義
   //とりあえず初期値はテキトーなので直す余地あり
   const [animeList,setAnimeList] = useState<Array<animeInterface>>([]);
+  const [val,setVal] = useState<Array<string>>([]);
   const [SEARCH_ANIME,setSEARCH_ANIME] = useState<DocumentNode>(gql`
   query {
     searchWorks(
@@ -34,6 +36,7 @@ function App() {
       titles: []
     ) {
         nodes {
+          annictId
           title
           media
           image{recommendedImageUrl}
@@ -55,6 +58,7 @@ function App() {
         titles: ["${value}"]
       ) {
           nodes {
+            annictId
             title
             media
             image{recommendedImageUrl}
@@ -71,6 +75,18 @@ function App() {
     inputAnime();
   }
 
+  const valChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (val.includes(e.target.value)) {
+      setVal(val.filter(item => item !== e.target.value));
+    }else {
+      setVal([...val,e.target.value]);
+    }
+  }
+
+  const valDisplay = () => [
+    console.log(val)
+  ]
+
   //検索した結果出てきたアニメの情報をリストに格納してる
   const makeAnimeList = () => {
     if (data) {
@@ -79,7 +95,6 @@ function App() {
         li.push(data.searchWorks.nodes[i]);
       }
       setAnimeList(li);
-      console.log(li)
     }
   }
 
@@ -98,13 +113,13 @@ function App() {
             {animeList.map((info,index) => {
               return (
                 info.image?
-                (<AnimeCard annictID={info.title} animeUrl={info.image.recommendedImageUrl} media={info.media} animeTitle={info.title}/>)
-                :(<AnimeCard annictID={info.title} animeUrl='' media={info.media} animeTitle={info.title}/>)
+                (<AnimeCard annictID={info.title} animeUrl={info.image.recommendedImageUrl} media={info.media} animeTitle={info.title} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
+                :(<AnimeCard annictID={info.title} animeUrl='' media={info.media} animeTitle={info.title} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
                 )
             })}
           </div>
         </div>
-        <SearchButton/>
+        <SearchButton onClick={valDisplay}/>
       </div>
     </div>
   );
