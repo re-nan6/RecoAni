@@ -2,6 +2,7 @@ import React from 'react';
 import {useState, useEffect} from 'react';
 import './App.css';
 import Title from './components/title';
+import Anime from './components/anime.json';
 import SearchBox from './components/searchBox';
 import SearchButton from './components/searchButton';
 import AnimeCard from './components/animeCard';
@@ -18,15 +19,21 @@ function App() {
   //annictAPIから受け取れるjsonファイルの中身の型定義
   interface animeInterface{
     __typename: string
-    annictId:string
+    annictId:number
     title: string
     media: string
     image: imageInterface | null
   }
 
+  //検索前に表示するアニメのリストを作成
+  const initial_anime = [];
+  for (let i = 0; i < Anime.searchWorks.nodes.length; i++){
+    initial_anime.push(Anime.searchWorks.nodes[i]);
+  }
+
   //アニメカードの表示に必要な変数の定義
   //とりあえず初期値はテキトーなので直す余地あり
-  const [animeList,setAnimeList] = useState<Array<animeInterface>>([]);
+  const [animeList,setAnimeList] = useState<Array<animeInterface>>(initial_anime);
   const [val,setVal] = useState<Array<string>>([]);
   const [SEARCH_ANIME,setSEARCH_ANIME] = useState<DocumentNode>(gql`
   query {
@@ -75,6 +82,7 @@ function App() {
     inputAnime();
   }
 
+  //選択しているアニメカードを管理している
   const valChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (val.includes(e.target.value)) {
       setVal(val.filter(item => item !== e.target.value));
@@ -83,6 +91,8 @@ function App() {
     }
   }
 
+  //選択されたアニメ一覧を表示する
+  //確認用なので後で消す
   const valDisplay = () => [
     console.log(val)
   ]
@@ -90,7 +100,7 @@ function App() {
   //検索した結果出てきたアニメの情報をリストに格納してる
   const makeAnimeList = () => {
     if (data) {
-      let li = [];
+      const li = [];
       for (let i = 0; i < data.searchWorks.nodes.length; i++){
         li.push(data.searchWorks.nodes[i]);
       }
@@ -113,8 +123,8 @@ function App() {
             {animeList.map((info,index) => {
               return (
                 info.image?
-                (<AnimeCard annictID={info.title} animeUrl={info.image.recommendedImageUrl} media={info.media} animeTitle={info.title} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
-                :(<AnimeCard annictID={info.title} animeUrl='' media={info.media} animeTitle={info.title} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
+                (<AnimeCard annictID={info.annictId} animeUrl={info.image.recommendedImageUrl} media={info.media} animeTitle={info.title} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
+                :(<AnimeCard annictID={info.annictId} animeUrl='' media={info.media} animeTitle={info.title} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
                 )
             })}
           </div>

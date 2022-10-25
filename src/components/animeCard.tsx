@@ -10,11 +10,14 @@ import styles from './animeCard.module.css';
 //@param animeUrl - アニメ画像のURL
 //@param media - 放送媒体
 //@param animeTitle - そのアニメのタイトル
+//@param value - そのラベルが持つ値
+//@param onChange - そのアニメカードが選択されたときに行う処理
+//@param checked - 選択されているかいないかのフラッグ
 //@return 画像URLが存在する場合 - そのままアニメカードが表示される
 //@return 画像URLが存在しない場合 - NoImageと書かれた画像を表示させる(予定)
 
 type Props = {
-  annictID:string;
+  annictID:number;
   animeUrl:string;
   media:string;
   animeTitle:string;
@@ -29,10 +32,11 @@ const AnimeCard: React.FC<Props> = ({annictID,animeUrl,media,animeTitle,value,on
     animeUrl = `${process.env.PUBLIC_URL}/noimage.png`;
   }
 
+  const ID = String(annictID);
   return (
     <div className={styles.anime}>
-      <input type="checkbox" id={annictID} value={value} onChange={onChange} checked={checked}/>
-      <label htmlFor={annictID}>
+      <input type="checkbox" id={ID} value={value} onChange={onChange} checked={checked}/>
+      <label htmlFor={ID}>
         <div className='colorfilter'>
           <img className={styles.ogp} loading='lazy' src={animeUrl}/>
         </div>

@@ -1,0 +1,107 @@
+{
+    "searchWorks": {
+        "__typename": "WorkConnection",
+        "nodes": [
+            {
+                "__typename": "Work",
+                "annictId": 2108,
+                "title": "魔法少女まどか☆マギカ",
+                "media": "TV",
+                "image": {
+                    "__typename": "WorkImage",
+                    "recommendedImageUrl": "https://www.madoka-magica.com/assets/t/ogp.jpg"
+                }
+            },
+            {
+                "__typename": "Work",
+                "annictId": 43,
+                "title": "あの日見た花の名前を僕達はまだ知らない。",
+                "media": "TV",
+                "image": {
+                    "__typename": "WorkImage",
+                    "recommendedImageUrl": ""
+                }
+            },
+            {
+                "__typename": "Work",
+                "annictId": 4547,
+                "title": "この素晴らしい世界に祝福を！",
+                "media": "TV",
+                "image": {
+                    "__typename": "WorkImage",
+                    "recommendedImageUrl": "http://konosuba.com/img/ogp.png"
+                }
+            },
+            {
+                "__typename": "Work",
+                "annictId": 1166,
+                "title": "ソードアート・オンライン",
+                "media": "TV",
+                "image": {
+                    "__typename": "WorkImage",
+                    "recommendedImageUrl": "https://www.swordart-online.net/ogp_saop.jpg"
+                }
+            },
+            {
+                "__typename": "Work",
+                "annictId": 3316,
+                "title": "サマーウォーズ",
+                "media": "MOVIE",
+                "image": {
+                    "__typename": "WorkImage",
+                    "recommendedImageUrl": ""
+                }
+            },
+            {
+                "__typename": "Work",
+                "annictId": 865,
+                "title": "Steins;Gate",
+                "media": "TV",
+                "image": {
+                    "__typename": "WorkImage",
+                    "recommendedImageUrl": ""
+                }
+            },
+            {
+                "__typename": "Work",
+                "annictId": 668,
+                "title": "けいおん！",
+                "media": "TV",
+                "image": {
+                    "__typename": "WorkImage",
+                    "recommendedImageUrl": "http://www.tbs.co.jp/anime/k-on/images/logo.jpg"
+                }
+            },
+            {
+                "__typename": "Work",
+                "annictId": 997,
+                "title": "進撃の巨人",
+                "media": "TV",
+                "image": {
+                    "__typename": "WorkImage",
+                    "recommendedImageUrl": ""
+                }
+            },
+            {
+                "__typename": "Work",
+                "annictId": 4636,
+                "title": "Re:ゼロから始める異世界生活",
+                "media": "TV",
+                "image": {
+                    "__typename": "WorkImage",
+                    "recommendedImageUrl": ""
+                }
+            },
+            {
+                "__typename": "Work",
+                "annictId": 1696,
+                "title": "化物語",
+                "media": "TV",
+                "image": {
+                    "__typename": "WorkImage",
+                    "recommendedImageUrl": ""
+                }
+            }
+        ]
+    }
+}
