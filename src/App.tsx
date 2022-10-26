@@ -20,6 +20,7 @@ function App() {
   interface animeInterface{
     __typename: string
     annictId:number
+    officialSiteUrl:string
     title: string
     media: string
     image: imageInterface | null
@@ -44,6 +45,7 @@ function App() {
     ) {
         nodes {
           annictId
+          officialSiteUrl
           title
           media
           image{recommendedImageUrl}
@@ -66,6 +68,7 @@ function App() {
       ) {
           nodes {
             annictId
+            officialSiteUrl
             title
             media
             image{recommendedImageUrl}
@@ -123,8 +126,8 @@ function App() {
             {animeList.map((info,index) => {
               return (
                 info.image?
-                (<AnimeCard annictID={info.annictId} animeUrl={info.image.recommendedImageUrl} media={info.media} animeTitle={info.title} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
-                :(<AnimeCard annictID={info.annictId} animeUrl='' media={info.media} animeTitle={info.title} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
+                (<AnimeCard annictID={info.annictId} animeUrl={info.image.recommendedImageUrl} officialSiteUrl={info.officialSiteUrl} media={info.media} animeTitle={info.title} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
+                :(<AnimeCard annictID={info.annictId} animeUrl='' officialSiteUrl={info.officialSiteUrl}  media={info.media} animeTitle={info.title} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
                 )
             })}
           </div>

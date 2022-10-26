@@ -1,6 +1,8 @@
 import { request } from 'https';
 import React from 'react'
 import styles from './animeCard.module.css';
+import { CgWebsite } from 'react-icons/cg'
+import { FaTwitter } from 'react-icons/fa'
 
 //アニメカードのコンポーネント
 //画像リンクが存在しない場合・リンクが無効の場合の例外処理実装したい
@@ -19,6 +21,7 @@ import styles from './animeCard.module.css';
 type Props = {
   annictID:number;
   animeUrl:string;
+  officialSiteUrl:string;
   media:string;
   animeTitle:string;
   value:string;
@@ -27,7 +30,7 @@ type Props = {
 }
 
 
-const AnimeCard: React.FC<Props> = ({annictID,animeUrl,media,animeTitle,value,onChange,checked}) => {
+const AnimeCard: React.FC<Props> = ({annictID,animeUrl,officialSiteUrl,media,animeTitle,value,onChange,checked}) => {
   if (animeUrl === ''){
     animeUrl = `${process.env.PUBLIC_URL}/noimage.png`;
   }
@@ -35,15 +38,23 @@ const AnimeCard: React.FC<Props> = ({annictID,animeUrl,media,animeTitle,value,on
   const ID = String(annictID);
   return (
     <div className={styles.anime}>
+      <a className={styles.site} href={officialSiteUrl} rel="noreferrer" target="_blank">
+        <span className={styles.siteicon}><CgWebsite size={15}/></span>
+        <span className={styles.sitename}>公式サイト</span>
+      </a>
+      <a className={styles.twitter} href={officialSiteUrl} rel="noreferrer" target="_blank">
+        <FaTwitter/>
+      </a>
       <input type="checkbox" id={ID} value={value} onChange={onChange} checked={checked}/>
       <label htmlFor={ID}>
-        <div className='colorfilter'>
+        <div>
           <img className={styles.ogp} loading='lazy' src={animeUrl}/>
         </div>
         <div className={styles.title}>
           <span className={styles.media}>{media}</span>
           <span className={styles.titleName}>{animeTitle}</span>
         </div>
+        <div className={`${styles.LikesIcon} ${styles.HeartAnimation}`}></div>
       </label>
     </div>
   );
