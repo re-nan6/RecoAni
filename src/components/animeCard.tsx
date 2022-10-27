@@ -10,6 +10,7 @@ import { FaTwitter } from 'react-icons/fa'
 
 //@param annictID - アニメを一意に紐づけするID
 //@param animeUrl - アニメ画像のURL
+//@param officialSiteUrl - 公式サイトのURL
 //@param media - 放送媒体
 //@param animeTitle - そのアニメのタイトル
 //@param value - そのラベルが持つ値
@@ -24,25 +25,27 @@ type Props = {
   officialSiteUrl:string;
   media:string;
   animeTitle:string;
+  twitterUsername:string;
   value:string;
   onChange:(e: React.ChangeEvent<HTMLInputElement>) => void;
   checked:boolean;
 }
 
 
-const AnimeCard: React.FC<Props> = ({annictID,animeUrl,officialSiteUrl,media,animeTitle,value,onChange,checked}) => {
+const AnimeCard: React.FC<Props> = ({annictID,animeUrl,officialSiteUrl,media,animeTitle,twitterUsername,value,onChange,checked}) => {
   if (animeUrl === ''){
     animeUrl = `${process.env.PUBLIC_URL}/noimage.png`;
   }
 
   const ID = String(annictID);
+  const twitterLink = `https://twitter.com/${twitterUsername}`;
   return (
     <div className={styles.anime}>
       <a className={styles.site} href={officialSiteUrl} rel="noreferrer" target="_blank">
         <span className={styles.siteicon}><CgWebsite size={15}/></span>
         <span className={styles.sitename}>公式サイト</span>
       </a>
-      <a className={styles.twitter} href={officialSiteUrl} rel="noreferrer" target="_blank">
+      <a className={styles.twitter} href={twitterLink} rel="noreferrer" target="_blank">
         <FaTwitter/>
       </a>
       <input type="checkbox" id={ID} value={value} onChange={onChange} checked={checked}/>

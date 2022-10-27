@@ -6,7 +6,9 @@ import Anime from './components/anime.json';
 import SearchBox from './components/searchBox';
 import SearchButton from './components/searchButton';
 import AnimeCard from './components/animeCard';
+import ResultAnime from './components/resultAnime';
 import {gql, useLazyQuery, DocumentNode} from '@apollo/client';
+import { MdDeleteForever } from 'react-icons/md'
 
 function App() {
 
@@ -22,6 +24,7 @@ function App() {
     annictId:number
     officialSiteUrl:string
     title: string
+    twitterUsername: string
     media: string
     image: imageInterface | null
   }
@@ -31,6 +34,9 @@ function App() {
   for (let i = 0; i < Anime.searchWorks.nodes.length; i++){
     initial_anime.push(Anime.searchWorks.nodes[i]);
   }
+
+  //レコメンド結果表示に必要なフラグの定義
+  const [flag,setFlag] = useState<boolean>(false);
 
   //アニメカードの表示に必要な変数の定義
   //とりあえず初期値はテキトーなので直す余地あり
@@ -47,6 +53,7 @@ function App() {
           annictId
           officialSiteUrl
           title
+          twitterUsername
           media
           image{recommendedImageUrl}
       }
@@ -70,6 +77,7 @@ function App() {
             annictId
             officialSiteUrl
             title
+            twitterUsername
             media
             image{recommendedImageUrl}
         }
@@ -94,10 +102,18 @@ function App() {
     }
   }
 
+  const valChangeBtn = (e:React.MouseEvent<HTMLButtonElement>) => {
+    if (val.includes(e.currentTarget.value)) {
+      setVal(val.filter(item => item !== e.currentTarget.value));
+    }else {
+      setVal([...val,e.currentTarget.value]);
+    }
+  }
+
   //選択されたアニメ一覧を表示する
   //確認用なので後で消す
   const valDisplay = () => [
-    console.log(val)
+    setFlag(true)
   ]
 
   //検索した結果出てきたアニメの情報をリストに格納してる
@@ -126,13 +142,29 @@ function App() {
             {animeList.map((info,index) => {
               return (
                 info.image?
-                (<AnimeCard annictID={info.annictId} animeUrl={info.image.recommendedImageUrl} officialSiteUrl={info.officialSiteUrl} media={info.media} animeTitle={info.title} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
-                :(<AnimeCard annictID={info.annictId} animeUrl='' officialSiteUrl={info.officialSiteUrl}  media={info.media} animeTitle={info.title} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
+                (<AnimeCard annictID={info.annictId} animeUrl={info.image.recommendedImageUrl} officialSiteUrl={info.officialSiteUrl} media={info.media} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
+                :(<AnimeCard annictID={info.annictId} animeUrl='' officialSiteUrl={info.officialSiteUrl}  media={info.media} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
                 )
             })}
           </div>
         </div>
+        <div>
+          現在選択中のアニメ
+        </div>
+        <div>
+          <ul>
+            {val.map((title) =>
+            <li value={title}>
+              {title}
+              <button className="deleteBtn" onClick={valChangeBtn} value={title}>
+                <MdDeleteForever className='deleteIcon'/>
+              </button>
+            </li>
+            )}
+          </ul>
+        </div>
         <SearchButton onClick={valDisplay}/>
+        <ResultAnime pushFlag={flag}/>
       </div>
     </div>
   );
