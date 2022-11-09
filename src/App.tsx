@@ -2,7 +2,7 @@ import React from 'react';
 import {useState, useEffect} from 'react';
 import './App.css';
 import Title from './components/title';
-import Anime from './components/anime.json';
+import Anime from './anime.json';
 import SearchBox from './components/searchBox';
 import SearchButton from './components/searchButton';
 import AnimeCard from './components/animeCard';
@@ -102,6 +102,7 @@ function App() {
     }
   }
 
+  //選択しているアニメカードを管理している(削除ボタンで削除可能)
   const valChangeBtn = (e:React.MouseEvent<HTMLButtonElement>) => {
     if (val.includes(e.currentTarget.value)) {
       setVal(val.filter(item => item !== e.currentTarget.value));
