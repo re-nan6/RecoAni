@@ -1,6 +1,5 @@
 {
     "searchWorks": {
-        "__typename": "WorkConnection",
         "nodes": [
             {
                 "__typename": "Work",
@@ -11,7 +10,8 @@
                 "media": "TV",
                 "image": {
                     "__typename": "WorkImage",
-                    "recommendedImageUrl": "https://www.madoka-magica.com/assets/t/ogp.jpg"
+                    "recommendedImageUrl": "https://www.madoka-magica.com/assets/t/ogp.jpg",
+                    "facebookOgImageUrl": "https://www.madoka-magica.com/assets/t/ogp.jpg"
                 }
             },
             {
@@ -23,7 +23,8 @@
                 "media": "TV",
                 "image": {
                     "__typename": "WorkImage",
-                    "recommendedImageUrl": ""
+                    "recommendedImageUrl": "",
+                    "facebookOgImageUrl": ""
                 }
             },
             {
@@ -35,7 +36,8 @@
                 "media": "TV",
                 "image": {
                     "__typename": "WorkImage",
-                    "recommendedImageUrl": "http://konosuba.com/img/ogp.png"
+                    "recommendedImageUrl": "http://konosuba.com/img/ogp.png",
+                    "facebookOgImageUrl": "http://konosuba.com/1st/img/ogp.png"
                 }
             },
             {
@@ -47,7 +49,8 @@
                 "media": "TV",
                 "image": {
                     "__typename": "WorkImage",
-                    "recommendedImageUrl": "https://www.swordart-online.net/ogp_saop.jpg"
+                    "recommendedImageUrl": "https://www.swordart-online.net/ogp_saop.jpg",
+                    "facebookOgImageUrl": "https://www.swordart-online.net/ogp_saop.png"
                 }
             },
             {
@@ -59,7 +62,8 @@
                 "media": "MOVIE",
                 "image": {
                     "__typename": "WorkImage",
-                    "recommendedImageUrl": ""
+                    "recommendedImageUrl": "",
+                    "facebookOgImageUrl": ""
                 }
             },
             {
@@ -71,7 +75,8 @@
                 "media": "TV",
                 "image": {
                     "__typename": "WorkImage",
-                    "recommendedImageUrl": ""
+                    "recommendedImageUrl": "",
+                    "facebookOgImageUrl": ""
                 }
             },
             {
@@ -83,7 +88,8 @@
                 "media": "TV",
                 "image": {
                     "__typename": "WorkImage",
-                    "recommendedImageUrl": "http://www.tbs.co.jp/anime/k-on/images/logo.jpg"
+                    "recommendedImageUrl": "http://www.tbs.co.jp/anime/k-on/images/logo.jpg",
+                    "facebookOgImageUrl": "http://www.tbs.co.jp/anime/k-on/images/logo.jpg"
                 }
             },
             {
@@ -95,7 +101,8 @@
                 "media": "TV",
                 "image": {
                     "__typename": "WorkImage",
-                    "recommendedImageUrl": ""
+                    "recommendedImageUrl": "",
+                    "facebookOgImageUrl": ""
                 }
             },
             {
@@ -107,7 +114,8 @@
                 "media": "TV",
                 "image": {
                     "__typename": "WorkImage",
-                    "recommendedImageUrl": ""
+                    "recommendedImageUrl": "",
+                    "facebookOgImageUrl": ""
                 }
             },
             {
@@ -119,7 +127,8 @@
                 "media": "TV",
                 "image": {
                     "__typename": "WorkImage",
-                    "recommendedImageUrl": ""
+                    "recommendedImageUrl": "",
+                    "facebookOgImageUrl": ""
                 }
             }
         ]
