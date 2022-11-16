@@ -11,6 +11,7 @@
                 "media": "TV",
                 "image": {
                     "__typename": "WorkImage",
+                    "facebookOgImageUrl": "https://www.madoka-magica.com/assets/t/ogp.jpg",
                     "recommendedImageUrl": "https://www.madoka-magica.com/assets/t/ogp.jpg"
                 }
             },
@@ -23,6 +24,7 @@
                 "media": "TV",
                 "image": {
                     "__typename": "WorkImage",
+                    "facebookOgImageUrl": "",
                     "recommendedImageUrl": ""
                 }
             },
@@ -35,6 +37,7 @@
                 "media": "TV",
                 "image": {
                     "__typename": "WorkImage",
+                    "facebookOgImageUrl": "http://konosuba.com/1st/img/ogp.png",
                     "recommendedImageUrl": "http://konosuba.com/img/ogp.png"
                 }
             },
@@ -47,6 +50,7 @@
                 "media": "TV",
                 "image": {
                     "__typename": "WorkImage",
+                    "facebookOgImageUrl": "https://www.swordart-online.net/ogp_saop.png",
                     "recommendedImageUrl": "https://www.swordart-online.net/ogp_saop.jpg"
                 }
             },
@@ -59,6 +63,7 @@
                 "media": "MOVIE",
                 "image": {
                     "__typename": "WorkImage",
+                    "facebookOgImageUrl": "",
                     "recommendedImageUrl": ""
                 }
             },
@@ -71,6 +76,7 @@
                 "media": "TV",
                 "image": {
                     "__typename": "WorkImage",
+                    "facebookOgImageUrl": "",
                     "recommendedImageUrl": ""
                 }
             },
@@ -83,6 +89,7 @@
                 "media": "TV",
                 "image": {
                     "__typename": "WorkImage",
+                    "facebookOgImageUrl": "http://www.tbs.co.jp/anime/k-on/images/logo.jpg",
                     "recommendedImageUrl": "http://www.tbs.co.jp/anime/k-on/images/logo.jpg"
                 }
             },
@@ -95,6 +102,7 @@
                 "media": "TV",
                 "image": {
                     "__typename": "WorkImage",
+                    "facebookOgImageUrl": "",
                     "recommendedImageUrl": ""
                 }
             },
@@ -107,6 +115,7 @@
                 "media": "TV",
                 "image": {
                     "__typename": "WorkImage",
+                    "facebookOgImageUrl": "",
                     "recommendedImageUrl": ""
                 }
             },
@@ -119,6 +128,7 @@
                 "media": "TV",
                 "image": {
                     "__typename": "WorkImage",
+                    "facebookOgImageUrl": "",
                     "recommendedImageUrl": ""
                 }
             }

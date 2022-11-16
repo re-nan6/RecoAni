@@ -1,5 +1,6 @@
 import React from 'react'
-import styles from './title.module.css';
+import styles from './siteTitle.module.css';
+import { Title } from '@mantine/core';
 
 //サイトタイトルのコンポーネント
 //フォント・サイズの設定したい
@@ -11,12 +12,12 @@ type Props = {
 
 }
 
-const Title: React.FC<Props> = () => {
+const SiteTitle: React.FC<Props> = () => {
   return (
       <div className={styles.logo}>
-         アニメレコメンド！
+         <Title order={1}>アニメレコメンド！</Title>
       </div>
   );
 };
 
-export default Title
+export default SiteTitle

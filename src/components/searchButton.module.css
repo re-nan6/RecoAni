@@ -1,4 +1,4 @@
-.btn{
+/* .btn{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,4 +30,4 @@
 .btn:hover::after {
     border-top: 3px solid #333333;
     border-right: 3px solid #333333;
-  }
+  } */

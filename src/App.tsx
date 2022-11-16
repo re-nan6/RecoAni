@@ -1,7 +1,7 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
 import './App.css';
-import Title from './components/title';
+import SiteTitle from './components/siteTitle';
 import Anime from './anime.json';
 import SearchBox from './components/searchBox';
 import SearchButton from './components/searchButton';
@@ -15,6 +15,7 @@ function App() {
   //annictAPIから受け取れるjsonファイルの中身の型定義の一部
   interface imageInterface {
     __typename:string
+    facebookOgImageUrl:string
     recommendedImageUrl:string
   }
 
@@ -55,7 +56,10 @@ function App() {
           title
           twitterUsername
           media
-          image{recommendedImageUrl}
+          image{
+            facebookOgImageUrl
+            recommendedImageUrl
+          }
       }
     }
   }
@@ -79,7 +83,10 @@ function App() {
             title
             twitterUsername
             media
-            image{recommendedImageUrl}
+            image{
+              facebookOgImageUrl
+              recommendedImageUrl
+            }
         }
       }
     }
@@ -125,6 +132,7 @@ function App() {
         li.push(data.searchWorks.nodes[i]);
       }
       setAnimeList(li);
+      console.log(animeList)
     }
   }
 
@@ -136,15 +144,15 @@ function App() {
   return (
     <div className='App'>
       <div className="main">
-        <Title/>
+        <SiteTitle/>
         <SearchBox onChange={(e) => handleChange(e)}/>
         <div className='animebox'>
           <div className='animes'>
             {animeList.map((info,index) => {
               return (
                 info.image?
-                (<AnimeCard annictID={info.annictId} animeUrl={info.image.recommendedImageUrl} officialSiteUrl={info.officialSiteUrl} media={info.media} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
-                :(<AnimeCard annictID={info.annictId} animeUrl='' officialSiteUrl={info.officialSiteUrl}  media={info.media} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
+                (<AnimeCard annictID={info.annictId} recommendImgUrl={info.image.recommendedImageUrl} facebookImgUrl={info.image.facebookOgImageUrl} officialSiteUrl={info.officialSiteUrl} media={info.media} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
+                :(<AnimeCard annictID={info.annictId} recommendImgUrl='' facebookImgUrl='' officialSiteUrl={info.officialSiteUrl}  media={info.media} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
                 )
             })}
           </div>

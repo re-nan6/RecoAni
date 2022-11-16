@@ -1,5 +1,7 @@
-import React from 'react'
+import React from 'react';
 import styles from './searchBox.module.css';
+import { Input ,Center } from '@mantine/core';
+import { AiOutlineSearch } from 'react-icons/ai';
 
 //検索ボックスのコンポーネント
 //デザインの変更をしたい
@@ -14,7 +16,14 @@ type Props = {
 const SearchBox: React.FC<Props> = ({onChange}) => {
   return (
       <div className={styles.box}>
-        <input type="text" placeholder="キーワードを入力" onChange={e => onChange(e)}/>
+        <Center>
+        <Input
+          sx = {{width:300, display:'block'}}
+          icon={<AiOutlineSearch />}
+          placeholder="好きなアニメを検索"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e)}
+        />
+        </Center>
       </div>
   );
 };

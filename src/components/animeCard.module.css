@@ -3,7 +3,7 @@
     position: relative;
     box-sizing: border-box;
     overflow: hidden;
-    width:calc(50% - 10px);
+    width:calc(33% - 10px);
     padding: 0 0 10px 0;
     margin: 15px 5px;
     border-radius: 10px;
@@ -74,7 +74,7 @@ label {
 .ogp {
     display: block;
     position: relative;
-    max-height: 230px;
+    max-height: 150px;
     margin: 0 0 8px;
     overflow: hidden;
 }

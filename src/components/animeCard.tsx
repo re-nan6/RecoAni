@@ -1,15 +1,15 @@
-import { request } from 'https';
 import React from 'react'
 import styles from './animeCard.module.css';
-import { CgWebsite } from 'react-icons/cg'
-import { FaTwitter } from 'react-icons/fa'
+import { CgWebsite } from 'react-icons/cg';
+import { FaTwitter } from 'react-icons/fa';
 
 //アニメカードのコンポーネント
 //画像リンクが存在しない場合・リンクが無効の場合の例外処理実装したい
 //アニメタイトルが長すぎる場合にアニメを識別するのが難しい→ホバーしたときタイトル名をフルで表示する？
 
 //@param annictID - アニメを一意に紐づけするID
-//@param animeUrl - アニメ画像のURL
+//@param recommendImgUrl - アニメ画像のURL その１
+//@param facebookImgUrl - アニメ画像のURL その２
 //@param officialSiteUrl - 公式サイトのURL
 //@param media - 放送媒体
 //@param animeTitle - そのアニメのタイトル
@@ -21,7 +21,8 @@ import { FaTwitter } from 'react-icons/fa'
 
 type Props = {
   annictID:number;
-  animeUrl:string;
+  recommendImgUrl:string;
+  facebookImgUrl:string;
   officialSiteUrl:string;
   media:string;
   animeTitle:string;
@@ -32,9 +33,15 @@ type Props = {
 }
 
 
-const AnimeCard: React.FC<Props> = ({annictID,animeUrl,officialSiteUrl,media,animeTitle,twitterUsername,value,onChange,checked}) => {
-  if (animeUrl === ''){
-    animeUrl = `${process.env.PUBLIC_URL}/noimage.png`;
+const AnimeCard: React.FC<Props> = ({annictID,recommendImgUrl,facebookImgUrl,officialSiteUrl,media,animeTitle,twitterUsername,value,onChange,checked}) => {
+  
+  let imgUrl = recommendImgUrl;
+  if (imgUrl === ''){
+    if (facebookImgUrl === ''){
+      imgUrl = `${process.env.PUBLIC_URL}/noimage.png`;
+    }else{
+      imgUrl = facebookImgUrl;
+    }
   }
 
   const ID = String(annictID);
@@ -51,7 +58,7 @@ const AnimeCard: React.FC<Props> = ({annictID,animeUrl,officialSiteUrl,media,ani
       <input type="checkbox" id={ID} value={value} onChange={onChange} checked={checked}/>
       <label htmlFor={ID}>
         <div>
-          <img className={styles.ogp} loading='lazy' src={animeUrl}/>
+          <img className={styles.ogp} loading='lazy' src={imgUrl}/>
         </div>
         <div className={styles.title}>
           <span className={styles.media}>{media}</span>
@@ -59,7 +66,7 @@ const AnimeCard: React.FC<Props> = ({annictID,animeUrl,officialSiteUrl,media,ani
         </div>
         <div className={`${styles.LikesIcon} ${styles.HeartAnimation}`}></div>
       </label>
-    </div>
+      </div>
   );
 };
 
