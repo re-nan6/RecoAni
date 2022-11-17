@@ -1,5 +1,7 @@
 import React from 'react'
 import styles from './animeCard.module.css';
+import {Img} from 'react-image';
+import { useRef } from 'react';
 import { CgWebsite } from 'react-icons/cg';
 import { FaTwitter } from 'react-icons/fa';
 
@@ -32,20 +34,15 @@ type Props = {
   checked:boolean;
 }
 
-
 const AnimeCard: React.FC<Props> = ({annictID,recommendImgUrl,facebookImgUrl,officialSiteUrl,media,animeTitle,twitterUsername,value,onChange,checked}) => {
   
-  let imgUrl = recommendImgUrl;
+  let imgUrl = facebookImgUrl;
   if (imgUrl === ''){
-    if (facebookImgUrl === ''){
-      imgUrl = `${process.env.PUBLIC_URL}/noimage.png`;
-    }else{
-      imgUrl = facebookImgUrl;
-    }
+    imgUrl = recommendImgUrl;
   }
-
   const ID = String(annictID);
   const twitterLink = `https://twitter.com/${twitterUsername}`;
+  const noImage = `${process.env.PUBLIC_URL}/noimage.png`
   return (
     <div className={styles.anime}>
       <a className={styles.site} href={officialSiteUrl} rel="noreferrer" target="_blank">
@@ -58,7 +55,7 @@ const AnimeCard: React.FC<Props> = ({annictID,recommendImgUrl,facebookImgUrl,off
       <input type="checkbox" id={ID} value={value} onChange={onChange} checked={checked}/>
       <label htmlFor={ID}>
         <div>
-          <img className={styles.ogp} loading='lazy' src={imgUrl}/>
+          <img className={styles.ogp} loading='lazy' src={imgUrl} onError={(e) => {e.currentTarget.src = noImage}}/>
         </div>
         <div className={styles.title}>
           <span className={styles.media}>{media}</span>
