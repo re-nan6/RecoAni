@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './animeCard.module.css';
 import {Img} from 'react-image';
-import { useRef } from 'react';
+import { useState } from 'react';
 import { CgWebsite } from 'react-icons/cg';
 import { FaTwitter } from 'react-icons/fa';
+import { METHODS } from 'http';
 
 //アニメカードのコンポーネント
 //画像リンクが存在しない場合・リンクが無効の場合の例外処理実装したい
 //アニメタイトルが長すぎる場合にアニメを識別するのが難しい→ホバーしたときタイトル名をフルで表示する？
 
 //@param annictID - アニメを一意に紐づけするID
+//@param malAnimeId - myanimelistのID
 //@param recommendImgUrl - アニメ画像のURL その１
 //@param facebookImgUrl - アニメ画像のURL その２
 //@param officialSiteUrl - 公式サイトのURL
@@ -23,6 +25,7 @@ import { FaTwitter } from 'react-icons/fa';
 
 type Props = {
   annictID:number;
+  malAnimeId:string;
   recommendImgUrl:string;
   facebookImgUrl:string;
   officialSiteUrl:string;
@@ -34,12 +37,31 @@ type Props = {
   checked:boolean;
 }
 
-const AnimeCard: React.FC<Props> = ({annictID,recommendImgUrl,facebookImgUrl,officialSiteUrl,media,animeTitle,twitterUsername,value,onChange,checked}) => {
-  
-  let imgUrl = facebookImgUrl;
-  if (imgUrl === ''){
-    imgUrl = recommendImgUrl;
-  }
+const AnimeCard: React.FC<Props> = ({annictID,malAnimeId,recommendImgUrl,facebookImgUrl,officialSiteUrl,media,animeTitle,twitterUsername,value,onChange,checked}) => {
+  const [imgUrl,setImgUrl] = useState<string>(`${process.env.PUBLIC_URL}/noimage.png`)
+
+  useEffect(() => {
+    const access_api = async() => {
+      const response = await fetch(`https://api.jikan.moe/v4/anime/${malAnimeId}/pictures`,{method:'GET'})
+      const data = await response.json();
+      console.log(data.data)
+      if (typeof data.data === 'string'){
+        setImgUrl(data.data)
+      }else if (typeof data.data === 'undefined'){
+        setImgUrl(`${process.env.PUBLIC_URL}/noimage.png`)
+      }
+      else{
+        setImgUrl(data.data[0].jpg.image_url)
+      }
+    }
+    access_api();
+    },[malAnimeId])
+
+  // console.log(imgUrl)
+  // let imgUrl = facebookImgUrl;
+  // if (imgUrl === ''){
+  //   imgUrl = recommendImgUrl;
+  // }
   const ID = String(annictID);
   const twitterLink = `https://twitter.com/${twitterUsername}`;
   const noImage = `${process.env.PUBLIC_URL}/noimage.png`

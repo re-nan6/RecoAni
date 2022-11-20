@@ -5,6 +5,7 @@
             {
                 "__typename": "Work",
                 "annictId": 2108,
+                "malAnimeId":"9756",
                 "officialSiteUrl": "http://www.madoka-magica.com/",
                 "title": "魔法少女まどか☆マギカ",
                 "twitterUsername": "madoka_magica",
@@ -18,6 +19,7 @@
             {
                 "__typename": "Work",
                 "annictId": 43,
+                "malAnimeId":"9989",
                 "officialSiteUrl": "https://www.anohana.jp/tv/",
                 "title": "あの日見た花の名前を僕達はまだ知らない。",
                 "twitterUsername": "anohana_project",
@@ -31,6 +33,7 @@
             {
                 "__typename": "Work",
                 "annictId": 4547,
+                "malAnimeId":"30831",
                 "officialSiteUrl": "http://konosuba.com/1st/",
                 "title": "この素晴らしい世界に祝福を！",
                 "twitterUsername": "konosubaanime",
@@ -44,6 +47,7 @@
             {
                 "__typename": "Work",
                 "annictId": 1166,
+                "malAnimeId":"11757",
                 "officialSiteUrl": "https://www.swordart-online.net/",
                 "title": "ソードアート・オンライン",
                 "twitterUsername": "",
@@ -57,6 +61,7 @@
             {
                 "__typename": "Work",
                 "annictId": 3316,
+                "malAnimeId":"5681",
                 "officialSiteUrl": "https://s-wars.jp/",
                 "title": "サマーウォーズ",
                 "twitterUsername": "",
@@ -70,6 +75,7 @@
             {
                 "__typename": "Work",
                 "annictId": 865,
+                "malAnimeId":"9253",
                 "officialSiteUrl": "http://steinsgate.tv/index.html",
                 "title": "Steins;Gate",
                 "twitterUsername": "SG_anime",
@@ -83,6 +89,7 @@
             {
                 "__typename": "Work",
                 "annictId": 668,
+                "malAnimeId":"5680",
                 "officialSiteUrl": "https://www.tbs.co.jp/anime/k-on/",
                 "title": "けいおん！",
                 "twitterUsername": "",
@@ -96,6 +103,7 @@
             {
                 "__typename": "Work",
                 "annictId": 997,
+                "malAnimeId":"16498",
                 "officialSiteUrl": "http://shingeki.tv/season1/",
                 "title": "進撃の巨人",
                 "twitterUsername": "anime_shingeki",
@@ -109,6 +117,7 @@
             {
                 "__typename": "Work",
                 "annictId": 4636,
+                "malAnimeId":"31240",
                 "officialSiteUrl": "http://re-zero-anime.jp/",
                 "title": "Re:ゼロから始める異世界生活",
                 "twitterUsername": "Rezero_official",
@@ -122,6 +131,7 @@
             {
                 "__typename": "Work",
                 "annictId": 1696,
+                "malAnimeId":"5081",
                 "officialSiteUrl": "https://www.monogatari-series.com/bakemonogatari/",
                 "title": "化物語",
                 "twitterUsername": "nisioisin_anime",
