@@ -5,10 +5,12 @@ import SiteTitle from './components/siteTitle';
 import Anime from './anime.json';
 import SearchBox from './components/searchBox';
 import SearchButton from './components/searchButton';
+import Sidebar from './components/sidebar';
 import AnimeCard from './components/animeCard';
 import ResultAnime from './components/resultAnime';
 import {gql, useLazyQuery, DocumentNode} from '@apollo/client';
-import { MdDeleteForever } from 'react-icons/md'
+import { MdDeleteForever } from 'react-icons/md';
+import { AppShell, Navbar, Header } from '@mantine/core';
 
 function App() {
 
@@ -23,6 +25,7 @@ function App() {
   interface animeInterface{
     __typename: string
     annictId:number
+    malAnimeId:string
     officialSiteUrl:string
     title: string
     twitterUsername: string
@@ -52,6 +55,7 @@ function App() {
     ) {
         nodes {
           annictId
+          malAnimeId
           officialSiteUrl
           title
           twitterUsername
@@ -79,6 +83,7 @@ function App() {
       ) {
           nodes {
             annictId
+            malAnimeId
             officialSiteUrl
             title
             twitterUsername
@@ -143,16 +148,20 @@ function App() {
   //なんかページ読み込んだタイミングで何もアニメカードが表示されないから直したい
   return (
     <div className='App'>
+      <AppShell 
+        navbar={<Navbar width={{base:200}}>
+                  <SearchBox onChange={(e) => handleChange(e)}/>
+                  <Sidebar/>
+                </Navbar>}
+        header={<Header height={60}><SiteTitle/></Header>}>
       <div className="main">
-        <SiteTitle/>
-        <SearchBox onChange={(e) => handleChange(e)}/>
         <div className='animebox'>
           <div className='animes'>
             {animeList.map((info,index) => {
               return (
                 info.image?
-                (<AnimeCard annictID={info.annictId} recommendImgUrl={info.image.recommendedImageUrl} facebookImgUrl={info.image.facebookOgImageUrl} officialSiteUrl={info.officialSiteUrl} media={info.media} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
-                :(<AnimeCard annictID={info.annictId} recommendImgUrl='' facebookImgUrl='' officialSiteUrl={info.officialSiteUrl}  media={info.media} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)}/>)
+                (<AnimeCard annictID={info.annictId} malAnimeId={info.malAnimeId} recommendImgUrl={info.image.recommendedImageUrl} facebookImgUrl={info.image.facebookOgImageUrl} officialSiteUrl={info.officialSiteUrl} media={info.media} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={index}/>)
+                :(<AnimeCard annictID={info.annictId} malAnimeId={info.malAnimeId} recommendImgUrl='' facebookImgUrl='' officialSiteUrl={info.officialSiteUrl}  media={info.media} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={index}/>)
                 )
             })}
           </div>
@@ -160,7 +169,7 @@ function App() {
         <div>
           現在選択中のアニメ
         </div>
-        <div>
+        <div className='selectAnimeBox'>
           <ul>
             {val.map((title) =>
             <li value={title}>
@@ -175,6 +184,7 @@ function App() {
         <SearchButton onClick={valDisplay}/>
         <ResultAnime pushFlag={flag}/>
       </div>
+      </AppShell>
     </div>
   );
 }

@@ -14,13 +14,13 @@
   text-align: center;
 }
 
-ul, ol {
+.selectAnimeBox ul, .selectAnimeBox ol {
   background: #fffcf4;
   border-radius :8px;/*角の丸み*/
   box-shadow :0px 0px 5px silver;/*5px=影の広がり具合*/
   padding: 0.5em 0.5em 0.5em 2em;
 }
-ul li, ol li {
+.selectAnimeBox ul li, .selectAnimeBox ol li {
   line-height: 1.5;
   padding: 0.5em 0;
   text-align: left;

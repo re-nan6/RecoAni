@@ -18,7 +18,7 @@ const SearchBox: React.FC<Props> = ({onChange}) => {
       <div className={styles.box}>
         <Center>
         <Input
-          sx = {{width:300, display:'block'}}
+          sx = {{width:150, display:'block'}}
           icon={<AiOutlineSearch />}
           placeholder="好きなアニメを検索"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e)}
