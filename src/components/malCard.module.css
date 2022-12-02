@@ -1,0 +1,55 @@
+.card {
+    display: inline-block;
+    position: relative;
+    width:calc(33% - 10px);
+    padding: 0 0 10px 0;
+    margin: 15px 5px;
+}
+
+.LikesIcon{
+    position: absolute;
+    left: 220px;
+    bottom:-20px;
+    background: url("../../public/web_heart_animation.png");
+    background-position: left;
+    background-size: 2900%;
+    background-repeat: no-repeat;
+    width: 80px;
+    height: 80px;
+  }
+
+.title {
+    display: block;
+    margin-left: 10px;
+    width: 175px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    white-space: nowrap;
+}
+
+input[type="checkbox"]{
+    display: none;
+  }
+
+  @keyframes heartBlast {
+    0% {
+        background-position: left;
+    }
+    100% {
+        background-position: right;
+    }
+}
+
+input[type="checkbox"]:checked + label .HeartAnimation {
+    display: inline-block;
+    background-position: right;
+    -webkit-animation-name: heartBlast;
+    animation-name: heartBlast;
+    -webkit-animation-duration: .8s;
+    animation-duration: .8s;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+    -webkit-animation-timing-function: steps(28);
+    animation-timing-function: steps(28);
+}

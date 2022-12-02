@@ -7,6 +7,7 @@ import SearchBox from './components/searchBox';
 import SearchButton from './components/searchButton';
 import Sidebar from './components/sidebar';
 import AnimeCard from './components/animeCard';
+import MalCard from './components/malCard';
 import ResultAnime from './components/resultAnime';
 import {gql, useLazyQuery, DocumentNode} from '@apollo/client';
 import { MdDeleteForever } from 'react-icons/md';
@@ -160,8 +161,8 @@ function App() {
             {animeList.map((info,index) => {
               return (
                 info.image?
-                (<AnimeCard annictID={info.annictId} malAnimeId={info.malAnimeId} recommendImgUrl={info.image.recommendedImageUrl} facebookImgUrl={info.image.facebookOgImageUrl} officialSiteUrl={info.officialSiteUrl} media={info.media} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={index}/>)
-                :(<AnimeCard annictID={info.annictId} malAnimeId={info.malAnimeId} recommendImgUrl='' facebookImgUrl='' officialSiteUrl={info.officialSiteUrl}  media={info.media} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={index}/>)
+                (<MalCard annictID={info.annictId} malAnimeId={info.malAnimeId} recommendImgUrl={info.image.recommendedImageUrl} facebookImgUrl={info.image.facebookOgImageUrl} officialSiteUrl={info.officialSiteUrl} media={info.media} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={index}/>)
+                :(<MalCard annictID={info.annictId} malAnimeId={info.malAnimeId} recommendImgUrl='' facebookImgUrl='' officialSiteUrl={info.officialSiteUrl}  media={info.media} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={index}/>)
                 )
             })}
           </div>
