@@ -41,12 +41,13 @@ function App() {
   }
 
   //レコメンド結果表示に必要なフラグの定義
-  const [flag,setFlag] = useState<boolean>(false);
+  const [pushCount,setPushCount] = useState<number>(0);
 
   //アニメカードの表示に必要な変数の定義
   //とりあえず初期値はテキトーなので直す余地あり
   const [animeList,setAnimeList] = useState<Array<animeInterface>>(initial_anime);
   const [val,setVal] = useState<Array<string>>([]);
+  const [likeId,setLikeId] = useState<Array<string>>([]);
   const [SEARCH_ANIME,setSEARCH_ANIME] = useState<DocumentNode>(gql`
   query {
     searchWorks(
@@ -113,6 +114,11 @@ function App() {
     }else {
       setVal([...val,e.target.value]);
     }
+    if (likeId.includes(e.target.id)) {
+      setLikeId(likeId.filter(item => item !== e.target.id));
+    }else {
+      setLikeId([...likeId,e.target.id]);
+    }
   }
 
   //選択しているアニメカードを管理している(削除ボタンで削除可能)
@@ -122,12 +128,17 @@ function App() {
     }else {
       setVal([...val,e.currentTarget.value]);
     }
+    if (likeId.includes(e.currentTarget.id)) {
+      setLikeId(likeId.filter(item => item !== e.currentTarget.id));
+    }else {
+      setLikeId([...likeId,e.currentTarget.id]);
+    }
   }
 
   //選択されたアニメ一覧を表示する
   //確認用なので後で消す
   const valDisplay = () => [
-    setFlag(true)
+    setPushCount(pushCount+1)
   ]
 
   //検索した結果出てきたアニメの情報をリストに格納してる
@@ -172,10 +183,10 @@ function App() {
         </div>
         <div className='selectAnimeBox'>
           <ul>
-            {val.map((title) =>
-            <li value={title}>
+            {val.map((title,index) =>
+            <li value={title} id={likeId[index]}>
               {title}
-              <button className="deleteBtn" onClick={valChangeBtn} value={title}>
+              <button className="deleteBtn" onClick={valChangeBtn} value={title} id={likeId[index]}>
                 <MdDeleteForever className='deleteIcon'/>
               </button>
             </li>
@@ -183,7 +194,7 @@ function App() {
           </ul>
         </div>
         <SearchButton onClick={valDisplay}/>
-        <ResultAnime pushFlag={flag}/>
+        <ResultAnime pushCount={pushCount} likeList={likeId}/>
       </div>
       </AppShell>
     </div>
