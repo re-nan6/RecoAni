@@ -144,6 +144,7 @@ function App() {
   //検索した結果出てきたアニメの情報をリストに格納してる
   const makeAnimeList = () => {
     if (data) {
+      console.log(data)
       const li = [];
       for (let i = 0; i < data.searchWorks.nodes.length; i++){
         li.push(data.searchWorks.nodes[i]);

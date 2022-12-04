@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import {gql, useLazyQuery, DocumentNode} from '@apollo/client';
 import styles from './resultAnime.module.css';
-
+import RecommendCard from './recommendCard'
+import { title } from 'process';
 //検索ボックスのコンポーネント
 //デザインの変更をしたい
 
-//@param pushFlag - 検索ボタンが押されたかどうかのフラグ
+//@param pushCount - 検索ボタンが押された回数
+//@param likelist - ユーザーが選択したアニメのIDを格納したリスト
 //@return フラグがtrueの場合 - 結果画面を表示
 //@return フラグがfalseの場合 - 何も表示しない
 
@@ -13,12 +16,68 @@ type Props = {
   likeList:Array<string>
 }
 
+interface recommendInterface {
+  annictId:number;
+  score:number;
+}
+
+interface animeInterface{
+  __typename: string
+  annictId:number
+  malAnimeId:string
+  officialSiteUrl:string
+  title: string
+  twitterUsername: string
+  media: string
+}
+
 const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
     let clsname = styles.Hidden;
+    const [animeList,setAnimeList] = useState<Array<animeInterface>>([]);
+    const [SEARCH_ANIME,setSEARCH_ANIME] = useState<DocumentNode>(gql`
+    query {
+      searchWorks(
+        annictIds: []
+      ) {
+          nodes {
+            annictId
+            malAnimeId
+            officialSiteUrl
+            title
+            twitterUsername
+            media
+        }
+      }
+    }
+    `);
+    //graphQLでannictAPIを適宜呼び出すためのもの
+    const [inputAnime, { called, loading, error, data }] = useLazyQuery(SEARCH_ANIME);
+    //テキストボックスに入力された文字列を元にqueryを作成
+    const search = (recommendAnimeList:Array<recommendInterface>) => {
+      let ids:Array<number> = [];
+      for (const anime of recommendAnimeList){
+        ids.push(anime.annictId)
+      }
+      setSEARCH_ANIME(gql`
+      query {
+        searchWorks(
+          annictIds: [${ids}]
+        ) {
+            nodes {
+              annictId
+              malAnimeId
+              officialSiteUrl
+              title
+              twitterUsername
+              media
+          }
+        }
+      }
+      `)
+    }
     if (pushCount > 0) {
         clsname = styles.Display;
     }
-    console.log(likeList)
     useEffect(() => {
       const access_api = async(param:string) => {
         const response = await fetch(`https://dev-recoani-d6gutf2s.onrender.com/api/recommend/overall${param}`,{
@@ -29,7 +88,8 @@ const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
           }
         const data = await response.json();
         const recommendAnimeList = data.data;
-        console.log(recommendAnimeList)
+        search(recommendAnimeList);
+        inputAnime();
       }
       if (likeList.length !== 0){
         let param = "?"
@@ -40,9 +100,29 @@ const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
         access_api(param);
       }
       },[pushCount])
+    //検索した結果出てきたアニメの情報をリストに格納してる
+    const makeAnimeList = () => {
+      if (data) {
+        console.log(data)
+        const li = [];
+        for (let i = 0; i < data.searchWorks.nodes.length; i++){
+          li.push(data.searchWorks.nodes[i]);
+        }
+        setAnimeList(li);
+        console.log(animeList)
+      }
+    }
+
+    //data(graphQLの実行結果)の値が変わる度にmakeAnimeList関数が実行される
+    useEffect(makeAnimeList,[data])
   return (
       <div className={clsname}>
-        結果を表示するよん
+        <div className='animes'>
+            {animeList.map((info,index) => {
+              return (
+                <RecommendCard annictId={info.annictId} title={info.title}/>
+            )})}
+          </div>
       </div>
   );
 };

@@ -49,14 +49,7 @@ const MalCard: React.FC<Props> = ({annictID,malAnimeId,recommendImgUrl,facebookI
         }
       const data = await response.json();
       const url = data.data[0]['url']
-      if (typeof url === 'string'){
-        setImgUrl(url)
-      }else if (typeof data.data === 'undefined'){
-        setImgUrl(`${process.env.PUBLIC_URL}/noimage.png`)
-      }
-      else{
-        setImgUrl(data.data[0].jpg.image_url)
-      }
+      setImgUrl(url)
     }
     access_api();
     },[malAnimeId])
