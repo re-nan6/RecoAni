@@ -29,6 +29,7 @@ interface animeInterface{
   title: string
   twitterUsername: string
   media: string
+  wikipediaUrl:string
 }
 
 const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
@@ -46,6 +47,7 @@ const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
             title
             twitterUsername
             media
+            wikipediaUrl
         }
       }
     }
@@ -70,6 +72,7 @@ const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
               title
               twitterUsername
               media
+              wikipediaUrl
           }
         }
       }
@@ -120,7 +123,7 @@ const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
         <div className='animes'>
             {animeList.map((info,index) => {
               return (
-                <RecommendCard annictId={info.annictId} title={info.title}/>
+                <RecommendCard annictId={info.annictId} title={info.title} malAnimeId={info.malAnimeId} officialSiteUrl={info.officialSiteUrl} twitterUsername={info.twitterUsername} wikipediaUrl={info.wikipediaUrl}/>
             )})}
           </div>
       </div>
