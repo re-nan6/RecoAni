@@ -6,12 +6,11 @@ import Anime from './anime.json';
 import SearchBox from './components/searchBox';
 import SearchButton from './components/searchButton';
 import Sidebar from './components/sidebar';
-import AnimeCard from './components/animeCard';
 import MalCard from './components/malCard';
 import ResultAnime from './components/resultAnime';
 import {gql, useLazyQuery, DocumentNode} from '@apollo/client';
 import { MdDeleteForever } from 'react-icons/md';
-import { AppShell, Navbar, Header } from '@mantine/core';
+import { AppShell, Navbar, Header, Pagination } from '@mantine/core';
 import _ from 'lodash';
 
 function App() {
@@ -44,6 +43,8 @@ function App() {
   //レコメンド結果表示に必要なフラグの定義
   const [pushCount,setPushCount] = useState<number>(0);
 
+  const [numPage,setNumPage] = useState<number>(0);
+  const [displayAnimeList,setDisplayAnimeList] = useState<Array<animeInterface>>(initial_anime);
   //アニメカードの表示に必要な変数の定義
   //とりあえず初期値はテキトーなので直す余地あり
   const [animeList,setAnimeList] = useState<Array<animeInterface>>(initial_anime);
@@ -81,7 +82,7 @@ function App() {
     query {
       searchWorks(
         orderBy: { field: WATCHERS_COUNT, direction: DESC },
-        first: 10,
+        first: 20,
         titles: ["${value}"]
       ) {
           nodes {
@@ -151,8 +152,17 @@ function App() {
         li.push(data.searchWorks.nodes[i]);
       }
       setAnimeList(li);
+      const lenAnimeList = li.length;
+      setNumPage((lenAnimeList > 10)?Math.ceil(lenAnimeList/10):0)
+      setDisplayAnimeList(li.slice(0,10))
       console.log(animeList)
     }
+  }
+
+  const changePage = (page:number) =>{
+    const end = (page) * 10;
+    const start = end - 10;
+    setDisplayAnimeList(animeList.slice(start,end));
   }
 
   //data(graphQLの実行結果)の値が変わる度にmakeAnimeList関数が実行される
@@ -171,7 +181,7 @@ function App() {
       <div className="main">
         <div className='animebox'>
           <div className='animes'>
-            {animeList.map((info,index) => {
+            {displayAnimeList.map((info,index) => {
               return (
                 info.image?
                 (<MalCard annictID={info.annictId} malAnimeId={info.malAnimeId} recommendImgUrl={info.image.recommendedImageUrl} facebookImgUrl={info.image.facebookOgImageUrl} officialSiteUrl={info.officialSiteUrl} media={info.media} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={index}/>)
@@ -179,6 +189,7 @@ function App() {
                 )
             })}
           </div>
+          <Pagination total={numPage} position="center" onChange={(page:number) => changePage(page)}/>
         </div>
         <div>
           現在選択中のアニメ
