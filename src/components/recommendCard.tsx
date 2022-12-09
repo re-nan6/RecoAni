@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './recommendCard.module.css';
-import { Card, Image, Text, Group, NavLink, Tooltip, CardSection, Button, ThemeIcon, UnstyledButton, Avatar, Stack} from '@mantine/core';
+import { Card, Image, Text, Group, NavLink, Tooltip, CardSection, Button, ThemeIcon, UnstyledButton, Avatar, Stack, Badge} from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import Youtube from 'react-youtube';
 import { FiMonitor } from 'react-icons/fi';
@@ -19,13 +19,18 @@ type Props = {
     officialSiteUrl:string;
     twitterUsername:string;
     wikipediaUrl:string;
+    recommendImgUrl:string|undefined;
+    facebookImgUrl:string|undefined;
+    seasonName:string;
+    seasonYear:number;
 }
 
 interface Url{
   url:string;
 }
-const RecommendCard: React.FC<Props> = ({annictId,title,malAnimeId,officialSiteUrl,twitterUsername,wikipediaUrl}) => {
+const RecommendCard: React.FC<Props> = ({annictId,title,malAnimeId,officialSiteUrl,twitterUsername,wikipediaUrl,recommendImgUrl,facebookImgUrl,seasonName,seasonYear}) => {
   const [animePvList,setAnimePvList] = useState<Array<Url>>([{url: 'https://youtu.be/IRxdEcemmsE'}]);
+  const [malImage,setMalImage] = useState<string>(`${process.env.PUBLIC_URL}/noimage.png`)
   useEffect(() => {
     const access_api = async(param:string) => {
       const response = await fetch(`https://dev-recoani-d6gutf2s.onrender.com/api/mal/pv?malAnimeId=${param}`,{
@@ -37,6 +42,15 @@ const RecommendCard: React.FC<Props> = ({annictId,title,malAnimeId,officialSiteU
       const data = await response.json();
       const PvList = data.data;
       setAnimePvList(PvList);
+      const response2 = await fetch(`https://dev-recoani-d6gutf2s.onrender.com/api/mal/image?malAnimeId=${malAnimeId}`,{
+        method:'GET',})
+        if (!response2.ok){
+          const err = await response2.json()
+          throw new Error(err)
+        }
+      const data2 = await response2.json();
+      const url = data2.data[0]['url']
+      setMalImage(url)
       console.log(PvList)
     }
     access_api(malAnimeId)
@@ -45,10 +59,15 @@ const RecommendCard: React.FC<Props> = ({annictId,title,malAnimeId,officialSiteU
     <div className={styles.card}>
         <Card withBorder radius="md" p={0} shadow="sm">
           <Card.Section withBorder>
-            <Text weight={500} size="xl">{title}</Text>
+            <Badge className={styles.season}>{seasonYear}-{seasonName}</Badge>
+            <div className={styles.title}>
+              <Text weight={500} size="xl">{title}</Text>
+            </div>
           </Card.Section>
             <Group noWrap spacing={0}>
               <Carousel sx={{width:712}} mx="auto" withIndicators loop height={400}>
+                {recommendImgUrl && <Carousel.Slide><Image src={recommendImgUrl} withPlaceholder placeholder={<Image src={malImage} withPlaceholder/>}/></Carousel.Slide>}
+                {(!recommendImgUrl && facebookImgUrl) && <Carousel.Slide><Image src={facebookImgUrl} withPlaceholder placeholder={<Image src={malImage} withPlaceholder/>}/></Carousel.Slide>}
               {animePvList.map((info) => {
               return (
                 <Carousel.Slide>

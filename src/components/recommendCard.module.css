@@ -11,11 +11,21 @@
     flex-flow: column;
     justify-content: flex-end;
 } */
+
+.season {
+    position: absolute;
+    top:6px;
+    left:10px;
+}
 .sideButton {
     margin:10px
 }
 .sideButton :hover {
     color: rebeccapurple;
+}
+
+.title {
+    margin: 0 120px;
 }
 .youtube {
     position: relative;

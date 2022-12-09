@@ -16,6 +16,13 @@ type Props = {
   likeList:Array<string>
 }
 
+//annictAPIから受け取れるjsonファイルの中身の型定義の一部
+interface imageInterface {
+  __typename:string
+  facebookOgImageUrl:string|undefined
+  recommendedImageUrl:string|undefined
+}
+
 interface recommendInterface {
   annictId:number;
   score:number;
@@ -30,6 +37,9 @@ interface animeInterface{
   twitterUsername: string
   media: string
   wikipediaUrl:string
+  seasonName:string
+  seasonYear:number;
+  image: imageInterface
 }
 
 const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
@@ -48,6 +58,12 @@ const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
             twitterUsername
             media
             wikipediaUrl
+            seasonName
+            seasonYear
+            image{
+              facebookOgImageUrl
+              recommendedImageUrl
+            }
         }
       }
     }
@@ -73,6 +89,12 @@ const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
               twitterUsername
               media
               wikipediaUrl
+              seasonName
+              seasonYear
+              image{
+                facebookOgImageUrl
+                recommendedImageUrl
+              }
           }
         }
       }
@@ -123,7 +145,7 @@ const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
         <div className='animes'>
             {animeList.map((info,index) => {
               return (
-                <RecommendCard annictId={info.annictId} title={info.title} malAnimeId={info.malAnimeId} officialSiteUrl={info.officialSiteUrl} twitterUsername={info.twitterUsername} wikipediaUrl={info.wikipediaUrl}/>
+                <RecommendCard annictId={info.annictId} title={info.title} malAnimeId={info.malAnimeId} officialSiteUrl={info.officialSiteUrl} twitterUsername={info.twitterUsername} wikipediaUrl={info.wikipediaUrl} recommendImgUrl={info.image.recommendedImageUrl} facebookImgUrl={info.image.facebookOgImageUrl} seasonName={info.seasonName} seasonYear={info.seasonYear}/>
             )})}
           </div>
       </div>
