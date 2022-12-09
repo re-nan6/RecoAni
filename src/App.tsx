@@ -12,6 +12,7 @@ import ResultAnime from './components/resultAnime';
 import {gql, useLazyQuery, DocumentNode} from '@apollo/client';
 import { MdDeleteForever } from 'react-icons/md';
 import { AppShell, Navbar, Header } from '@mantine/core';
+import _ from 'lodash';
 
 function App() {
 
@@ -163,7 +164,7 @@ function App() {
     <div className='App'>
       <AppShell 
         navbar={<Navbar width={{base:200}}>
-                  <SearchBox onChange={(e) => handleChange(e)}/>
+                  <SearchBox onChange={_.debounce((e) => handleChange(e),500)}/>
                   <Sidebar/>
                 </Navbar>}
         header={<Header height={60}><SiteTitle/></Header>}>
