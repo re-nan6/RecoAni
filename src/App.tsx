@@ -44,6 +44,7 @@ function App() {
   const [pushCount,setPushCount] = useState<number>(0);
 
   const [numPage,setNumPage] = useState<number>(0);
+  const [nowPage,setNowPage] = useState<number>(1);
   const [displayAnimeList,setDisplayAnimeList] = useState<Array<animeInterface>>(initial_anime);
   //アニメカードの表示に必要な変数の定義
   //とりあえず初期値はテキトーなので直す余地あり
@@ -162,6 +163,7 @@ function App() {
   const changePage = (page:number) =>{
     const end = (page) * 10;
     const start = end - 10;
+    setNowPage(page);
     setDisplayAnimeList(animeList.slice(start,end));
   }
 
@@ -175,7 +177,7 @@ function App() {
       <AppShell 
         navbar={<Navbar width={{base:200}}>
                   <SearchBox onChange={_.debounce((e) => handleChange(e),500)}/>
-                  <Sidebar/>
+                  <Sidebar setSearchAnime={setSEARCH_ANIME} setNowPage={setNowPage} inputAnime={inputAnime}/>
                 </Navbar>}
         header={<Header height={60}><SiteTitle/></Header>}>
       <div className="main">
@@ -189,7 +191,7 @@ function App() {
                 )
             })}
           </div>
-          <Pagination total={numPage} position="center" onChange={(page:number) => changePage(page)}/>
+          <Pagination total={numPage} position="center" onChange={(page:number) => changePage(page)} page={nowPage}/>
         </div>
         <div>
           現在選択中のアニメ
