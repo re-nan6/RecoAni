@@ -2,13 +2,15 @@ import React from 'react';
 import styles from './sidebar.module.css';
 import { FiMonitor } from 'react-icons/fi';
 import { MdMonitor } from 'react-icons/md';
-import { NavLink } from '@mantine/core';
-import {gql, useLazyQuery, DocumentNode, LazyQueryHookOptions, OperationVariables, QueryResult} from '@apollo/client';
-//検索ボックスのコンポーネント
-//デザインの変更をしたい
+import {gql, DocumentNode, LazyQueryHookOptions, OperationVariables, QueryResult} from '@apollo/client';
 
-//@param onChange - 検索ボックスの内容が変更された場合に実行される関数
-//@return テキストボックスが表示される
+//サイドバーのコンポーネント
+//「今期のアニメ」等を自動で検索できるようにしたい
+
+//@param setSearchAnime - 実行するGQLを変更するuseState
+//@param setNowPage - 現在のページ番号を変更するuseState
+//@param inputAnime - annictAPIを呼び出すためのもの
+//@return サイドバーが表示される
 
 type Props = {
   setSearchAnime:React.Dispatch<React.SetStateAction<DocumentNode>>;
@@ -16,10 +18,10 @@ type Props = {
   inputAnime:(options?: Partial<LazyQueryHookOptions<any, OperationVariables>> | undefined) => Promise<QueryResult<any, OperationVariables>>
 }
 
-
-
 const Sidebar: React.FC<Props> = ({setSearchAnime,setNowPage,inputAnime}) => {
-  const valDisplay = (season:string) => {
+
+  //時期を指定してアニメを検索する関数
+  const seasonAnimeDisplay = (season:string) => {
     setSearchAnime(gql`
     query {
       searchWorks(
@@ -44,7 +46,8 @@ const Sidebar: React.FC<Props> = ({setSearchAnime,setNowPage,inputAnime}) => {
     inputAnime();
     setNowPage(1);
   }
-  const popularDisplay = () => {
+  //人気のアニメ(anncitの視聴数順)を検索する関数
+  const popularAnimeDisplay = () => {
     setSearchAnime(gql`
     query {
       searchWorks(
@@ -70,23 +73,22 @@ const Sidebar: React.FC<Props> = ({setSearchAnime,setNowPage,inputAnime}) => {
     setNowPage(1);
   }
   return (
-      <div className={styles.box}>
-        {/* <NavLink component="button" label="公式サイト" icon={<FiMonitor size={15}/>}/> */}
-        <ul>
-            <li className={styles.row} onClick={() => valDisplay("2022-autumn")}>
-                <div className={styles.icon}><FiMonitor/></div>
-                <div className={styles.title}>今期のアニメ</div>
-            </li>
-            <li className={styles.row} onClick={() => valDisplay("2022-summer")}>
-                <div className={styles.icon}><MdMonitor/></div>
-                <div className={styles.title}>前期のアニメ</div>
-            </li>
-            <li className={styles.row} onClick={popularDisplay}>
-                <div className={styles.icon}><MdMonitor/></div>
-                <div className={styles.title}>人気のアニメ</div>
-            </li>
-        </ul>
-      </div>
+    <div className={styles.box}>
+      <ul>
+        <li className={styles.row} onClick={() => seasonAnimeDisplay("2022-autumn")}>
+          <div className={styles.icon}><FiMonitor/></div>
+          <div className={styles.title}>今期のアニメ</div>
+        </li>
+        <li className={styles.row} onClick={() => seasonAnimeDisplay("2022-summer")}>
+          <div className={styles.icon}><MdMonitor/></div>
+          <div className={styles.title}>前期のアニメ</div>
+        </li>
+        <li className={styles.row} onClick={popularAnimeDisplay}>
+          <div className={styles.icon}><MdMonitor/></div>
+          <div className={styles.title}>人気のアニメ</div>
+        </li>
+      </ul>
+    </div>
   );
 };
 

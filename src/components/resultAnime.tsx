@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import {gql, useLazyQuery, DocumentNode} from '@apollo/client';
 import styles from './resultAnime.module.css';
 import RecommendCard from './recommendCard'
-import { title } from 'process';
-//検索ボックスのコンポーネント
-//デザインの変更をしたい
+
+//レコメンド結果一覧を表示するためのコンポーネント
+//何も選択していない場合にレコメンド結果を表示しないように例外処理してない？
 
 //@param pushCount - 検索ボタンが押された回数
 //@param likelist - ユーザーが選択したアニメのIDを格納したリスト
@@ -16,6 +16,12 @@ type Props = {
   likeList:Array<string>
 }
 
+//自作APIから受け取れるjsonファイルの型定義
+interface recommendInterface {
+  annictId:number;
+  score:number;
+}
+
 //annictAPIから受け取れるjsonファイルの中身の型定義の一部
 interface imageInterface {
   __typename:string
@@ -23,11 +29,7 @@ interface imageInterface {
   recommendedImageUrl:string|undefined
 }
 
-interface recommendInterface {
-  annictId:number;
-  score:number;
-}
-
+//annictAPIから受け取れるjsonファイルの中身の型定義
 interface animeInterface{
   __typename: string
   annictId:number
@@ -46,40 +48,9 @@ const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
     let clsname = styles.Hidden;
     const [animeList,setAnimeList] = useState<Array<animeInterface>>([]);
     const [SEARCH_ANIME,setSEARCH_ANIME] = useState<DocumentNode>(gql`
-    query {
-      searchWorks(
-        annictIds: []
-      ) {
-          nodes {
-            annictId
-            malAnimeId
-            officialSiteUrl
-            title
-            twitterUsername
-            media
-            wikipediaUrl
-            seasonName
-            seasonYear
-            image{
-              facebookOgImageUrl
-              recommendedImageUrl
-            }
-        }
-      }
-    }
-    `);
-    //graphQLでannictAPIを適宜呼び出すためのもの
-    const [inputAnime, { called, loading, error, data }] = useLazyQuery(SEARCH_ANIME);
-    //テキストボックスに入力された文字列を元にqueryを作成
-    const search = (recommendAnimeList:Array<recommendInterface>) => {
-      let ids:Array<number> = [];
-      for (const anime of recommendAnimeList){
-        ids.push(anime.annictId)
-      }
-      setSEARCH_ANIME(gql`
       query {
         searchWorks(
-          annictIds: [${ids}]
+          annictIds: []
         ) {
             nodes {
               annictId
@@ -98,11 +69,44 @@ const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
           }
         }
       }
-      `)
+      `);
+    //graphQLでannictAPIを適宜呼び出すためのもの
+    const [inputAnime, { data }] = useLazyQuery(SEARCH_ANIME);
+    //テキストボックスに入力された文字列を元にqueryを作成
+    const search = (recommendAnimeList:Array<recommendInterface>) => {
+      let ids:Array<number> = [];
+      for (const anime of recommendAnimeList){
+        ids.push(anime.annictId)
+      }
+      setSEARCH_ANIME(gql`
+        query {
+          searchWorks(
+            annictIds: [${ids}]
+          ) {
+              nodes {
+                annictId
+                malAnimeId
+                officialSiteUrl
+                title
+                twitterUsername
+                media
+                wikipediaUrl
+                seasonName
+                seasonYear
+                image{
+                  facebookOgImageUrl
+                  recommendedImageUrl
+                }
+            }
+          }
+        }
+        `)
     }
+    //ボタンを１回以上押した場合に結果を表示
     if (pushCount > 0) {
         clsname = styles.Display;
     }
+    //おすすめのアニメを取得するためのAPIを実行
     useEffect(() => {
       const access_api = async(param:string) => {
         const response = await fetch(`https://dev-recoani-d6gutf2s.onrender.com/api/recommend/overall${param}`,{
@@ -125,16 +129,15 @@ const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
         access_api(param);
       }
       },[pushCount])
+
     //検索した結果出てきたアニメの情報をリストに格納してる
     const makeAnimeList = () => {
       if (data) {
-        console.log(data)
         const li = [];
         for (let i = 0; i < data.searchWorks.nodes.length; i++){
           li.push(data.searchWorks.nodes[i]);
         }
         setAnimeList(li);
-        console.log(animeList)
       }
     }
 
@@ -143,11 +146,11 @@ const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
   return (
       <div className={clsname}>
         <div className='animes'>
-            {animeList.map((info,index) => {
-              return (
-                <RecommendCard annictId={info.annictId} title={info.title} malAnimeId={info.malAnimeId} officialSiteUrl={info.officialSiteUrl} twitterUsername={info.twitterUsername} wikipediaUrl={info.wikipediaUrl} recommendImgUrl={info.image.recommendedImageUrl} facebookImgUrl={info.image.facebookOgImageUrl} seasonName={info.seasonName} seasonYear={info.seasonYear}/>
-            )})}
-          </div>
+          {animeList.map((info) => {
+            return (
+              <RecommendCard annictId={info.annictId} title={info.title} malAnimeId={info.malAnimeId} officialSiteUrl={info.officialSiteUrl} twitterUsername={info.twitterUsername} wikipediaUrl={info.wikipediaUrl} recommendImgUrl={info.image.recommendedImageUrl} facebookImgUrl={info.image.facebookOgImageUrl} seasonName={info.seasonName} seasonYear={info.seasonYear}/>
+          )})}
+        </div>
       </div>
   );
 };

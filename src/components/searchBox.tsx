@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './searchBox.module.css';
-import { Input ,Center } from '@mantine/core';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { Input ,Center } from '@mantine/core';
 
 //検索ボックスのコンポーネント
 //デザインの変更をしたい

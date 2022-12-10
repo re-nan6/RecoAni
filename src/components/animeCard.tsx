@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import styles from './animeCard.module.css';
-import {Img} from 'react-image';
 import { useState } from 'react';
 import { CgWebsite } from 'react-icons/cg';
 import { FaTwitter } from 'react-icons/fa';
 
 //アニメカードのコンポーネント
+//一応残してるけど使わないかも
 //画像リンクが存在しない場合・リンクが無効の場合の例外処理実装したい
 //アニメタイトルが長すぎる場合にアニメを識別するのが難しい→ホバーしたときタイトル名をフルで表示する？
 

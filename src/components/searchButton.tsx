@@ -5,6 +5,7 @@ import { Button } from '@mantine/core';
 //検索ボタンのコンポーネント
 //デザインを変更したい
 
+//@param onClick - ボタンが押されたときに行われる処理
 //@return 検索ボタンが表示される
 
 type Props = {

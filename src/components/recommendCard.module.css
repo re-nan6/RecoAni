@@ -6,20 +6,16 @@
     margin: 15px 5px;
 }
 
-/* .sideBar {
-    display: flex;
-    flex-flow: column;
-    justify-content: flex-end;
-} */
-
 .season {
     position: absolute;
     top:6px;
     left:10px;
 }
+
 .sideButton {
     margin:10px
 }
+
 .sideButton :hover {
     color: rebeccapurple;
 }
