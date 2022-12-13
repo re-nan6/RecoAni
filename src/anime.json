@@ -8,13 +8,7 @@
                 "malAnimeId":"9756",
                 "officialSiteUrl": "http://www.madoka-magica.com/",
                 "title": "魔法少女まどか☆マギカ",
-                "twitterUsername": "madoka_magica",
-                "media": "TV",
-                "image": {
-                    "__typename": "WorkImage",
-                    "facebookOgImageUrl": "https://www.madoka-magica.com/assets/t/ogp.jpg",
-                    "recommendedImageUrl": "https://www.madoka-magica.com/assets/t/ogp.jpg"
-                }
+                "twitterUsername": "madoka_magica"
             },
             {
                 "__typename": "Work",
@@ -22,13 +16,7 @@
                 "malAnimeId":"9989",
                 "officialSiteUrl": "https://www.anohana.jp/tv/",
                 "title": "あの日見た花の名前を僕達はまだ知らない。",
-                "twitterUsername": "anohana_project",
-                "media": "TV",
-                "image": {
-                    "__typename": "WorkImage",
-                    "facebookOgImageUrl": "",
-                    "recommendedImageUrl": ""
-                }
+                "twitterUsername": "anohana_project"
             },
             {
                 "__typename": "Work",
@@ -36,13 +24,7 @@
                 "malAnimeId":"30831",
                 "officialSiteUrl": "http://konosuba.com/1st/",
                 "title": "この素晴らしい世界に祝福を！",
-                "twitterUsername": "konosubaanime",
-                "media": "TV",
-                "image": {
-                    "__typename": "WorkImage",
-                    "facebookOgImageUrl": "http://konosuba.com/1st/img/ogp.png",
-                    "recommendedImageUrl": "http://konosuba.com/img/ogp.png"
-                }
+                "twitterUsername": "konosubaanime"
             },
             {
                 "__typename": "Work",
@@ -50,13 +32,7 @@
                 "malAnimeId":"11757",
                 "officialSiteUrl": "https://www.swordart-online.net/",
                 "title": "ソードアート・オンライン",
-                "twitterUsername": "",
-                "media": "TV",
-                "image": {
-                    "__typename": "WorkImage",
-                    "facebookOgImageUrl": "https://www.swordart-online.net/ogp_saop.png",
-                    "recommendedImageUrl": "https://www.swordart-online.net/ogp_saop.jpg"
-                }
+                "twitterUsername": ""
             },
             {
                 "__typename": "Work",
@@ -64,13 +40,7 @@
                 "malAnimeId":"5681",
                 "officialSiteUrl": "https://s-wars.jp/",
                 "title": "サマーウォーズ",
-                "twitterUsername": "",
-                "media": "MOVIE",
-                "image": {
-                    "__typename": "WorkImage",
-                    "facebookOgImageUrl": "",
-                    "recommendedImageUrl": ""
-                }
+                "twitterUsername": ""
             },
             {
                 "__typename": "Work",
@@ -78,13 +48,7 @@
                 "malAnimeId":"9253",
                 "officialSiteUrl": "http://steinsgate.tv/index.html",
                 "title": "Steins;Gate",
-                "twitterUsername": "SG_anime",
-                "media": "TV",
-                "image": {
-                    "__typename": "WorkImage",
-                    "facebookOgImageUrl": "",
-                    "recommendedImageUrl": ""
-                }
+                "twitterUsername": "SG_anime"
             },
             {
                 "__typename": "Work",
@@ -92,13 +56,7 @@
                 "malAnimeId":"5680",
                 "officialSiteUrl": "https://www.tbs.co.jp/anime/k-on/",
                 "title": "けいおん！",
-                "twitterUsername": "",
-                "media": "TV",
-                "image": {
-                    "__typename": "WorkImage",
-                    "facebookOgImageUrl": "http://www.tbs.co.jp/anime/k-on/images/logo.jpg",
-                    "recommendedImageUrl": "http://www.tbs.co.jp/anime/k-on/images/logo.jpg"
-                }
+                "twitterUsername": ""
             },
             {
                 "__typename": "Work",
@@ -106,13 +64,7 @@
                 "malAnimeId":"16498",
                 "officialSiteUrl": "http://shingeki.tv/season1/",
                 "title": "進撃の巨人",
-                "twitterUsername": "anime_shingeki",
-                "media": "TV",
-                "image": {
-                    "__typename": "WorkImage",
-                    "facebookOgImageUrl": "",
-                    "recommendedImageUrl": ""
-                }
+                "twitterUsername": "anime_shingeki"
             },
             {
                 "__typename": "Work",
@@ -120,13 +72,7 @@
                 "malAnimeId":"31240",
                 "officialSiteUrl": "http://re-zero-anime.jp/",
                 "title": "Re:ゼロから始める異世界生活",
-                "twitterUsername": "Rezero_official",
-                "media": "TV",
-                "image": {
-                    "__typename": "WorkImage",
-                    "facebookOgImageUrl": "",
-                    "recommendedImageUrl": ""
-                }
+                "twitterUsername": "Rezero_official"
             },
             {
                 "__typename": "Work",
@@ -134,13 +80,7 @@
                 "malAnimeId":"5081",
                 "officialSiteUrl": "https://www.monogatari-series.com/bakemonogatari/",
                 "title": "化物語",
-                "twitterUsername": "nisioisin_anime",
-                "media": "TV",
-                "image": {
-                    "__typename": "WorkImage",
-                    "facebookOgImageUrl": "",
-                    "recommendedImageUrl": ""
-                }
+                "twitterUsername": "nisioisin_anime"
             }
         ]
     }

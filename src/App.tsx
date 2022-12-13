@@ -1,26 +1,18 @@
-import React from 'react';
-import {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import SiteTitle from './components/siteTitle';
-import Anime from './anime.json';
+import MalCard from './components/malCard';
+import ResultAnime from './components/resultAnime';
 import SearchBox from './components/searchBox';
 import SearchButton from './components/searchButton';
 import Sidebar from './components/sidebar';
-import MalCard from './components/malCard';
-import ResultAnime from './components/resultAnime';
-import {gql, useLazyQuery, DocumentNode} from '@apollo/client';
+import SiteTitle from './components/siteTitle';
+import Anime from './anime.json';
 import { MdDeleteForever } from 'react-icons/md';
-import { AppShell, Navbar, Header, Pagination } from '@mantine/core';
 import _ from 'lodash';
+import {gql, useLazyQuery, DocumentNode} from '@apollo/client';
+import { AppShell, Header, Navbar, Pagination } from '@mantine/core';
 
 function App() {
-
-  //annictAPIから受け取れるjsonファイルの中身の型定義の一部
-  interface imageInterface {
-    __typename:string
-    facebookOgImageUrl:string
-    recommendedImageUrl:string
-  }
 
   //annictAPIから受け取れるjsonファイルの中身の型定義
   interface animeInterface{
@@ -30,8 +22,6 @@ function App() {
     officialSiteUrl:string
     title: string
     twitterUsername: string
-    media: string
-    image: imageInterface | null
   }
 
   //検索前に表示するアニメのリストを作成
@@ -42,9 +32,11 @@ function App() {
 
   //レコメンド結果表示に必要なフラグの定義
   const [pushCount,setPushCount] = useState<number>(0);
-
+  //表示するアニメカードのページ数を管理している
   const [numPage,setNumPage] = useState<number>(0);
+  //現在表示しているページ番号を管理している
   const [nowPage,setNowPage] = useState<number>(1);
+  //表示させるアニメを管理している
   const [displayAnimeList,setDisplayAnimeList] = useState<Array<animeInterface>>(initial_anime);
   //アニメカードの表示に必要な変数の定義
   //とりあえず初期値はテキトーなので直す余地あり
@@ -64,18 +56,13 @@ function App() {
           officialSiteUrl
           title
           twitterUsername
-          media
-          image{
-            facebookOgImageUrl
-            recommendedImageUrl
-          }
       }
     }
   }
   `);
 
   //graphQLでannictAPIを適宜呼び出すためのもの
-  const [inputAnime, { called, loading, error, data }] = useLazyQuery(SEARCH_ANIME);
+  const [inputAnime, { data }] = useLazyQuery(SEARCH_ANIME);
 
   //テキストボックスに入力された文字列を元にqueryを作成
   const search = (value:string) => {
@@ -92,11 +79,6 @@ function App() {
             officialSiteUrl
             title
             twitterUsername
-            media
-            image{
-              facebookOgImageUrl
-              recommendedImageUrl
-            }
         }
       }
     }
@@ -110,7 +92,7 @@ function App() {
     inputAnime();
   }
 
-  //選択しているアニメカードを管理している
+  //選択しているアニメカードを管理している(アニメカードをクリックした際に実行)
   const valChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (val.includes(e.target.value)) {
       setVal(val.filter(item => item !== e.target.value));
@@ -124,7 +106,7 @@ function App() {
     }
   }
 
-  //選択しているアニメカードを管理している(削除ボタンで削除可能)
+  //選択しているアニメカードを管理している(選択されたアニメ一覧にあるボタンを押した際に実行)
   const valChangeBtn = (e:React.MouseEvent<HTMLButtonElement>) => {
     if (val.includes(e.currentTarget.value)) {
       setVal(val.filter(item => item !== e.currentTarget.value));
@@ -160,6 +142,7 @@ function App() {
     }
   }
 
+  //ページ遷移をした際の処理
   const changePage = (page:number) =>{
     const end = (page) * 10;
     const start = end - 10;
@@ -170,8 +153,6 @@ function App() {
   //data(graphQLの実行結果)の値が変わる度にmakeAnimeList関数が実行される
   useEffect(makeAnimeList,[data])
 
-
-  //なんかページ読み込んだタイミングで何もアニメカードが表示されないから直したい
   return (
     <div className='App'>
       <AppShell 
@@ -180,37 +161,34 @@ function App() {
                   <Sidebar setSearchAnime={setSEARCH_ANIME} setNowPage={setNowPage} inputAnime={inputAnime}/>
                 </Navbar>}
         header={<Header height={60}><SiteTitle/></Header>}>
-      <div className="main">
-        <div className='animebox'>
-          <div className='animes'>
-            {displayAnimeList.map((info,index) => {
-              return (
-                info.image?
-                (<MalCard annictID={info.annictId} malAnimeId={info.malAnimeId} recommendImgUrl={info.image.recommendedImageUrl} facebookImgUrl={info.image.facebookOgImageUrl} officialSiteUrl={info.officialSiteUrl} media={info.media} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={index}/>)
-                :(<MalCard annictID={info.annictId} malAnimeId={info.malAnimeId} recommendImgUrl='' facebookImgUrl='' officialSiteUrl={info.officialSiteUrl}  media={info.media} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={index}/>)
-                )
-            })}
+        <div className="main">
+          <div className='animebox'>
+            <div className='animes'>
+              {displayAnimeList.map((info,index) => {
+                return (
+                <MalCard annictID={info.annictId} malAnimeId={info.malAnimeId}  officialSiteUrl={info.officialSiteUrl} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={index}/>)
+              })}
+            </div>
+            <Pagination total={numPage} position="center" onChange={(page:number) => changePage(page)} page={nowPage}/>
           </div>
-          <Pagination total={numPage} position="center" onChange={(page:number) => changePage(page)} page={nowPage}/>
+          <div>
+            現在選択中のアニメ
+          </div>
+          <div className='selectAnimeBox'>
+            <ul>
+              {val.map((title,index) =>
+              <li value={title} id={likeId[index]}>
+                {title}
+                <button className="deleteBtn" onClick={valChangeBtn} value={title} id={likeId[index]}>
+                  <MdDeleteForever className='deleteIcon'/>
+                </button>
+              </li>
+              )}
+            </ul>
+          </div>
+          <SearchButton onClick={valDisplay}/>
+          <ResultAnime pushCount={pushCount} likeList={likeId}/>
         </div>
-        <div>
-          現在選択中のアニメ
-        </div>
-        <div className='selectAnimeBox'>
-          <ul>
-            {val.map((title,index) =>
-            <li value={title} id={likeId[index]}>
-              {title}
-              <button className="deleteBtn" onClick={valChangeBtn} value={title} id={likeId[index]}>
-                <MdDeleteForever className='deleteIcon'/>
-              </button>
-            </li>
-            )}
-          </ul>
-        </div>
-        <SearchButton onClick={valDisplay}/>
-        <ResultAnime pushCount={pushCount} likeList={likeId}/>
-      </div>
       </AppShell>
     </div>
   );
