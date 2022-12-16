@@ -6,18 +6,13 @@
     margin: 15px 5px;
 }
 
+.portrait {
+    object-fit: contain;
+}
 .season {
     position: absolute;
     top:6px;
     left:10px;
-}
-
-.sideButton {
-    margin:10px
-}
-
-.sideButton :hover {
-    color: rebeccapurple;
 }
 
 .title {

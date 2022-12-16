@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styles from './recommendCard.module.css';
+import LinkButton from './linkButton';
 import { CgWebsite } from 'react-icons/cg';
 import { FiMonitor } from 'react-icons/fi';
 import { FaTwitter, FaWikipediaW } from 'react-icons/fa';
 import { Carousel } from '@mantine/carousel';
-import { Avatar,Badge, Card, Group, Image, Stack, Text, Tooltip} from '@mantine/core';
+import { Badge, Card, Group, Image, Stack, Text } from '@mantine/core';
 
 //レコメンド結果を表示するカードのコンポーネント
 //例外処理まだ設定できてない(画像関連・画像とPV両方がない場合)
@@ -41,7 +42,7 @@ interface Url{
 }
 
 const RecommendCard: React.FC<Props> = ({annictId,title,malAnimeId,officialSiteUrl,twitterUsername,wikipediaUrl,recommendImgUrl,facebookImgUrl,seasonName,seasonYear}) => {
-  const [animePvList,setAnimePvList] = useState<Array<Url>>([{url: 'https://youtu.be/IRxdEcemmsE'}]);
+  const [animePvList,setAnimePvList] = useState<Array<Url|null>>([]);
   const [malImage,setMalImage] = useState<string>(`${process.env.PUBLIC_URL}/noimage.png`)
 
   //PVと画像のURLを取得するAPIを実行
@@ -78,11 +79,12 @@ const RecommendCard: React.FC<Props> = ({annictId,title,malAnimeId,officialSiteU
           </div>
         </Card.Section>
         <Group noWrap spacing={0}>
-          <Carousel sx={{width:712}} mx="auto" withIndicators loop height={400}>
-            {recommendImgUrl && <Carousel.Slide><Image src={recommendImgUrl} withPlaceholder placeholder={<Image src={malImage} withPlaceholder/>}/></Carousel.Slide>}
-            {(!recommendImgUrl && facebookImgUrl) && <Carousel.Slide><Image src={facebookImgUrl} withPlaceholder placeholder={<Image src={malImage} withPlaceholder/>}/></Carousel.Slide>}
+          <Carousel sx={{width:712}} mx="auto" withIndicators loop height={400} initialSlide={1}>
+            {recommendImgUrl && <Carousel.Slide><Image src={recommendImgUrl} height={360} withPlaceholder placeholder={<div className={styles.portrait}><Image src={malImage} withPlaceholder fit='contain'/></div>}/></Carousel.Slide>}
+            {(!recommendImgUrl && facebookImgUrl) && <Carousel.Slide><Image src={facebookImgUrl} height={360} withPlaceholder placeholder={<div className={styles.portrait}><Image src={malImage} withPlaceholder fit='contain'/></div>}/></Carousel.Slide>}
           {animePvList.map((info) => {
           return (
+            info && (
             <Carousel.Slide>
               <div className={styles.youtube}>
               <iframe src={"https://www.youtube-nocookie.com/embed/"+info.url.slice(-11)}
@@ -91,62 +93,23 @@ const RecommendCard: React.FC<Props> = ({annictId,title,malAnimeId,officialSiteU
                       />
               </div>
             </Carousel.Slide>
-          )})}
+          ))})}
+          {(!recommendImgUrl && !facebookImgUrl && animePvList.length === 0) && <Carousel.Slide><Image height={360} withPlaceholder/></Carousel.Slide>}
           </Carousel>
           <div className={styles.sideBar}>
             <Stack align="center" justify="flex-start">
-              <Tooltip
-                label="公式サイト"
-                position='right'
-                withArrow>
-                <Avatar
-                component='a'
-                href={officialSiteUrl}
-                target="_blank"
-                size="lg"
-                className={styles.sideButton}>
-                  <FiMonitor/>
-                </Avatar>
-              </Tooltip>
-              <Tooltip
-                label="Twitter"
-                position='right'
-                withArrow>
-                <Avatar
-                component='a'
-                href={twitterUsername}
-                target="_blank"
-                size="lg"
-                className={styles.sideButton}>
-                  <FaTwitter/>
-                </Avatar>
-              </Tooltip>
-              <Tooltip
-                label="Annict"
-                position='right'
-                withArrow>
-                <Avatar
-                  component='a'
-                  href={"https://annict.com/works/" + annictId}
-                  target="_blank"
-                  size="lg"
-                  className={styles.sideButton}>
-                    <CgWebsite/>
-                </Avatar>
-              </Tooltip>
-              <Tooltip
-                label="Wikipedia"
-                position='right'
-                withArrow>
-                <Avatar
-                  component='a'
-                  href={wikipediaUrl}
-                  target="_blank"
-                  size="lg"
-                  className={styles.sideButton}>
-                    <FaWikipediaW/>
-                </Avatar>
-              </Tooltip>
+              <LinkButton label='公式サイト' href={officialSiteUrl}>
+               <FiMonitor/>
+              </LinkButton>
+              <LinkButton label='Twitter' href={`https://twitter.com/${twitterUsername}`}>
+               <FaTwitter/>
+              </LinkButton>
+              <LinkButton label='Annict' href={"https://annict.com/works/" + annictId}>
+               <CgWebsite/>
+              </LinkButton>
+              <LinkButton label='Wikipedia' href={wikipediaUrl}>
+                <FaWikipediaW/>
+              </LinkButton>
             </Stack>
           </div>
         </Group>
