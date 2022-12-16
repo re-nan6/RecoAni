@@ -21,3 +21,7 @@
     cursor: pointer;
     background-color: #cacaca;
 }
+
+.title {
+    flex:70%;
+}
