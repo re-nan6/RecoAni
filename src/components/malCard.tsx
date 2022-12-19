@@ -3,7 +3,8 @@ import styles from './malCard.module.css';
 import { CgWebsite } from 'react-icons/cg';
 import { FaTwitter } from 'react-icons/fa';
 import { Card, Group, Image, NavLink, Text, Tooltip } from '@mantine/core'
-import { useQuery, QueryClient, QueryClientProvider } from 'react-query';
+import { useQuery } from 'react-query';
+import axios from 'axios';
 
 //アニメカードのコンポーネント
 //画像リンクが存在しない場合・リンクが無効の場合の例外処理実装したい←実装済み
@@ -30,41 +31,35 @@ type Props = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   checked: boolean;
 }
+
 const MalCard: React.FC<Props> = ({ annictID, malAnimeId, officialSiteUrl, animeTitle, twitterUsername, value, onChange, checked }) => {
   const [imgUrl, setImgUrl] = useState<string>(`${process.env.PUBLIC_URL}/noimage.png`)
   const ID = String(annictID);
   const twitterLink = `https://twitter.com/${twitterUsername}`;
-
   //画像取得を行うAPIの実行
+  const getMalurl = async () => {
+    const data = await axios.get(`https://dev-recoani-d6gutf2s.onrender.com/api/mal/image?malAnimeId=${malAnimeId}`, {
+      method: 'GET',
+    })
+    return data
+  }
 
-  const { data, refetch } = useQuery(
-    [`${malAnimeId}`],
-    async () => {
-      const response = await fetch(`https://dev-recoani-d6gutf2s.onrender.com/api/mal/image?malAnimeId=${malAnimeId}`, {
-        method: 'GET',
-      })
-      const data = await response.json();
-      const url = data.data[0]['url']
-      setImgUrl(url)
-    },
-    { staleTime: Infinity, cacheTime: Infinity },
-  );
-  // refetch();
-  useEffect(() => { refetch() }, [malAnimeId])
-  // useEffect(() => {
-  //   const access_api = async() => {
-  //     const response = await fetch(`https://dev-recoani-d6gutf2s.onrender.com/api/mal/image?malAnimeId=${malAnimeId}`,{
-  //       method:'GET',})
-  //       if (!response.ok){
-  //         const err = await response.json()
-  //         throw new Error(err)
-  //       }
-  //       const data = await response.json();
-  //       const url = data.data[0]['url']
-  //       setImgUrl(url)
-  //     }
-  //     access_api();
-  //   },[malAnimeId])
+  const useQueryMalurl = () => {
+    return useQuery({
+      queryKey: ["getImage", malAnimeId],
+      queryFn: getMalurl,
+      cacheTime: Infinity,
+      staleTime: Infinity,
+    })
+  }
+  const { status, data } = useQueryMalurl()
+  console.log(status)
+
+  useEffect(() => {
+    if (data) {
+      setImgUrl(data.data.data[0]['url'])
+    }
+  }, [malAnimeId, status])
 
 
   return (

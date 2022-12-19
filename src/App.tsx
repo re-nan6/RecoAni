@@ -164,45 +164,46 @@ function App() {
   useEffect(makeAnimeList, [data])
 
   return (
-    <div className='App'>
-      <AppShell
-        navbar={<Navbar width={{ base: 200 }}>
-          <SearchBox onChange={_.debounce((e) => handleChange(e), 500)} />
-          <Sidebar setSearchAnime={setSEARCH_ANIME} setNowPage={setNowPage} inputAnime={inputAnime} />
-        </Navbar>}
-        header={<Header height={60}><SiteTitle /></Header>}>
-        <div className="main">
-          <div className='animebox'>
-            <div className='animes'>
-              {displayAnimeList.map((info, index) => {
-                return (
-                  <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <div className='App'>
+        <AppShell
+          navbar={<Navbar width={{ base: 200 }}>
+            <SearchBox onChange={_.debounce((e) => handleChange(e), 500)} />
+            <Sidebar setSearchAnime={setSEARCH_ANIME} setNowPage={setNowPage} inputAnime={inputAnime} />
+          </Navbar>}
+          header={<Header height={60}><SiteTitle /></Header>}>
+          <div className="main">
+            <div className='animebox'>
+              <div className='animes'>
+                {displayAnimeList.map((info, index) => {
+                  return (
                     <MalCard annictID={info.annictId} malAnimeId={info.malAnimeId} officialSiteUrl={info.officialSiteUrl} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={info.malAnimeId} />
-                  </QueryClientProvider>)
-              })}
+                  )
+                })}
+              </div>
+              <Pagination total={numPage} position="center" onChange={(page: number) => changePage(page)} page={nowPage} />
             </div>
-            <Pagination total={numPage} position="center" onChange={(page: number) => changePage(page)} page={nowPage} />
+            <div>
+              現在選択中のアニメ
+            </div>
+            <div className='selectAnimeBox'>
+              <ul>
+                {val.map((title, index) =>
+                  <li value={title} id={likeId[index]}>
+                    {title}
+                    <button className="deleteBtn" onClick={valChangeBtn} value={title} id={likeId[index]}>
+                      <MdDeleteForever className='deleteIcon' />
+                    </button>
+                  </li>
+                )}
+              </ul>
+            </div>
+            <SearchButton onClick={valDisplay} />
+            <ResultAnime pushCount={pushCount} likeList={likeId} />
           </div>
-          <div>
-            現在選択中のアニメ
-          </div>
-          <div className='selectAnimeBox'>
-            <ul>
-              {val.map((title, index) =>
-                <li value={title} id={likeId[index]}>
-                  {title}
-                  <button className="deleteBtn" onClick={valChangeBtn} value={title} id={likeId[index]}>
-                    <MdDeleteForever className='deleteIcon' />
-                  </button>
-                </li>
-              )}
-            </ul>
-          </div>
-          <SearchButton onClick={valDisplay} />
-          <ResultAnime pushCount={pushCount} likeList={likeId} />
-        </div>
-      </AppShell>
-    </div>
+        </AppShell>
+      </div>
+    </QueryClientProvider>
   );
 }
 
