@@ -8,7 +8,7 @@
   position: relative;
   z-index: 0;
   box-sizing: border-box;
-  max-width: 960px;
+  /* max-width: 960px; */
   margin: 65px auto 20px auto;
   padding: 15px 30px;
   text-align: center;

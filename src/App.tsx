@@ -32,6 +32,7 @@ function App() {
     officialSiteUrl: string
     title: string
     twitterUsername: string
+    wikipediaUrl:string
   }
 
   //検索前に表示するアニメのリストを作成
@@ -47,10 +48,10 @@ function App() {
   //現在表示しているページ番号を管理している
   const [nowPage, setNowPage] = useState<number>(1);
   //表示させるアニメを管理している
-  const [displayAnimeList, setDisplayAnimeList] = useState<Array<animeInterface>>(initial_anime);
+  const [displayAnimeList, setDisplayAnimeList] = useState<Array<animeInterface>>([]);
   //アニメカードの表示に必要な変数の定義
   //とりあえず初期値はテキトーなので直す余地あり
-  const [animeList, setAnimeList] = useState<Array<animeInterface>>(initial_anime);
+  const [animeList, setAnimeList] = useState<Array<animeInterface>>([]);
   const [val, setVal] = useState<Array<string>>([]);
   const [likeId, setLikeId] = useState<Array<string>>([]);
   const [SEARCH_ANIME, setSEARCH_ANIME] = useState<DocumentNode>(gql`
@@ -66,6 +67,7 @@ function App() {
           officialSiteUrl
           title
           twitterUsername
+          wikipediaUrl
       }
     }
   }
@@ -89,6 +91,7 @@ function App() {
             officialSiteUrl
             title
             twitterUsername
+            wikipediaUrl
         }
       }
     }
@@ -149,6 +152,8 @@ function App() {
       setNumPage((lenAnimeList > 10) ? Math.ceil(lenAnimeList / 10) : 0)
       setDisplayAnimeList(li.slice(0, 10))
       console.log(animeList)
+    }else{
+      inputAnime();
     }
   }
 
@@ -177,7 +182,7 @@ function App() {
               <div className='animes'>
                 {displayAnimeList.map((info, index) => {
                   return (
-                    <MalCard annictID={info.annictId} malAnimeId={info.malAnimeId} officialSiteUrl={info.officialSiteUrl} animeTitle={info.title} twitterUsername={info.twitterUsername} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={info.malAnimeId} />
+                    <MalCard annictID={info.annictId} malAnimeId={info.malAnimeId} officialSiteUrl={info.officialSiteUrl} animeTitle={info.title} twitterUsername={info.twitterUsername} wikipediaUrl={info.wikipediaUrl} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={info.malAnimeId} />
                   )
                 })}
               </div>
