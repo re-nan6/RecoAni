@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styles from './malCard.module.css';
 import { CgWebsite } from 'react-icons/cg';
-import { FaTwitter } from 'react-icons/fa';
+import { FiMonitor } from 'react-icons/fi';
+import { FaTwitter, FaWikipediaW } from 'react-icons/fa';
 import { Card, Group, Image, NavLink, Text, Tooltip } from '@mantine/core'
 import { useQuery } from 'react-query';
 import axios from 'axios';
@@ -27,15 +28,17 @@ type Props = {
   officialSiteUrl: string;
   animeTitle: string;
   twitterUsername: string;
+  wikipediaUrl:string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   checked: boolean;
 }
 
-const MalCard: React.FC<Props> = ({ annictID, malAnimeId, officialSiteUrl, animeTitle, twitterUsername, value, onChange, checked }) => {
+const MalCard: React.FC<Props> = ({ annictID, malAnimeId, officialSiteUrl, animeTitle, twitterUsername, wikipediaUrl, value, onChange, checked }) => {
   const [imgUrl, setImgUrl] = useState<string>(`${process.env.PUBLIC_URL}/noimage.png`)
   const ID = String(annictID);
   const twitterLink = `https://twitter.com/${twitterUsername}`;
+  const annictLink = "https://annict.com/works/" + annictID;
   //画像取得を行うAPIの実行
   const getMalurl = async () => {
     const data = await axios.get(`https://dev-recoani-d6gutf2s.onrender.com/api/mal/image?malAnimeId=${malAnimeId}`, {
@@ -67,15 +70,17 @@ const MalCard: React.FC<Props> = ({ annictID, malAnimeId, officialSiteUrl, anime
       <input type="checkbox" id={ID} value={value} onChange={onChange} checked={checked} />
       <Card withBorder radius="md" p={0} shadow="sm" component='label' htmlFor={ID}>
         <Group noWrap spacing={0}>
-          <Image src={imgUrl} height={140} width={100} />
+          <Image src={imgUrl} height={200} width={130} />
           <div>
-            <Tooltip label={animeTitle} multiline width={150}>
+            <Tooltip label={animeTitle} multiline width={170}>
               <Text mt="xs" mb="md" className={styles.title}>
                 {animeTitle}
               </Text>
             </Tooltip>
-            <NavLink component="a" href={officialSiteUrl} rel="noreferrer" target="_blank" label="公式サイト" icon={<CgWebsite size={15} />} />
+            <NavLink component="a" href={officialSiteUrl} rel="noreferrer" target="_blank" label="公式サイト" icon={<FiMonitor size={15} />} />
             <NavLink component="a" href={twitterLink} rel="noreferrer" target="_blank" label="Twitter" icon={<FaTwitter size={15} />} />
+            <NavLink component="a" href={annictLink} rel="noreferrer" target="_blank" label="Annict" icon={<CgWebsite size={15} />} />
+            <NavLink component="a" href={wikipediaUrl} rel="noreferrer" target="_blank" label="Wikipedia" icon={<FaWikipediaW size={15} />} />
             <div className={`${styles.LikesIcon} ${styles.HeartAnimation}`}></div>
           </div>
         </Group>

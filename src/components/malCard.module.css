@@ -1,14 +1,15 @@
 .card {
     display: inline-block;
     position: relative;
-    width:calc(33% - 10px);
+    /* width:calc(33% - 10px); */
+    width: 315px;
     padding: 0 0 10px 0;
     margin: 15px 5px;
 }
 
 .LikesIcon{
     position: absolute;
-    left: 220px;
+    left: 250px;
     bottom:-20px;
     background: url("../../public/web_heart_animation.png");
     background-position: left;
