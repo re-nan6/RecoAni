@@ -182,7 +182,7 @@ function App() {
               <div className='animes'>
                 {displayAnimeList.map((info, index) => {
                   return (
-                    <MalCard annictID={info.annictId} malAnimeId={info.malAnimeId} officialSiteUrl={info.officialSiteUrl} animeTitle={info.title} twitterUsername={info.twitterUsername} wikipediaUrl={info.wikipediaUrl} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={info.malAnimeId} />
+                    <MalCard annictID={info.annictId} malAnimeId={info.malAnimeId} officialSiteUrl={info.officialSiteUrl} animeTitle={info.title} twitterUsername={info.twitterUsername} wikipediaUrl={info.wikipediaUrl} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={info.annictId} />
                   )
                 })}
               </div>
