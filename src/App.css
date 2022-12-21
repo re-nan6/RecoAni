@@ -14,6 +14,9 @@
   text-align: center;
 }
 
+.selectAnimeBox {
+  margin: 20px 0;
+}
 .selectAnimeBox ul, .selectAnimeBox ol {
   background: #fffcf4;
   border-radius :8px;/*角の丸み*/
