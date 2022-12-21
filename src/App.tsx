@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import MalCard from './components/malCard';
 import ResultAnime from './components/resultAnime';
-import SearchBox from './components/searchBox';
 import SearchButton from './components/searchButton';
 import Sidebar from './components/sidebar';
 import SiteTitle from './components/siteTitle';
+import { CustomFont } from './components/customFont';
 import Anime from './anime.json';
 import { MdDeleteForever } from 'react-icons/md';
 import _ from 'lodash';
 import { gql, useLazyQuery, DocumentNode } from '@apollo/client';
-import { AppShell, Header, Navbar, Pagination } from '@mantine/core';
+import { AppShell, Header, Navbar, Pagination, MantineProvider } from '@mantine/core';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 const queryClient = new QueryClient({
@@ -169,47 +169,53 @@ function App() {
   useEffect(makeAnimeList, [data])
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <div className='App'>
-        <AppShell
-          navbar={<Navbar width={{ base: 200 }}>
-            <Sidebar setSearchAnime={setSEARCH_ANIME} setNowPage={setNowPage} inputAnime={inputAnime} />
-          </Navbar>}
-          header={<Header height={60}>
-                  <SiteTitle onChange={_.debounce((e) => handleChange(e), 500)}/>
-                  </Header>}>
-          <div className="main">
-            <div className='animebox'>
-              <div className='animes'>
-                {displayAnimeList.map((info, index) => {
-                  return (
-                    <MalCard annictID={info.annictId} malAnimeId={info.malAnimeId} officialSiteUrl={info.officialSiteUrl} animeTitle={info.title} twitterUsername={info.twitterUsername} wikipediaUrl={info.wikipediaUrl} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={info.annictId} />
-                  )
-                })}
+    <MantineProvider
+     theme={{
+        fontFamily: 'Noto Sans Japanese',
+     }}>
+      <CustomFont/>
+      <QueryClientProvider client={queryClient}>
+        <div className='App'>
+          <AppShell
+            navbar={<Navbar width={{ base: 200 }}>
+              <Sidebar setSearchAnime={setSEARCH_ANIME} setNowPage={setNowPage} inputAnime={inputAnime} />
+            </Navbar>}
+            header={<Header height={60}>
+                    <SiteTitle onChange={_.debounce((e) => handleChange(e), 500)}/>
+                    </Header>}>
+            <div className="main">
+              <div className='animebox'>
+                <div className='animes'>
+                  {displayAnimeList.map((info, index) => {
+                    return (
+                      <MalCard annictID={info.annictId} malAnimeId={info.malAnimeId} officialSiteUrl={info.officialSiteUrl} animeTitle={info.title} twitterUsername={info.twitterUsername} wikipediaUrl={info.wikipediaUrl} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={info.annictId} />
+                    )
+                  })}
+                </div>
+                <Pagination total={numPage} position="center" onChange={(page: number) => changePage(page)} page={nowPage} />
               </div>
-              <Pagination total={numPage} position="center" onChange={(page: number) => changePage(page)} page={nowPage} />
+              <div className='text'>
+                現在選択中のアニメ
+              </div>
+              <div className='selectAnimeBox'>
+                <ul>
+                  {val.map((title, index) =>
+                    <li value={title} id={likeId[index]}>
+                      {title}
+                      <button className="deleteBtn" onClick={valChangeBtn} value={title} id={likeId[index]}>
+                        <MdDeleteForever className='deleteIcon' />
+                      </button>
+                    </li>
+                  )}
+                </ul>
+              </div>
+              <SearchButton onClick={valDisplay} />
+              <ResultAnime pushCount={pushCount} likeList={likeId} />
             </div>
-            <div className='text'>
-              現在選択中のアニメ
-            </div>
-            <div className='selectAnimeBox'>
-              <ul>
-                {val.map((title, index) =>
-                  <li value={title} id={likeId[index]}>
-                    {title}
-                    <button className="deleteBtn" onClick={valChangeBtn} value={title} id={likeId[index]}>
-                      <MdDeleteForever className='deleteIcon' />
-                    </button>
-                  </li>
-                )}
-              </ul>
-            </div>
-            <SearchButton onClick={valDisplay} />
-            <ResultAnime pushCount={pushCount} likeList={likeId} />
-          </div>
-        </AppShell>
-      </div>
-    </QueryClientProvider>
+          </AppShell>
+        </div>
+      </QueryClientProvider>
+    </MantineProvider>
   );
 }
 
