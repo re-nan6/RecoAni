@@ -1,7 +1,8 @@
 import React from 'react';
 import styles from './sidebar.module.css';
-import { FiMonitor } from 'react-icons/fi';
-import { MdMonitor } from 'react-icons/md';
+import { RiVipCrownFill } from 'react-icons/ri'
+import {HiFire} from 'react-icons/hi'
+import { GiPalmTree } from 'react-icons/gi'
 import {gql, DocumentNode, LazyQueryHookOptions, OperationVariables, QueryResult} from '@apollo/client';
 
 //サイドバーのコンポーネント
@@ -76,15 +77,15 @@ const Sidebar: React.FC<Props> = ({setSearchAnime,setNowPage,inputAnime}) => {
     <div className={styles.box}>
       <ul>
         <li className={styles.row} onClick={() => seasonAnimeDisplay("2022-autumn")}>
-          <div className={styles.icon}><FiMonitor/></div>
+          <div className={styles.icon}><HiFire/></div>
           <div className={styles.title}>今期のアニメ</div>
         </li>
         <li className={styles.row} onClick={() => seasonAnimeDisplay("2022-summer")}>
-          <div className={styles.icon}><MdMonitor/></div>
+          <div className={styles.icon}><GiPalmTree/></div>
           <div className={styles.title}>前期のアニメ</div>
         </li>
         <li className={styles.row} onClick={popularAnimeDisplay}>
-          <div className={styles.icon}><MdMonitor/></div>
+          <div className={styles.icon}><RiVipCrownFill/></div>
           <div className={styles.title}>人気のアニメ</div>
         </li>
       </ul>
