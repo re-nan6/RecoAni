@@ -4,7 +4,7 @@ import LinkButton from './linkButton';
 import { Title } from '@mantine/core';
 import { AiOutlineSearch, AiFillGithub } from 'react-icons/ai';
 import { Input ,Group } from '@mantine/core';
-import { ActionIcon } from '@mantine/core';
+import { ActionIcon, Image } from '@mantine/core';
 //サイトタイトルのコンポーネント
 //フォント・サイズの設定したい
 //ロゴとかもほしいかも
@@ -20,7 +20,8 @@ const SiteTitle: React.FC<Props> = ({onChange}) => {
     <Group position='apart'>
       <div className={styles.logo}>
         <Group>
-          <Title order={1}>アニメレコメンド！</Title>
+          <Image src={`${process.env.PUBLIC_URL}/logo.png`} height={50} width={50}/>
+          <Title order={1}>RecoAni</Title>
         </Group>
       </div>
       <div className={styles.right}>

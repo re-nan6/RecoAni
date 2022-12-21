@@ -189,7 +189,7 @@ function App() {
               </div>
               <Pagination total={numPage} position="center" onChange={(page: number) => changePage(page)} page={nowPage} />
             </div>
-            <div>
+            <div className='text'>
               現在選択中のアニメ
             </div>
             <div className='selectAnimeBox'>
