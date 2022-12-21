@@ -4,6 +4,7 @@ import LinkButton from './linkButton';
 import { CgWebsite } from 'react-icons/cg';
 import { FiMonitor } from 'react-icons/fi';
 import { FaTwitter, FaWikipediaW } from 'react-icons/fa';
+import { RiCharacterRecognitionFill } from 'react-icons/ri'
 import { Carousel } from '@mantine/carousel';
 import { Badge, Card, Group, Image, Stack, Text } from '@mantine/core';
 
@@ -105,7 +106,7 @@ const RecommendCard: React.FC<Props> = ({annictId,title,malAnimeId,officialSiteU
                <FaTwitter/>
               </LinkButton>
               <LinkButton label='Annict' href={"https://annict.com/works/" + annictId}>
-               <CgWebsite/>
+               <RiCharacterRecognitionFill/>
               </LinkButton>
               <LinkButton label='Wikipedia' href={wikipediaUrl}>
                 <FaWikipediaW/>

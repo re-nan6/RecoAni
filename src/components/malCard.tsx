@@ -3,6 +3,7 @@ import styles from './malCard.module.css';
 import { CgWebsite } from 'react-icons/cg';
 import { FiMonitor } from 'react-icons/fi';
 import { FaTwitter, FaWikipediaW } from 'react-icons/fa';
+import { RiCharacterRecognitionFill } from 'react-icons/ri'
 import { Card, Group, Image, NavLink, Text, Tooltip } from '@mantine/core'
 import { useQuery } from 'react-query';
 import axios from 'axios';
@@ -78,8 +79,8 @@ const MalCard: React.FC<Props> = ({ annictID, malAnimeId, officialSiteUrl, anime
               </Text>
             </Tooltip>
             <NavLink component="a" href={officialSiteUrl} rel="noreferrer" target="_blank" label="公式サイト" icon={<FiMonitor size={15} />} />
-            <NavLink component="a" href={twitterLink} rel="noreferrer" target="_blank" label="Twitter" icon={<FaTwitter size={15} />} />
-            <NavLink component="a" href={annictLink} rel="noreferrer" target="_blank" label="Annict" icon={<CgWebsite size={15} />} />
+            <NavLink component="a" href={twitterLink} rel="noreferrer" target="_blank" label="Twitter" icon={<FaTwitter size={15} color="1D9BF0"/>} />
+            <NavLink component="a" href={annictLink} rel="noreferrer" target="_blank" label="Annict" icon={<RiCharacterRecognitionFill size={15} color="F85B73"/>} />
             <NavLink component="a" href={wikipediaUrl} rel="noreferrer" target="_blank" label="Wikipedia" icon={<FaWikipediaW size={15} />} />
             <div className={`${styles.LikesIcon} ${styles.HeartAnimation}`}></div>
           </div>
