@@ -173,10 +173,11 @@ function App() {
       <div className='App'>
         <AppShell
           navbar={<Navbar width={{ base: 200 }}>
-            <SearchBox onChange={_.debounce((e) => handleChange(e), 500)} />
             <Sidebar setSearchAnime={setSEARCH_ANIME} setNowPage={setNowPage} inputAnime={inputAnime} />
           </Navbar>}
-          header={<Header height={60}><SiteTitle /></Header>}>
+          header={<Header height={60}>
+                  <SiteTitle onChange={_.debounce((e) => handleChange(e), 500)}/>
+                  </Header>}>
           <div className="main">
             <div className='animebox'>
               <div className='animes'>

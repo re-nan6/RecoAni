@@ -1,6 +1,12 @@
 .logo {
-    margin-bottom: 20px;
+    margin-top: 7px;
     font-size:60px;
     font-weight:4;
+    margin-left: 20px;
     text-align: center;
+}
+
+.right {
+    margin-top: 7px;
+    margin-right: 20px;
 }
