@@ -1,18 +1,16 @@
-import React from 'react'
+import React from 'react';
 import styles from './siteTitle.module.css';
-import LinkButton from './linkButton';
 import { Title } from '@mantine/core';
 import { AiOutlineSearch, AiFillGithub } from 'react-icons/ai';
 import { Input ,Group } from '@mantine/core';
 import { ActionIcon, Image } from '@mantine/core';
-//サイトタイトルのコンポーネント
-//フォント・サイズの設定したい
-//ロゴとかもほしいかも
 
+//サイトタイトルのコンポーネント
+//@param onChange - 検索ボックスの中身が変更されたときに実行する関数
 //@return サイトのタイトルが表示される
 
 type Props = {
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const SiteTitle: React.FC<Props> = ({onChange}) => {

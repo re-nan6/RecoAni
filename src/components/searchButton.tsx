@@ -1,5 +1,4 @@
-import React from 'react'
-import styles from './searchButton.module.css';
+import React from 'react';
 import { Button } from '@mantine/core';
 
 //検索ボタンのコンポーネント

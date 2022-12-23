@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './sidebar.module.css';
-import { RiVipCrownFill } from 'react-icons/ri'
-import {HiFire} from 'react-icons/hi'
-import { GiPalmTree } from 'react-icons/gi'
+import { RiVipCrownFill } from 'react-icons/ri';
+import {HiFire} from 'react-icons/hi';
+import { GiPalmTree } from 'react-icons/gi';
 import {gql, DocumentNode, LazyQueryHookOptions, OperationVariables, QueryResult} from '@apollo/client';
 
 //サイドバーのコンポーネント
@@ -16,7 +16,7 @@ import {gql, DocumentNode, LazyQueryHookOptions, OperationVariables, QueryResult
 type Props = {
   setSearchAnime:React.Dispatch<React.SetStateAction<DocumentNode>>;
   setNowPage:React.Dispatch<React.SetStateAction<number>>;
-  inputAnime:(options?: Partial<LazyQueryHookOptions<any, OperationVariables>> | undefined) => Promise<QueryResult<any, OperationVariables>>
+  inputAnime:(options?: Partial<LazyQueryHookOptions<any, OperationVariables>> | undefined) => Promise<QueryResult<any, OperationVariables>>;
 }
 
 const Sidebar: React.FC<Props> = ({setSearchAnime,setNowPage,inputAnime}) => {
@@ -74,7 +74,7 @@ const Sidebar: React.FC<Props> = ({setSearchAnime,setNowPage,inputAnime}) => {
     setNowPage(1);
   }
   return (
-    <div className={styles.box}>
+    <div>
       <ul>
         <li className={styles.row} onClick={() => seasonAnimeDisplay("2022-autumn")}>
           <div className={styles.icon}><HiFire/></div>

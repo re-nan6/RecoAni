@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styles from './recommendCard.module.css';
 import LinkButton from './linkButton';
-import { CgWebsite } from 'react-icons/cg';
 import { FiMonitor } from 'react-icons/fi';
 import { FaTwitter, FaWikipediaW } from 'react-icons/fa';
-import { RiCharacterRecognitionFill } from 'react-icons/ri'
+import { RiCharacterRecognitionFill } from 'react-icons/ri';
 import { Carousel } from '@mantine/carousel';
 import { Badge, Card, Group, Image, Stack, Text } from '@mantine/core';
 
@@ -44,7 +43,7 @@ interface Url{
 
 const RecommendCard: React.FC<Props> = ({annictId,title,malAnimeId,officialSiteUrl,twitterUsername,wikipediaUrl,recommendImgUrl,facebookImgUrl,seasonName,seasonYear}) => {
   const [animePvList,setAnimePvList] = useState<Array<Url|null>>([]);
-  const [malImage,setMalImage] = useState<string>(`${process.env.PUBLIC_URL}/noimage.png`)
+  const [malImage,setMalImage] = useState<string>(`${process.env.PUBLIC_URL}/noimage.png`);
 
   //PVと画像のURLを取得するAPIを実行
   useEffect(() => {
@@ -52,8 +51,8 @@ const RecommendCard: React.FC<Props> = ({annictId,title,malAnimeId,officialSiteU
       const response = await fetch(`https://dev-recoani-d6gutf2s.onrender.com/api/mal/pv?malAnimeId=${param}`,{
         method:'GET',})
         if (!response.ok){
-          const err = await response.json()
-          throw new Error(err)
+          const err = await response.json();
+          throw new Error(err);
         }
       const data = await response.json();
       const PvList = data.data;
@@ -61,14 +60,14 @@ const RecommendCard: React.FC<Props> = ({annictId,title,malAnimeId,officialSiteU
       const response2 = await fetch(`https://dev-recoani-d6gutf2s.onrender.com/api/mal/image?malAnimeId=${malAnimeId}`,{
         method:'GET',})
         if (!response2.ok){
-          const err = await response2.json()
-          throw new Error(err)
+          const err = await response2.json();
+          throw new Error(err);
         }
       const data2 = await response2.json();
-      const url = data2.data[0]['url']
-      setMalImage(url)
+      const url = data2.data[0]['url'];
+      setMalImage(url);
     }
-    access_api(malAnimeId)
+    access_api(malAnimeId);
     },[malAnimeId])
   return (
     <div className={styles.card}>
@@ -97,7 +96,7 @@ const RecommendCard: React.FC<Props> = ({annictId,title,malAnimeId,officialSiteU
           ))})}
           {(!recommendImgUrl && !facebookImgUrl && animePvList.length === 0) && <Carousel.Slide><Image height={360} withPlaceholder/></Carousel.Slide>}
           </Carousel>
-          <div className={styles.sideBar}>
+          <div>
             <Stack align="center" justify="flex-start">
               <LinkButton label='公式サイト' href={officialSiteUrl}>
                <FiMonitor/>

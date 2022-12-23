@@ -6,7 +6,6 @@ import SearchButton from './components/searchButton';
 import Sidebar from './components/sidebar';
 import SiteTitle from './components/siteTitle';
 import { CustomFont } from './components/customFont';
-import Anime from './anime.json';
 import { MdDeleteForever } from 'react-icons/md';
 import _ from 'lodash';
 import { gql, useLazyQuery, DocumentNode } from '@apollo/client';
@@ -26,19 +25,13 @@ function App() {
 
   //annictAPIから受け取れるjsonファイルの中身の型定義
   interface animeInterface {
-    __typename: string
-    annictId: number
-    malAnimeId: string
-    officialSiteUrl: string
-    title: string
-    twitterUsername: string
-    wikipediaUrl:string
-  }
-
-  //検索前に表示するアニメのリストを作成
-  const initial_anime = [];
-  for (let i = 0; i < Anime.searchWorks.nodes.length; i++) {
-    initial_anime.push(Anime.searchWorks.nodes[i]);
+    __typename: string;
+    annictId: number;
+    malAnimeId: string;
+    officialSiteUrl: string;
+    title: string;
+    twitterUsername: string;
+    wikipediaUrl:string;
   }
 
   //レコメンド結果表示に必要なフラグの定義
@@ -58,7 +51,7 @@ function App() {
   query {
     searchWorks(
       orderBy: { field: WATCHERS_COUNT, direction: DESC },
-      first: 10,
+      first: 12,
       titles: []
     ) {
         nodes {
@@ -82,7 +75,7 @@ function App() {
     query {
       searchWorks(
         orderBy: { field: WATCHERS_COUNT, direction: DESC },
-        first: 20,
+        first: 24,
         titles: ["${value}"]
       ) {
           nodes {
@@ -142,16 +135,14 @@ function App() {
   //検索した結果出てきたアニメの情報をリストに格納してる
   const makeAnimeList = () => {
     if (data) {
-      console.log(data)
       const li = [];
       for (let i = 0; i < data.searchWorks.nodes.length; i++) {
         li.push(data.searchWorks.nodes[i]);
       }
       setAnimeList(li);
       const lenAnimeList = li.length;
-      setNumPage((lenAnimeList > 10) ? Math.ceil(lenAnimeList / 10) : 0)
-      setDisplayAnimeList(li.slice(0, 10))
-      console.log(animeList)
+      setNumPage((lenAnimeList > 12) ? Math.ceil(lenAnimeList / 12) : 0);
+      setDisplayAnimeList(li.slice(0, 12));
     }else{
       inputAnime();
     }
@@ -159,14 +150,14 @@ function App() {
 
   //ページ遷移をした際の処理
   const changePage = (page: number) => {
-    const end = (page) * 10;
-    const start = end - 10;
+    const end = (page) * 12;
+    const start = end - 12;
     setNowPage(page);
     setDisplayAnimeList(animeList.slice(start, end));
   }
 
   //data(graphQLの実行結果)の値が変わる度にmakeAnimeList関数が実行される
-  useEffect(makeAnimeList, [data])
+  useEffect(makeAnimeList, [data]);
 
   return (
     <MantineProvider
@@ -175,7 +166,7 @@ function App() {
      }}>
       <CustomFont/>
       <QueryClientProvider client={queryClient}>
-        <div className='App'>
+        <div>
           <AppShell
             navbar={<Navbar width={{ base: 200 }}>
               <Sidebar setSearchAnime={setSEARCH_ANIME} setNowPage={setNowPage} inputAnime={inputAnime} />
@@ -185,13 +176,11 @@ function App() {
                     </Header>}>
             <div className="main">
               <div className='animebox'>
-                <div className='animes'>
-                  {displayAnimeList.map((info, index) => {
+                  {displayAnimeList.map((info) => {
                     return (
                       <MalCard annictID={info.annictId} malAnimeId={info.malAnimeId} officialSiteUrl={info.officialSiteUrl} animeTitle={info.title} twitterUsername={info.twitterUsername} wikipediaUrl={info.wikipediaUrl} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={info.annictId} />
                     )
                   })}
-                </div>
                 <Pagination total={numPage} position="center" onChange={(page: number) => changePage(page)} page={nowPage} />
               </div>
               <div className='text'>

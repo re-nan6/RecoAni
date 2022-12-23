@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import styles from './malCard.module.css';
-import { CgWebsite } from 'react-icons/cg';
 import { FiMonitor } from 'react-icons/fi';
 import { FaTwitter, FaWikipediaW } from 'react-icons/fa';
-import { RiCharacterRecognitionFill } from 'react-icons/ri'
-import { Card, Group, Image, NavLink, Text, Tooltip } from '@mantine/core'
+import { RiCharacterRecognitionFill } from 'react-icons/ri';
+import { Card, Group, Image, NavLink, Text, Tooltip } from '@mantine/core';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 
@@ -17,6 +16,7 @@ import axios from 'axios';
 //@param officialSiteUrl - 公式サイトのURL
 //@param animeTitle - そのアニメのタイトル
 //@param twitterUsername - twitterのURL
+//@param wikipediaUrl - wikipediaのURL
 //@param value - そのラベルが持つ値
 //@param onChange - そのアニメカードが選択されたときに行う処理
 //@param checked - 選択されているかいないかのフラッグ
@@ -39,7 +39,7 @@ const MalCard: React.FC<Props> = ({ annictID, malAnimeId, officialSiteUrl, anime
   const [imgUrl, setImgUrl] = useState<string>(`${process.env.PUBLIC_URL}/noimage.png`)
   const ID = String(annictID);
   const twitterLink = `https://twitter.com/${twitterUsername}`;
-  const annictLink = "https://annict.com/works/" + annictID;
+  const annictLink = `https://annict.com/works/${annictID}`;
   //画像取得を行うAPIの実行
   const getMalurl = async () => {
     const data = await axios.get(`https://dev-recoani-d6gutf2s.onrender.com/api/mal/image?malAnimeId=${malAnimeId}`, {
@@ -57,7 +57,6 @@ const MalCard: React.FC<Props> = ({ annictID, malAnimeId, officialSiteUrl, anime
     })
   }
   const { status, data } = useQueryMalurl()
-  console.log(status)
 
   useEffect(() => {
     if (data) {

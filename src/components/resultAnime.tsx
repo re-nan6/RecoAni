@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import {gql, useLazyQuery, DocumentNode} from '@apollo/client';
 import styles from './resultAnime.module.css';
-import RecommendCard from './recommendCard'
+import RecommendCard from './recommendCard';
 
 //レコメンド結果一覧を表示するためのコンポーネント
 //何も選択していない場合にレコメンド結果を表示しないように例外処理してない？
@@ -12,8 +12,8 @@ import RecommendCard from './recommendCard'
 //@return フラグがfalseの場合 - 何も表示しない
 
 type Props = {
-  pushCount:number
-  likeList:Array<string>
+  pushCount:number;
+  likeList:Array<string>;
 }
 
 //自作APIから受け取れるjsonファイルの型定義
@@ -24,24 +24,24 @@ interface recommendInterface {
 
 //annictAPIから受け取れるjsonファイルの中身の型定義の一部
 interface imageInterface {
-  __typename:string
-  facebookOgImageUrl:string|undefined
-  recommendedImageUrl:string|undefined
+  __typename:string;
+  facebookOgImageUrl:string|undefined;
+  recommendedImageUrl:string|undefined;
 }
 
 //annictAPIから受け取れるjsonファイルの中身の型定義
 interface animeInterface{
-  __typename: string
-  annictId:number
-  malAnimeId:string
-  officialSiteUrl:string
-  title: string
-  twitterUsername: string
-  media: string
-  wikipediaUrl:string
-  seasonName:string
+  __typename: string;
+  annictId:number;
+  malAnimeId:string;
+  officialSiteUrl:string;
+  title: string;
+  twitterUsername: string;
+  media: string;
+  wikipediaUrl:string;
+  seasonName:string;
   seasonYear:number;
-  image: imageInterface
+  image: imageInterface;
 }
 
 const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
@@ -112,8 +112,8 @@ const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
         const response = await fetch(`https://dev-recoani-d6gutf2s.onrender.com/api/recommend/overall${param}`,{
           method:'GET',})
           if (!response.ok){
-            const err = await response.json()
-            throw new Error(err)
+            const err = await response.json();
+            throw new Error(err);
           }
         const data = await response.json();
         const recommendAnimeList = data.data;
@@ -123,9 +123,9 @@ const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
       if (likeList.length !== 0){
         let param = "?"
         for (const id of likeList){
-          param += "user_likes=" + id + "&"
+          param += "user_likes=" + id + "&";
         }
-        param = param.slice(0,-1)
+        param = param.slice(0,-1);
         access_api(param);
       }
       },[pushCount])
@@ -145,12 +145,10 @@ const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
     useEffect(makeAnimeList,[data])
   return (
       <div className={clsname}>
-        <div className='animes'>
-          {animeList.map((info) => {
-            return (
-              <RecommendCard annictId={info.annictId} title={info.title} malAnimeId={info.malAnimeId} officialSiteUrl={info.officialSiteUrl} twitterUsername={info.twitterUsername} wikipediaUrl={info.wikipediaUrl} recommendImgUrl={info.image.recommendedImageUrl} facebookImgUrl={info.image.facebookOgImageUrl} seasonName={info.seasonName} seasonYear={info.seasonYear}/>
-          )})}
-        </div>
+        {animeList.map((info) => {
+          return (
+            <RecommendCard annictId={info.annictId} title={info.title} malAnimeId={info.malAnimeId} officialSiteUrl={info.officialSiteUrl} twitterUsername={info.twitterUsername} wikipediaUrl={info.wikipediaUrl} recommendImgUrl={info.image.recommendedImageUrl} facebookImgUrl={info.image.facebookOgImageUrl} seasonName={info.seasonName} seasonYear={info.seasonYear}/>
+        )})}
       </div>
   );
 };
