@@ -1,0 +1,30 @@
+.card {
+    display: inline-block;
+    position: relative;
+    width:800px;
+    padding: 0 0 10px 0;
+    margin: 15px 5px;
+}
+
+.portrait {
+    object-fit: contain;
+}
+.season {
+    position: absolute;
+    top:6px;
+    left:10px;
+}
+
+.title {
+    margin: 0 120px;
+}
+.youtube {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.youtube iframe {
+    width: 100%;
+    height: 100%;
+}
