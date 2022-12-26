@@ -29,7 +29,7 @@ type Props = {
   officialSiteUrl: string;
   animeTitle: string;
   twitterUsername: string;
-  wikipediaUrl:string;
+  wikipediaUrl: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   checked: boolean;
@@ -62,6 +62,7 @@ const MalCard: React.FC<Props> = ({ annictID, malAnimeId, officialSiteUrl, anime
     if (data) {
       setImgUrl(data.data.data[0]['url'])
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [malAnimeId, status])
 
 
@@ -78,8 +79,8 @@ const MalCard: React.FC<Props> = ({ annictID, malAnimeId, officialSiteUrl, anime
               </Text>
             </Tooltip>
             <NavLink component="a" href={officialSiteUrl} rel="noreferrer" target="_blank" label="公式サイト" icon={<FiMonitor size={15} />} />
-            <NavLink component="a" href={twitterLink} rel="noreferrer" target="_blank" label="Twitter" icon={<FaTwitter size={15} color="1D9BF0"/>} />
-            <NavLink component="a" href={annictLink} rel="noreferrer" target="_blank" label="Annict" icon={<RiCharacterRecognitionFill size={15} color="F85B73"/>} />
+            <NavLink component="a" href={twitterLink} rel="noreferrer" target="_blank" label="Twitter" icon={<FaTwitter size={15} color="1D9BF0" />} />
+            <NavLink component="a" href={annictLink} rel="noreferrer" target="_blank" label="Annict" icon={<RiCharacterRecognitionFill size={15} color="F85B73" />} />
             <NavLink component="a" href={wikipediaUrl} rel="noreferrer" target="_blank" label="Wikipedia" icon={<FaWikipediaW size={15} />} />
             <div className={`${styles.LikesIcon} ${styles.HeartAnimation}`}></div>
           </div>

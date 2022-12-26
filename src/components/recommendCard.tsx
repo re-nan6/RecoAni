@@ -90,6 +90,8 @@ const RecommendCard: React.FC<Props> = ({annictId,title,malAnimeId,officialSiteU
               <iframe src={"https://www.youtube-nocookie.com/embed/"+info.url.slice(-11)}
                       sandbox="allow-forms allow-scripts allow-pointer-lock allow-same-origin allow-top-navigation allow-presentation"
                       allowFullScreen
+                      key={info.url}
+                      title={info.url}
                       />
               </div>
             </Carousel.Slide>

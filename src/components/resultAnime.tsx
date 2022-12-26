@@ -128,7 +128,7 @@ const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
         param = param.slice(0,-1);
         access_api(param);
       }
-      },[pushCount])
+      },[pushCount, inputAnime, likeList])
 
     //検索した結果出てきたアニメの情報をリストに格納してる
     const makeAnimeList = () => {
