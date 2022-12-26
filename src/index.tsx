@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
 
-const token = process.env.REACT_APP_ACCESS_TOKEN;
+const token = process.env.ANNICT_ACCESS_TOKEN;
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: new HttpLink({
