@@ -109,7 +109,7 @@ const ResultAnime: React.FC<Props> = ({pushCount,likeList}) => {
     //おすすめのアニメを取得するためのAPIを実行
     useEffect(() => {
       const access_api = async(param:string) => {
-        const response = await fetch(`https://dev-recoani-d6gutf2s.onrender.com/api/recommend/overall${param}`,{
+        const response = await fetch(`${process.env.REACT_APP_RECOANI_API_URL}/recommend/overall${param}`,{
           method:'GET',})
           if (!response.ok){
             const err = await response.json();

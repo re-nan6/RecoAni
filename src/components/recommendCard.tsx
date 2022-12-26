@@ -48,7 +48,7 @@ const RecommendCard: React.FC<Props> = ({annictId,title,malAnimeId,officialSiteU
   //PVと画像のURLを取得するAPIを実行
   useEffect(() => {
     const access_api = async(param:string) => {
-      const response = await fetch(`https://dev-recoani-d6gutf2s.onrender.com/api/mal/pv?malAnimeId=${param}`,{
+      const response = await fetch(`${process.env.REACT_APP_RECOANI_API_URL}/mal/pv?malAnimeId=${param}`,{
         method:'GET',})
         if (!response.ok){
           const err = await response.json();
@@ -57,7 +57,7 @@ const RecommendCard: React.FC<Props> = ({annictId,title,malAnimeId,officialSiteU
       const data = await response.json();
       const PvList = data.data;
       setAnimePvList(PvList);
-      const response2 = await fetch(`https://dev-recoani-d6gutf2s.onrender.com/api/mal/image?malAnimeId=${malAnimeId}`,{
+      const response2 = await fetch(`${process.env.REACT_APP_RECOANI_API_URL}/mal/image?malAnimeId=${malAnimeId}`,{
         method:'GET',})
         if (!response2.ok){
           const err = await response2.json();
