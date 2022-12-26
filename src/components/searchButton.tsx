@@ -1,9 +1,10 @@
-import React from 'react'
-import styles from './searchButton.module.css';
+import React from 'react';
+import { Button } from '@mantine/core';
 
 //検索ボタンのコンポーネント
 //デザインを変更したい
 
+//@param onClick - ボタンが押されたときに行われる処理
 //@return 検索ボタンが表示される
 
 type Props = {
@@ -13,7 +14,9 @@ type Props = {
 const SearchButton: React.FC<Props> = ({onClick}) => {
   return (
     <div>
-      <button className={styles.btn} onClick={onClick}>おすすめのアニメを検索</button>
+      <Button variant="outline" color="gray" size="md" onClick={onClick}>
+        おすすめのアニメを検索
+      </Button>
     </div>
   );
 };
