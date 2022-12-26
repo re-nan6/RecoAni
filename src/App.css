@@ -4,6 +4,14 @@
   min-height: 100px;
 }
 
+.caution {
+  text-align: center;
+}
+
+.caution p {
+  font-size: medium;
+}
+
 .deleteBtn {
   display: inline-block;
   margin: 0 5px 0px 10px;
@@ -54,4 +62,5 @@
 
 .text {
   margin-top: 15px;
+  font-size: large;
 }

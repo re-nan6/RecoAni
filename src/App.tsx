@@ -7,9 +7,10 @@ import Sidebar from './components/sidebar';
 import SiteTitle from './components/siteTitle';
 import { CustomFont } from './components/customFont';
 import { MdDeleteForever } from 'react-icons/md';
+import { FiAlertCircle } from 'react-icons/fi';
 import _ from 'lodash';
 import { gql, useLazyQuery, DocumentNode } from '@apollo/client';
-import { AppShell, Header, Navbar, Pagination, MantineProvider } from '@mantine/core';
+import { AppShell, Alert, Header, Navbar, Pagination, MantineProvider } from '@mantine/core';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 const queryClient = new QueryClient({
@@ -31,7 +32,7 @@ function App() {
     officialSiteUrl: string;
     title: string;
     twitterUsername: string;
-    wikipediaUrl:string;
+    wikipediaUrl: string;
   }
 
   //レコメンド結果表示に必要なフラグの定義
@@ -143,7 +144,7 @@ function App() {
       const lenAnimeList = li.length;
       setNumPage((lenAnimeList > 12) ? Math.ceil(lenAnimeList / 12) : 0);
       setDisplayAnimeList(li.slice(0, 12));
-    }else{
+    } else {
       inputAnime();
     }
   }
@@ -157,14 +158,14 @@ function App() {
   }
 
   //data(graphQLの実行結果)の値が変わる度にmakeAnimeList関数が実行される
-  useEffect(makeAnimeList, [data]);
+  useEffect(makeAnimeList, [data, inputAnime]);
 
   return (
     <MantineProvider
-     theme={{
+      theme={{
         fontFamily: 'Noto Sans Japanese',
-     }}>
-      <CustomFont/>
+      }}>
+      <CustomFont />
       <QueryClientProvider client={queryClient}>
         <div>
           <AppShell
@@ -172,15 +173,15 @@ function App() {
               <Sidebar setSearchAnime={setSEARCH_ANIME} setNowPage={setNowPage} inputAnime={inputAnime} />
             </Navbar>}
             header={<Header height={60}>
-                    <SiteTitle onChange={_.debounce((e) => handleChange(e), 500)}/>
-                    </Header>}>
+              <SiteTitle onChange={_.debounce((e) => handleChange(e), 500)} />
+            </Header>}>
             <div className="main">
               <div className='animebox'>
-                  {displayAnimeList.map((info) => {
-                    return (
-                      <MalCard annictID={info.annictId} malAnimeId={info.malAnimeId} officialSiteUrl={info.officialSiteUrl} animeTitle={info.title} twitterUsername={info.twitterUsername} wikipediaUrl={info.wikipediaUrl} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={info.annictId} />
-                    )
-                  })}
+                {displayAnimeList.map((info) => {
+                  return (
+                    <MalCard annictID={info.annictId} malAnimeId={info.malAnimeId} officialSiteUrl={info.officialSiteUrl} animeTitle={info.title} twitterUsername={info.twitterUsername} wikipediaUrl={info.wikipediaUrl} value={info.title} onChange={valChange} checked={val.includes(info.title)} key={info.annictId} />
+                  )
+                })}
                 <Pagination total={numPage} position="center" onChange={(page: number) => changePage(page)} page={nowPage} />
               </div>
               <div className='text'>
@@ -200,6 +201,11 @@ function App() {
               </div>
               <SearchButton onClick={valDisplay} />
               <ResultAnime pushCount={pushCount} likeList={likeId} />
+            </div>
+            <div className='caution'>
+              <Alert icon={<FiAlertCircle size={16} />} title="注意" color="red">
+              <p>このサイトはAnnictAPIを用いてレビューの評価をもとに学習を行い、レコメンド結果を表示しています。結果が期待にそぐわない可能性があります。</p>
+              </Alert>
             </div>
           </AppShell>
         </div>
