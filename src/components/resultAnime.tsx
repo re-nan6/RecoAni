@@ -129,7 +129,8 @@ const ResultAnime: React.FC<Props> = ({ pushCount, likeList }) => {
       param = param.slice(0, -1);
       access_api(param);
     }
-  }, [pushCount, inputAnime, likeList])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pushCount])
 
   //検索した結果出てきたアニメの情報をリストに格納してる
   const makeAnimeList = () => {
