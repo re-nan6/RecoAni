@@ -18,6 +18,12 @@ Annictユーザーのアニメレビュー評価をもとに、アニメのレ�
 
 ![RecoAni2](https://user-images.githubusercontent.com/67001442/210781050-cc15038d-a093-437f-bfcc-851cab283f73.png)
 
+## バックエンド部分
+
+[RecoAni-API](https://github.com/fastsnowy/RecoAni-API)
+
+レコメンド結果の取得やアニメ画像・PV取得はこちらで行っています。
+
 ## コントリビューター
 
 <table>
