@@ -204,7 +204,7 @@ function App() {
             </div>
             <div className='caution'>
               <Alert icon={<FiAlertCircle size={16} />} title="注意" color="red">
-              <p>このサイトはAnnictAPIを用いてレビューの評価をもとに学習を行い、レコメンド結果を表示しています。結果が期待にそぐわない可能性があります。</p>
+              <p>このサイトはAnnictAPIのレビュー評価をもとに学習を行い、レコメンド結果を表示しています。結果は期待にそぐわない可能性があります。</p>
               </Alert>
             </div>
           </AppShell>
