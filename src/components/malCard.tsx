@@ -44,6 +44,7 @@ const MalCard: React.FC<Props> = ({ annictID, malAnimeId, officialSiteUrl, anime
   const getMalurl = async () => {
     const data = await axios.get(`${process.env.REACT_APP_RECOANI_API_URL}/mal/image?malAnimeId=${malAnimeId}`, {
       method: 'GET',
+      headers: { Accept: "application/json" },
     })
     return data
   }
