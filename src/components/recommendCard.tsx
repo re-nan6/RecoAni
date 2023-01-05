@@ -82,8 +82,9 @@ const RecommendCard: React.FC<Props> = ({ annictId, title, malAnimeId, officialS
         </Card.Section>
         <Group noWrap spacing={0}>
           <Carousel sx={{ width: 712 }} mx="auto" withIndicators loop height={400} initialSlide={1}>
-            {recommendImgUrl && <Carousel.Slide><Image src={recommendImgUrl} height={360} withPlaceholder placeholder={<div className={styles.portrait}><Image src={malImage} withPlaceholder fit='contain' /></div>} /></Carousel.Slide>}
-            {(!recommendImgUrl && facebookImgUrl) && <Carousel.Slide><Image src={facebookImgUrl} height={360} withPlaceholder placeholder={<div className={styles.portrait}><Image src={malImage} withPlaceholder fit='contain' /></div>} /></Carousel.Slide>}
+            {recommendImgUrl && <Carousel.Slide><Image src={recommendImgUrl} height={400} withPlaceholder placeholder={<div className={styles.portrait}><Image src={malImage} withPlaceholder fit='contain' /></div>} /></Carousel.Slide>}
+            {(!recommendImgUrl && facebookImgUrl) && <Carousel.Slide><Image src={facebookImgUrl} height={400} withPlaceholder placeholder={<div className={styles.portrait}><Image src={malImage} withPlaceholder fit='contain' /></div>} /></Carousel.Slide>}
+            {(!recommendImgUrl && !facebookImgUrl) && <Carousel.Slide><Image src={malImage} height={400} withPlaceholder fit='contain'/></Carousel.Slide>}
             {animePvList.map((info) => {
               return (
                 info && (
