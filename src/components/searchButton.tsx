@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button } from '@mantine/core';
+import React from "react";
+import { Button } from "@mantine/core";
 
 //検索ボタンのコンポーネント
 //デザインを変更したい
@@ -8,10 +8,10 @@ import { Button } from '@mantine/core';
 //@return 検索ボタンが表示される
 
 type Props = {
-  onClick:() => void[];
-}
+  onClick: () => void[];
+};
 
-const SearchButton: React.FC<Props> = ({onClick}) => {
+const SearchButton: React.FC<Props> = ({ onClick }) => {
   return (
     <div>
       <Button variant="outline" color="gray" size="md" onClick={onClick}>
@@ -21,4 +21,4 @@ const SearchButton: React.FC<Props> = ({onClick}) => {
   );
 };
 
-export default SearchButton
+export default SearchButton;

@@ -1,6 +1,6 @@
-import React, { ReactNode } from 'react';
-import styles from './linkButton.module.css';
-import { Avatar,Tooltip } from '@mantine/core';
+import React, { ReactNode } from "react";
+import styles from "./linkButton.module.css";
+import { Avatar, Tooltip } from "@mantine/core";
 
 //レコメンドカード内のボタンのコンポーネント
 
@@ -10,27 +10,25 @@ import { Avatar,Tooltip } from '@mantine/core';
 //@return アイコンのみのボタンが表示される
 
 type Props = {
-  label:string;
-  href:string;
-  children:ReactNode;
-}
+  label: string;
+  href: string;
+  children: ReactNode;
+};
 
-const LinkButton: React.FC<Props> = ({label,href,children}) => {
+const LinkButton: React.FC<Props> = ({ label, href, children }) => {
   return (
-    <Tooltip
-      label={label}
-      position='right'
-      withArrow>
+    <Tooltip label={label} position="right" withArrow>
       <Avatar
-        component='a'
+        component="a"
         href={href}
         target="_blank"
         size="lg"
-        className={styles.sideButton}>
-         {children}
+        className={styles.sideButton}
+      >
+        {children}
       </Avatar>
     </Tooltip>
   );
 };
 
-export default LinkButton
+export default LinkButton;

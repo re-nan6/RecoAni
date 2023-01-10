@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import styles from './recommendCard.module.css';
-import LinkButton from './linkButton';
-import { FiMonitor } from 'react-icons/fi';
-import { FaTwitter, FaWikipediaW } from 'react-icons/fa';
-import { RiCharacterRecognitionFill } from 'react-icons/ri';
-import { Carousel } from '@mantine/carousel';
-import { Badge, Card, Group, Image, Stack, Text } from '@mantine/core';
+import React, { useEffect, useState } from "react";
+import styles from "./recommendCard.module.css";
+import LinkButton from "./linkButton";
+import { FiMonitor } from "react-icons/fi";
+import { FaTwitter, FaWikipediaW } from "react-icons/fa";
+import { RiCharacterRecognitionFill } from "react-icons/ri";
+import { Carousel } from "@mantine/carousel";
+import { Badge, Card, Group, Image, Stack, Text } from "@mantine/core";
 
 //レコメンド結果を表示するカードのコンポーネント
 //例外処理まだ設定できてない(画像関連・画像とPV両方がない場合)
@@ -34,23 +34,40 @@ type Props = {
   facebookImgUrl: string | undefined;
   seasonName: string;
   seasonYear: number;
-}
+};
 
 //自作APIから受け取れるjsonファイルの型定義
 interface Url {
   url: string;
 }
 
-const RecommendCard: React.FC<Props> = ({ annictId, title, malAnimeId, officialSiteUrl, twitterUsername, wikipediaUrl, recommendImgUrl, facebookImgUrl, seasonName, seasonYear }) => {
+const RecommendCard: React.FC<Props> = ({
+  annictId,
+  title,
+  malAnimeId,
+  officialSiteUrl,
+  twitterUsername,
+  wikipediaUrl,
+  recommendImgUrl,
+  facebookImgUrl,
+  seasonName,
+  seasonYear,
+}) => {
   const [animePvList, setAnimePvList] = useState<Array<Url | null>>([]);
-  const [malImage, setMalImage] = useState<string>(`${process.env.PUBLIC_URL}/noimage.png`);
+  const [malImage, setMalImage] = useState<string>(
+    `${process.env.PUBLIC_URL}/noimage.png`
+  );
 
   //PVと画像のURLを取得するAPIを実行
   useEffect(() => {
     const access_api = async (param: string) => {
-      const response = await fetch(`${process.env.REACT_APP_RECOANI_API_URL}/mal/pv?malAnimeId=${param}`, {
-        method: 'GET', headers: { Accept: "application/json" },
-      })
+      const response = await fetch(
+        `${process.env.REACT_APP_RECOANI_API_URL}/mal/pv?malAnimeId=${param}`,
+        {
+          method: "GET",
+          headers: { Accept: "application/json" },
+        }
+      );
       if (!response.ok) {
         const err = await response.json();
         throw new Error(err);
@@ -58,39 +75,93 @@ const RecommendCard: React.FC<Props> = ({ annictId, title, malAnimeId, officialS
       const data = await response.json();
       const PvList = data.data;
       setAnimePvList(PvList);
-      const response2 = await fetch(`${process.env.REACT_APP_RECOANI_API_URL}/mal/image?malAnimeId=${malAnimeId}`, {
-        method: 'GET', headers: { Accept: "application/json" },
-      })
+      const response2 = await fetch(
+        `${process.env.REACT_APP_RECOANI_API_URL}/mal/image?malAnimeId=${malAnimeId}`,
+        {
+          method: "GET",
+          headers: { Accept: "application/json" },
+        }
+      );
       if (!response2.ok) {
         const err = await response2.json();
         throw new Error(err);
       }
       const data2 = await response2.json();
-      const url = data2.data[0]['url'];
+      const url = data2.data[0]["url"];
       setMalImage(url);
-    }
+    };
     access_api(malAnimeId);
-  }, [malAnimeId])
+  }, [malAnimeId]);
   return (
     <div className={styles.card}>
       <Card withBorder radius="md" p={0} shadow="sm">
         <Card.Section withBorder>
-          <Badge className={styles.season}>{seasonYear}-{seasonName}</Badge>
+          <Badge className={styles.season}>
+            {seasonYear}-{seasonName}
+          </Badge>
           <div className={styles.title}>
-            <Text weight={500} size="xl">{title}</Text>
+            <Text weight={500} size="xl">
+              {title}
+            </Text>
           </div>
         </Card.Section>
         <Group noWrap spacing={0}>
-          <Carousel sx={{ width: 712 }} mx="auto" withIndicators loop height={400} initialSlide={1}>
-            {recommendImgUrl && <Carousel.Slide><Image src={recommendImgUrl} height={400} withPlaceholder placeholder={<div className={styles.portrait}><Image src={malImage} withPlaceholder fit='contain' /></div>} /></Carousel.Slide>}
-            {(!recommendImgUrl && facebookImgUrl) && <Carousel.Slide><Image src={facebookImgUrl} height={400} withPlaceholder placeholder={<div className={styles.portrait}><Image src={malImage} withPlaceholder fit='contain' /></div>} /></Carousel.Slide>}
-            {(!recommendImgUrl && !facebookImgUrl) && <Carousel.Slide><Image src={malImage} height={400} withPlaceholder fit='contain'/></Carousel.Slide>}
+          <Carousel
+            sx={{ width: 712 }}
+            mx="auto"
+            withIndicators
+            loop
+            height={400}
+            initialSlide={1}
+          >
+            {recommendImgUrl && (
+              <Carousel.Slide>
+                <Image
+                  src={recommendImgUrl}
+                  height={400}
+                  withPlaceholder
+                  placeholder={
+                    <div className={styles.portrait}>
+                      <Image src={malImage} withPlaceholder fit="contain" />
+                    </div>
+                  }
+                />
+              </Carousel.Slide>
+            )}
+            {!recommendImgUrl && facebookImgUrl && (
+              <Carousel.Slide>
+                <Image
+                  src={facebookImgUrl}
+                  height={400}
+                  withPlaceholder
+                  placeholder={
+                    <div className={styles.portrait}>
+                      <Image src={malImage} withPlaceholder fit="contain" />
+                    </div>
+                  }
+                />
+              </Carousel.Slide>
+            )}
+            {!recommendImgUrl && !facebookImgUrl && (
+              <Carousel.Slide>
+                <Image
+                  src={malImage}
+                  height={400}
+                  withPlaceholder
+                  fit="contain"
+                />
+              </Carousel.Slide>
+            )}
             {animePvList.map((info) => {
               return (
                 info && (
                   <Carousel.Slide>
                     <div className={styles.youtube}>
-                      <iframe src={"https://www.youtube-nocookie.com/embed/" + info.url.slice(-11)}
+                      <iframe
+                        src={
+                          "https://www.youtube-nocookie.com/embed/" +
+                          info.url.slice(-11)
+                        }
                         sandbox="allow-forms allow-scripts allow-pointer-lock allow-same-origin allow-top-navigation allow-presentation"
                         allowFullScreen
                         key={info.url}
@@ -98,22 +169,35 @@ const RecommendCard: React.FC<Props> = ({ annictId, title, malAnimeId, officialS
                       />
                     </div>
                   </Carousel.Slide>
-                ))
+                )
+              );
             })}
-            {(!recommendImgUrl && !facebookImgUrl && animePvList.length === 0) && <Carousel.Slide><Image height={360} withPlaceholder /></Carousel.Slide>}
+            {!recommendImgUrl &&
+              !facebookImgUrl &&
+              animePvList.length === 0 && (
+                <Carousel.Slide>
+                  <Image height={360} withPlaceholder />
+                </Carousel.Slide>
+              )}
           </Carousel>
           <div>
             <Stack align="center" justify="flex-start">
-              <LinkButton label='公式サイト' href={officialSiteUrl}>
+              <LinkButton label="公式サイト" href={officialSiteUrl}>
                 <FiMonitor />
               </LinkButton>
-              <LinkButton label='Twitter' href={`https://twitter.com/${twitterUsername}`}>
+              <LinkButton
+                label="Twitter"
+                href={`https://twitter.com/${twitterUsername}`}
+              >
                 <FaTwitter />
               </LinkButton>
-              <LinkButton label='Annict' href={"https://annict.com/works/" + annictId}>
+              <LinkButton
+                label="Annict"
+                href={"https://annict.com/works/" + annictId}
+              >
                 <RiCharacterRecognitionFill />
               </LinkButton>
-              <LinkButton label='Wikipedia' href={wikipediaUrl}>
+              <LinkButton label="Wikipedia" href={wikipediaUrl}>
                 <FaWikipediaW />
               </LinkButton>
             </Stack>
@@ -124,4 +208,4 @@ const RecommendCard: React.FC<Props> = ({ annictId, title, malAnimeId, officialS
   );
 };
 
-export default RecommendCard
+export default RecommendCard;
