@@ -5,7 +5,17 @@ import { FiMonitor } from "react-icons/fi";
 import { FaTwitter, FaWikipediaW } from "react-icons/fa";
 import { RiCharacterRecognitionFill } from "react-icons/ri";
 import { Carousel } from "@mantine/carousel";
-import { Badge, Card, Group, Image, Stack, Text } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
+import {
+  Badge,
+  Card,
+  Group,
+  Image,
+  Stack,
+  Text,
+  AspectRatio,
+  Button,
+} from "@mantine/core";
 
 //レコメンド結果を表示するカードのコンポーネント
 //例外処理まだ設定できてない(画像関連・画像とPV両方がない場合)
@@ -92,119 +102,136 @@ const RecommendCard: React.FC<Props> = ({
     };
     access_api(malAnimeId);
   }, [malAnimeId]);
+  const responsiveMatches = useMediaQuery("(min-width: 900px)");
   return (
-    <div className={styles.card}>
-      <Card withBorder radius="md" p={0} shadow="sm">
-        <Card.Section withBorder>
-          <Badge className={styles.season}>
-            {seasonYear}-{seasonName}
-          </Badge>
-          <div className={styles.title}>
-            <Text weight={500} size="xl">
-              {title}
-            </Text>
-          </div>
-        </Card.Section>
-        <Group noWrap spacing={0}>
-          <Carousel
-            sx={{ width: 712 }}
-            mx="auto"
-            withIndicators
-            loop
-            height={400}
-            initialSlide={1}
-          >
-            {recommendImgUrl && (
-              <Carousel.Slide>
-                <Image
-                  src={recommendImgUrl}
-                  height={400}
-                  withPlaceholder
-                  placeholder={
-                    <div className={styles.portrait}>
-                      <Image src={malImage} withPlaceholder fit="contain" />
-                    </div>
-                  }
-                />
-              </Carousel.Slide>
-            )}
-            {!recommendImgUrl && facebookImgUrl && (
-              <Carousel.Slide>
-                <Image
-                  src={facebookImgUrl}
-                  height={400}
-                  withPlaceholder
-                  placeholder={
-                    <div className={styles.portrait}>
-                      <Image src={malImage} withPlaceholder fit="contain" />
-                    </div>
-                  }
-                />
-              </Carousel.Slide>
-            )}
-            {!recommendImgUrl && !facebookImgUrl && (
-              <Carousel.Slide>
-                <Image
-                  src={malImage}
-                  height={400}
-                  withPlaceholder
-                  fit="contain"
-                />
-              </Carousel.Slide>
-            )}
-            {animePvList.map((info) => {
-              return (
-                info && (
-                  <Carousel.Slide>
-                    <div className={styles.youtube}>
-                      <iframe
-                        src={
-                          "https://www.youtube-nocookie.com/embed/" +
-                          info.url.slice(-11)
-                        }
-                        sandbox="allow-forms allow-scripts allow-pointer-lock allow-same-origin allow-top-navigation allow-presentation"
-                        allowFullScreen
-                        key={info.url}
-                        title={info.url}
-                      />
-                    </div>
-                  </Carousel.Slide>
-                )
-              );
-            })}
-            {!recommendImgUrl &&
-              !facebookImgUrl &&
-              animePvList.length === 0 && (
-                <Carousel.Slide>
-                  <Image height={360} withPlaceholder />
+    <Card withBorder radius="md" p={0} shadow="sm" key={malAnimeId}>
+      <Card.Section withBorder>
+        <Badge radius="xs" py={2} mx={4}>
+          {seasonYear}-{seasonName}
+        </Badge>
+        <Text weight={500} size="xl" ta="left" m="xs">
+          {title}
+        </Text>
+      </Card.Section>
+      <AspectRatio ratio={16 / 9}>
+        <Carousel
+          sx={{ width: 712 }}
+          mx="auto"
+          height={400}
+          withIndicators
+          loop
+          initialSlide={1}
+        >
+          {recommendImgUrl && (
+            <Carousel.Slide key={recommendImgUrl}>
+              <Image
+                src={recommendImgUrl}
+                withPlaceholder
+                height={400}
+                placeholder={
+                  <div className={styles.portrait}>
+                    <Image src={malImage} withPlaceholder fit="contain" />
+                  </div>
+                }
+              />
+            </Carousel.Slide>
+          )}
+          {!recommendImgUrl && facebookImgUrl && (
+            <Carousel.Slide key={facebookImgUrl}>
+              <Image
+                src={facebookImgUrl}
+                height={400}
+                withPlaceholder
+                placeholder={
+                  <div className={styles.portrait}>
+                    <Image src={malImage} withPlaceholder fit="contain" />
+                  </div>
+                }
+              />
+            </Carousel.Slide>
+          )}
+          {!recommendImgUrl && !facebookImgUrl && (
+            <Carousel.Slide key={malImage}>
+              <Image
+                src={malImage}
+                height={400}
+                withPlaceholder
+                fit="contain"
+              />
+            </Carousel.Slide>
+          )}
+          {animePvList.map((info) => {
+            return (
+              info && (
+                <Carousel.Slide key={info.url.slice(-11)}>
+                  <div className={styles.youtube}>
+                    <iframe
+                      src={
+                        "https://www.youtube-nocookie.com/embed/" +
+                        info.url.slice(-11)
+                      }
+                      sandbox="allow-scripts allow-same-origin allow-popups allow-presentation"
+                      allowFullScreen
+                      key={info.url}
+                      title={info.url}
+                    />
+                  </div>
                 </Carousel.Slide>
-              )}
-          </Carousel>
-          <div>
-            <Stack align="center" justify="flex-start">
-              <LinkButton label="公式サイト" href={officialSiteUrl}>
-                <FiMonitor />
-              </LinkButton>
-              <LinkButton
-                label="Twitter"
-                href={`https://twitter.com/${twitterUsername}`}
-              >
-                <FaTwitter />
-              </LinkButton>
-              <LinkButton
-                label="Annict"
-                href={"https://annict.com/works/" + annictId}
-              >
-                <RiCharacterRecognitionFill />
-              </LinkButton>
-              <LinkButton label="Wikipedia" href={wikipediaUrl}>
-                <FaWikipediaW />
-              </LinkButton>
-            </Stack>
-          </div>
+              )
+            );
+          })}
+          {!recommendImgUrl && !facebookImgUrl && animePvList.length === 0 && (
+            <Carousel.Slide key="noimage">
+              <Image height={360} withPlaceholder />
+            </Carousel.Slide>
+          )}
+        </Carousel>
+      </AspectRatio>
+      <Card.Section>
+        <Group position="center">
+          <LinkButton
+            label="公式サイト"
+            href={officialSiteUrl}
+            matches={responsiveMatches}
+          >
+            <FiMonitor />
+            <Text hidden={!responsiveMatches} px={3}>
+              公式サイト
+            </Text>
+          </LinkButton>
+          <LinkButton
+            label="Twitter"
+            href={`https://twitter.com/${twitterUsername}`}
+            matches={responsiveMatches}
+          >
+            <FaTwitter />
+            <Text hidden={!responsiveMatches} px={3}>
+              Twitter
+            </Text>
+          </LinkButton>
+          <LinkButton
+            label="Annict"
+            href={"https://annict.com/works/" + annictId}
+            matches={responsiveMatches}
+          >
+            <RiCharacterRecognitionFill />
+            <Text hidden={!responsiveMatches} px={3}>
+              Annict
+            </Text>
+          </LinkButton>
+          <LinkButton
+            label="Wikipedia"
+            href={wikipediaUrl}
+            matches={responsiveMatches}
+          >
+            <FaWikipediaW />
+            <Text hidden={!responsiveMatches} px={3}>
+              Wikipedia
+            </Text>
+          </LinkButton>
         </Group>
-      </Card>
-    </div>
+      </Card.Section>
+    </Card>
   );
 };
 

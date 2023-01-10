@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { gql, useLazyQuery, DocumentNode } from "@apollo/client";
 import styles from "./resultAnime.module.css";
 import RecommendCard from "./recommendCard";
+import { Center, SimpleGrid } from "@mantine/core";
 
 //レコメンド結果一覧を表示するためのコンポーネント
 //何も選択していない場合にレコメンド結果を表示しないように例外処理してない？
@@ -149,22 +150,27 @@ const ResultAnime: React.FC<Props> = ({ pushCount, likeList }) => {
   useEffect(makeAnimeList, [data]);
   return (
     <div className={clsname}>
-      {animeList.map((info) => {
-        return (
-          <RecommendCard
-            annictId={info.annictId}
-            title={info.title}
-            malAnimeId={info.malAnimeId}
-            officialSiteUrl={info.officialSiteUrl}
-            twitterUsername={info.twitterUsername}
-            wikipediaUrl={info.wikipediaUrl}
-            recommendImgUrl={info.image.recommendedImageUrl}
-            facebookImgUrl={info.image.facebookOgImageUrl}
-            seasonName={info.seasonName}
-            seasonYear={info.seasonYear}
-          />
-        );
-      })}
+      <SimpleGrid
+        cols={2}
+        breakpoints={[{ maxWidth: "lg", cols: 1, spacing: "sm" }]}
+      >
+        {animeList.map((info) => {
+          return (
+            <RecommendCard
+              annictId={info.annictId}
+              title={info.title}
+              malAnimeId={info.malAnimeId}
+              officialSiteUrl={info.officialSiteUrl}
+              twitterUsername={info.twitterUsername}
+              wikipediaUrl={info.wikipediaUrl}
+              recommendImgUrl={info.image.recommendedImageUrl}
+              facebookImgUrl={info.image.facebookOgImageUrl}
+              seasonName={info.seasonName}
+              seasonYear={info.seasonYear}
+            />
+          );
+        })}
+      </SimpleGrid>
     </div>
   );
 };

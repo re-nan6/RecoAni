@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import styles from "./linkButton.module.css";
-import { Avatar, Tooltip } from "@mantine/core";
+import { Avatar, Button, Tooltip } from "@mantine/core";
 
 //レコメンドカード内のボタンのコンポーネント
 
@@ -13,20 +13,24 @@ type Props = {
   label: string;
   href: string;
   children: ReactNode;
+  matches: boolean;
 };
 
-const LinkButton: React.FC<Props> = ({ label, href, children }) => {
+const LinkButton: React.FC<Props> = ({ label, href, children, matches }) => {
   return (
-    <Tooltip label={label} position="right" withArrow>
-      <Avatar
+    <Tooltip label={label} position="right" withArrow hidden={matches}>
+      <Button
         component="a"
         href={href}
         target="_blank"
-        size="lg"
-        className={styles.sideButton}
+        size="md"
+        // className={styles.sideButton}
+        variant="subtle"
+        color="gray"
+        p={3}
       >
         {children}
-      </Avatar>
+      </Button>
     </Tooltip>
   );
 };
