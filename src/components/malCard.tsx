@@ -102,9 +102,9 @@ const MalCard: React.FC<Props> = ({
           <Image src={imgUrl} height={200} width={130} />
           <div>
             <Tooltip label={animeTitle} multiline width={170}>
-              <Text mt="xs" mb="md" className={styles.title}>
-                {animeTitle}
-              </Text>
+              <div>
+                <Text ml={10}>{animeTitle}</Text>
+              </div>
             </Tooltip>
             <NavLink
               component="a"
