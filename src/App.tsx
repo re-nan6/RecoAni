@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import './App.css';
 import { MalCard } from 'components/malCard';
 import { ResultAnime } from 'components/resultAnime';
 import { SearchButton } from 'components/searchButton';
-import { Sidebar } from 'components/sidebar';
-import { SiteTitle } from 'components/siteTitle';
 import { CustomFont } from 'layouts/customFont';
 import { MdDeleteForever } from 'react-icons/md';
 import { FiAlertCircle } from 'react-icons/fi';
@@ -28,9 +26,13 @@ import {
   ActionIcon,
   ScrollArea,
   Tooltip,
+  Title,
+  Avatar,
 } from '@mantine/core';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import SearchBox from './components/searchBox';
+import { AiFillGithub } from 'react-icons/ai';
+import { LayoutNavbar } from 'layouts/layoutNavbar';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,6 +42,21 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+type animeDisplayProps = {
+  setSearchAnime: React.Dispatch<React.SetStateAction<DocumentNode>>;
+  setNowPage: React.Dispatch<React.SetStateAction<number>>;
+  inputAnime: () => void;
+};
+
+type navbarDisplayProps = {
+  opened: boolean;
+  setOpened: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export const animeDisplayContext = createContext<animeDisplayProps>({} as animeDisplayProps);
+export const NavbarContext = createContext<navbarDisplayProps>({} as navbarDisplayProps);
+
 function App() {
   //annictAPIから受け取れるjsonファイルの中身の型定義
   interface animeInterface {
@@ -65,7 +82,7 @@ function App() {
   const [animeList, setAnimeList] = useState<Array<animeInterface>>([]);
   const [val, setVal] = useState<Array<string>>([]);
   const [likeId, setLikeId] = useState<Array<string>>([]);
-  const [SEARCH_ANIME, setSEARCH_ANIME] = useState<DocumentNode>(gql`
+  const [searchAnime, setSearchAnime] = useState<DocumentNode>(gql`
     query {
       searchWorks(orderBy: { field: WATCHERS_COUNT, direction: DESC }, first: 12, titles: []) {
         nodes {
@@ -81,11 +98,11 @@ function App() {
   `);
 
   //graphQLでannictAPIを適宜呼び出すためのもの
-  const [inputAnime, { data }] = useLazyQuery(SEARCH_ANIME);
+  const [inputAnime, { data }] = useLazyQuery(searchAnime);
 
   //テキストボックスに入力された文字列を元にqueryを作成
   const search = (value: string) => {
-    setSEARCH_ANIME(gql`
+    setSearchAnime(gql`
     query {
       searchWorks(
         orderBy: { field: WATCHERS_COUNT, direction: DESC },
@@ -200,29 +217,44 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <AppShell
           navbar={
-            <Navbar width={{ sm: 100, md: 170, lg: 200 }} hiddenBreakpoint='sm' hidden={!opened}>
-              <Sidebar
-                setSearchAnime={setSEARCH_ANIME}
-                setNowPage={setNowPage}
-                inputAnime={inputAnime}
-              />
-            </Navbar>
+            <NavbarContext.Provider value={{ opened, setOpened }}>
+              <animeDisplayContext.Provider value={{ setSearchAnime, setNowPage, inputAnime }}>
+                <LayoutNavbar />
+              </animeDisplayContext.Provider>
+            </NavbarContext.Provider>
           }
           header={
             <Header height={{ base: 60, md: 70 }}>
-              <Group position='left'>
-                <MediaQuery largerThan='sm' styles={{ display: 'none' }}>
-                  <Burger
-                    opened={opened}
-                    onClick={(o) => setOpened((o) => !o)}
-                    size='md'
-                    color='black'
-                    mr='xl'
-                  ></Burger>
-                </MediaQuery>
-                <SiteTitle />
-              </Group>
-              <Group position='right'></Group>
+              <Container fluid>
+                <Group position='apart' mt={8}>
+                  <Group position='left' ml={20}>
+                    <MediaQuery largerThan='sm' styles={{ display: 'none' }}>
+                      <Burger
+                        opened={opened}
+                        onClick={(o) => setOpened((o) => !o)}
+                        size='md'
+                        color='black'
+                        mr='xl'
+                      ></Burger>
+                    </MediaQuery>
+                    <MediaQuery smallerThan='sm' styles={{ display: 'none' }}>
+                      <Avatar src={`${process.env.PUBLIC_URL}/logo.png`} size={50} />
+                    </MediaQuery>
+                    <Title order={1}>RecoAni</Title>
+                  </Group>
+                  <Group position='right' mr={20}>
+                    <ActionIcon
+                      variant='default'
+                      size='lg'
+                      component='a'
+                      href='https://github.com/re-nan6/RecoAni'
+                      target='_blank'
+                    >
+                      <AiFillGithub size={25} />
+                    </ActionIcon>
+                  </Group>
+                </Group>
+              </Container>
             </Header>
           }
         >

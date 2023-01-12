@@ -66,3 +66,12 @@
   margin-top: 15px;
   font-size: large;
 }
+
+.headerContent {
+  display: table-cell;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+  padding-left: 2rem /* 16px */;
+  padding-right: 2rem /* 16px */;
+}
