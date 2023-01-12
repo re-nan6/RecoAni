@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import MalCard from './components/malCard';
-import ResultAnime from './components/resultAnime';
-import SearchButton from './components/searchButton';
-import Sidebar from './components/sidebar';
-import SiteTitle from './components/siteTitle';
-import { CustomFont } from './components/customFont';
+import { MalCard } from 'components/malCard';
+import { ResultAnime } from 'components/resultAnime';
+import { SearchButton } from 'components/searchButton';
+import { Sidebar } from 'components/sidebar';
+import { SiteTitle } from 'components/siteTitle';
+import { CustomFont } from 'layouts/customFont';
 import { MdDeleteForever } from 'react-icons/md';
 import { FiAlertCircle } from 'react-icons/fi';
 import _ from 'lodash';
@@ -40,7 +40,6 @@ const queryClient = new QueryClient({
     },
   },
 });
-
 function App() {
   //annictAPIから受け取れるjsonファイルの中身の型定義
   interface animeInterface {

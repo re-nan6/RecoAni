@@ -2,7 +2,9 @@ import React, { ReactElement, useState } from 'react';
 import { AiFillGithub } from 'react-icons/ai';
 import { Group, MediaQuery, Burger, Title, AppShell, Navbar, Header } from '@mantine/core';
 import { ActionIcon, Image } from '@mantine/core';
-
+import { RiVipCrownFill } from 'react-icons/ri';
+import { HiFire } from 'react-icons/hi';
+import { GiPalmTree } from 'react-icons/gi';
 type LayoutProps = Required<{
   readonly children: ReactElement;
 }>;

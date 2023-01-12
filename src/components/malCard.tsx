@@ -35,7 +35,7 @@ type Props = {
   checked: boolean;
 };
 
-const MalCard: React.FC<Props> = ({
+export const MalCard: React.FC<Props> = ({
   annictID,
   malAnimeId,
   officialSiteUrl,
@@ -129,5 +129,3 @@ const MalCard: React.FC<Props> = ({
     </div>
   );
 };
-
-export default MalCard;

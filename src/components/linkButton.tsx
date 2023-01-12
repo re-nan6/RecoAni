@@ -16,7 +16,7 @@ type Props = {
   matches: boolean;
 };
 
-const LinkButton: React.FC<Props> = ({ label, href, children, matches }) => {
+export const LinkButton: React.FC<Props> = ({ label, href, children, matches }) => {
   return (
     <Tooltip label={label} position='right' withArrow hidden={matches}>
       <Button
@@ -34,5 +34,3 @@ const LinkButton: React.FC<Props> = ({ label, href, children, matches }) => {
     </Tooltip>
   );
 };
-
-export default LinkButton;

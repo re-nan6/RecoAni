@@ -1,15 +1,16 @@
-import React from "react";
-import styles from "./sidebar.module.css";
-import { RiVipCrownFill } from "react-icons/ri";
-import { HiFire } from "react-icons/hi";
-import { GiPalmTree } from "react-icons/gi";
+import React from 'react';
+import styles from './sidebar.module.css';
+import { RiVipCrownFill } from 'react-icons/ri';
+import { HiFire } from 'react-icons/hi';
+import { GiPalmTree } from 'react-icons/gi';
 import {
   gql,
   DocumentNode,
   LazyQueryHookOptions,
   OperationVariables,
   QueryResult,
-} from "@apollo/client";
+} from '@apollo/client';
+import { getSeasons } from 'utils/getSeasons';
 
 //サイドバーのコンポーネント
 //「今期のアニメ」等を自動で検索できるようにしたい
@@ -23,15 +24,11 @@ type Props = {
   setSearchAnime: React.Dispatch<React.SetStateAction<DocumentNode>>;
   setNowPage: React.Dispatch<React.SetStateAction<number>>;
   inputAnime: (
-    options?: Partial<LazyQueryHookOptions<any, OperationVariables>> | undefined
+    options?: Partial<LazyQueryHookOptions<any, OperationVariables>> | undefined,
   ) => Promise<QueryResult<any, OperationVariables>>;
 };
 
-const Sidebar: React.FC<Props> = ({
-  setSearchAnime,
-  setNowPage,
-  inputAnime,
-}) => {
+export const Sidebar: React.FC<Props> = ({ setSearchAnime, setNowPage, inputAnime }) => {
   //時期を指定してアニメを検索する関数
   const seasonAnimeDisplay = (season: string) => {
     setSearchAnime(gql`
@@ -62,10 +59,7 @@ const Sidebar: React.FC<Props> = ({
   const popularAnimeDisplay = () => {
     setSearchAnime(gql`
       query {
-        searchWorks(
-          orderBy: { field: WATCHERS_COUNT, direction: DESC }
-          first: 50
-        ) {
+        searchWorks(orderBy: { field: WATCHERS_COUNT, direction: DESC }, first: 50) {
           nodes {
             annictId
             malAnimeId
@@ -84,22 +78,17 @@ const Sidebar: React.FC<Props> = ({
     inputAnime();
     setNowPage(1);
   };
+  // 現在のシーズン（ex. 2022-autmn）を取得する
   return (
     <div>
       <ul>
-        <li
-          className={styles.row}
-          onClick={() => seasonAnimeDisplay("2022-autumn")}
-        >
+        <li className={styles.row} onClick={() => seasonAnimeDisplay('2023-winter')}>
           <div className={styles.icon}>
             <HiFire />
           </div>
           <div className={styles.title}>今期のアニメ</div>
         </li>
-        <li
-          className={styles.row}
-          onClick={() => seasonAnimeDisplay("2022-summer")}
-        >
+        <li className={styles.row} onClick={() => seasonAnimeDisplay('2022-autumn')}>
           <div className={styles.icon}>
             <GiPalmTree />
           </div>
@@ -115,5 +104,3 @@ const Sidebar: React.FC<Props> = ({
     </div>
   );
 };
-
-export default Sidebar;

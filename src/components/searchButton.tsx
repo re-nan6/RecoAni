@@ -11,7 +11,7 @@ type Props = {
   onClick: () => void[];
 };
 
-const SearchButton: React.FC<Props> = ({ onClick }) => {
+export const SearchButton: React.FC<Props> = ({ onClick }) => {
   return (
     <div>
       <Button variant='outline' color='gray' size='md' onClick={onClick}>
@@ -20,5 +20,3 @@ const SearchButton: React.FC<Props> = ({ onClick }) => {
     </div>
   );
 };
-
-export default SearchButton;

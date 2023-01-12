@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { gql, useLazyQuery, DocumentNode } from '@apollo/client';
 import styles from './resultAnime.module.css';
-import RecommendCard from './recommendCard';
+import { RecommendCard } from './recommendCard';
 import { Center, SimpleGrid } from '@mantine/core';
 
 //レコメンド結果一覧を表示するためのコンポーネント
@@ -45,7 +45,7 @@ interface animeInterface {
   image: imageInterface;
 }
 
-const ResultAnime: React.FC<Props> = ({ pushCount, likeList }) => {
+export const ResultAnime: React.FC<Props> = ({ pushCount, likeList }) => {
   let clsname = styles.Hidden;
   const [animeList, setAnimeList] = useState<Array<animeInterface>>([]);
   const [SEARCH_ANIME, setSEARCH_ANIME] = useState<DocumentNode>(gql`
@@ -171,5 +171,3 @@ const ResultAnime: React.FC<Props> = ({ pushCount, likeList }) => {
     </div>
   );
 };
-
-export default ResultAnime;

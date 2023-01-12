@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './recommendCard.module.css';
-import LinkButton from './linkButton';
+import { LinkButton } from './linkButton';
 import { FiMonitor } from 'react-icons/fi';
 import { FaTwitter, FaWikipediaW } from 'react-icons/fa';
 import { RiCharacterRecognitionFill } from 'react-icons/ri';
@@ -42,7 +42,7 @@ interface Url {
   url: string;
 }
 
-const RecommendCard: React.FC<Props> = ({
+export const RecommendCard: React.FC<Props> = ({
   annictId,
   title,
   malAnimeId,
@@ -200,5 +200,3 @@ const RecommendCard: React.FC<Props> = ({
     </Card>
   );
 };
-
-export default RecommendCard;

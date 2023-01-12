@@ -1,5 +1,4 @@
 import { Global } from '@mantine/core';
-
 export function CustomFont() {
   return (
     <Global
