@@ -1,27 +1,27 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .icon {
-    flex:30%;
-    display: grid;
-    place-items: center;
+  flex: 30%;
+  display: grid;
+  place-items: center;
 }
 
 .row {
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .row:hover {
-    cursor: pointer;
-    background-color: #cacaca;
+  cursor: pointer;
+  background-color: #cacaca;
 }
 
 .title {
-    flex:70%;
+  flex: 70%;
 }

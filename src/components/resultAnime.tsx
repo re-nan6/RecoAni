@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { gql, useLazyQuery, DocumentNode } from "@apollo/client";
-import styles from "./resultAnime.module.css";
-import RecommendCard from "./recommendCard";
-import { Center, SimpleGrid } from "@mantine/core";
+import React, { useEffect, useState } from 'react';
+import { gql, useLazyQuery, DocumentNode } from '@apollo/client';
+import styles from './resultAnime.module.css';
+import RecommendCard from './recommendCard';
+import { Center, SimpleGrid } from '@mantine/core';
 
 //レコメンド結果一覧を表示するためのコンポーネント
 //何も選択していない場合にレコメンド結果を表示しないように例外処理してない？
@@ -73,7 +73,7 @@ const ResultAnime: React.FC<Props> = ({ pushCount, likeList }) => {
   const [inputAnime, { data }] = useLazyQuery(SEARCH_ANIME);
   //テキストボックスに入力された文字列を元にqueryを作成
   const search = (recommendAnimeList: Array<recommendInterface>) => {
-    let ids: Array<number> = [];
+    const ids: Array<number> = [];
     for (const anime of recommendAnimeList) {
       ids.push(anime.annictId);
     }
@@ -111,9 +111,9 @@ const ResultAnime: React.FC<Props> = ({ pushCount, likeList }) => {
       const response = await fetch(
         `${process.env.REACT_APP_RECOANI_API_URL}/recommend/overall${param}`,
         {
-          method: "GET",
-          headers: { Accept: "application/json" },
-        }
+          method: 'GET',
+          headers: { Accept: 'application/json' },
+        },
       );
       if (!response.ok) {
         const err = await response.json();
@@ -125,14 +125,13 @@ const ResultAnime: React.FC<Props> = ({ pushCount, likeList }) => {
       inputAnime();
     };
     if (likeList.length !== 0) {
-      let param = "?";
+      let param = '?';
       for (const id of likeList) {
-        param += "user_likes=" + id + "&";
+        param += 'user_likes=' + id + '&';
       }
       param = param.slice(0, -1);
       access_api(param);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pushCount]);
 
   //検索した結果出てきたアニメの情報をリストに格納してる
@@ -150,10 +149,7 @@ const ResultAnime: React.FC<Props> = ({ pushCount, likeList }) => {
   useEffect(makeAnimeList, [data]);
   return (
     <div className={clsname}>
-      <SimpleGrid
-        cols={2}
-        breakpoints={[{ maxWidth: "lg", cols: 1, spacing: "sm" }]}
-      >
+      <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'lg', cols: 1, spacing: 'sm' }]}>
         {animeList.map((info) => {
           return (
             <RecommendCard
@@ -167,6 +163,7 @@ const ResultAnime: React.FC<Props> = ({ pushCount, likeList }) => {
               facebookImgUrl={info.image.facebookOgImageUrl}
               seasonName={info.seasonName}
               seasonYear={info.seasonYear}
+              key={info.annictId}
             />
           );
         })}

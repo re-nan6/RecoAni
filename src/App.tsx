@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import "./App.css";
-import MalCard from "./components/malCard";
-import ResultAnime from "./components/resultAnime";
-import SearchButton from "./components/searchButton";
-import Sidebar from "./components/sidebar";
-import SiteTitle from "./components/siteTitle";
-import { CustomFont } from "./components/customFont";
-import { MdDeleteForever } from "react-icons/md";
-import { FiAlertCircle } from "react-icons/fi";
-import _ from "lodash";
-import { gql, useLazyQuery, DocumentNode } from "@apollo/client";
+import React, { useState, useEffect } from 'react';
+import './App.css';
+import MalCard from './components/malCard';
+import ResultAnime from './components/resultAnime';
+import SearchButton from './components/searchButton';
+import Sidebar from './components/sidebar';
+import SiteTitle from './components/siteTitle';
+import { CustomFont } from './components/customFont';
+import { MdDeleteForever } from 'react-icons/md';
+import { FiAlertCircle } from 'react-icons/fi';
+import _ from 'lodash';
+import { gql, useLazyQuery, DocumentNode } from '@apollo/client';
 import {
   AppShell,
   Alert,
@@ -28,9 +28,9 @@ import {
   ActionIcon,
   ScrollArea,
   Tooltip,
-} from "@mantine/core";
-import { QueryClient, QueryClientProvider } from "react-query";
-import SearchBox from "./components/searchBox";
+} from '@mantine/core';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import SearchBox from './components/searchBox';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -60,9 +60,7 @@ function App() {
   //現在表示しているページ番号を管理している
   const [nowPage, setNowPage] = useState<number>(1);
   //表示させるアニメを管理している
-  const [displayAnimeList, setDisplayAnimeList] = useState<
-    Array<animeInterface>
-  >([]);
+  const [displayAnimeList, setDisplayAnimeList] = useState<Array<animeInterface>>([]);
   //アニメカードの表示に必要な変数の定義
   //とりあえず初期値はテキトーなので直す余地あり
   const [animeList, setAnimeList] = useState<Array<animeInterface>>([]);
@@ -70,11 +68,7 @@ function App() {
   const [likeId, setLikeId] = useState<Array<string>>([]);
   const [SEARCH_ANIME, setSEARCH_ANIME] = useState<DocumentNode>(gql`
     query {
-      searchWorks(
-        orderBy: { field: WATCHERS_COUNT, direction: DESC }
-        first: 12
-        titles: []
-      ) {
+      searchWorks(orderBy: { field: WATCHERS_COUNT, direction: DESC }, first: 12, titles: []) {
         nodes {
           annictId
           malAnimeId
@@ -186,14 +180,9 @@ function App() {
     <tr key={title}>
       <td>{title}</td>
       <td>
-        <Group position="right" spacing="md">
-          <Tooltip label="削除">
-            <ActionIcon
-              onClick={valChangeBtn}
-              value={title}
-              id={likeId[index]}
-              color="red"
-            >
+        <Group position='right' spacing='md'>
+          <Tooltip label='削除'>
+            <ActionIcon onClick={valChangeBtn} value={title} id={likeId[index]} color='red'>
               <MdDeleteForever size={20} />
             </ActionIcon>
           </Tooltip>
@@ -205,18 +194,14 @@ function App() {
   return (
     <MantineProvider
       theme={{
-        fontFamily: "Noto Sans Japanese",
+        fontFamily: 'Noto Sans Japanese',
       }}
     >
       <CustomFont />
       <QueryClientProvider client={queryClient}>
         <AppShell
           navbar={
-            <Navbar
-              width={{ sm: 100, md: 170, lg: 200 }}
-              hiddenBreakpoint="sm"
-              hidden={!opened}
-            >
+            <Navbar width={{ sm: 100, md: 170, lg: 200 }} hiddenBreakpoint='sm' hidden={!opened}>
               <Sidebar
                 setSearchAnime={setSEARCH_ANIME}
                 setNowPage={setNowPage}
@@ -226,35 +211,33 @@ function App() {
           }
           header={
             <Header height={{ base: 60, md: 70 }}>
-              <Group position="left">
-                <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+              <Group position='left'>
+                <MediaQuery largerThan='sm' styles={{ display: 'none' }}>
                   <Burger
                     opened={opened}
                     onClick={(o) => setOpened((o) => !o)}
-                    size="md"
-                    color="black"
-                    mr="xl"
+                    size='md'
+                    color='black'
+                    mr='xl'
                   ></Burger>
                 </MediaQuery>
                 <SiteTitle />
               </Group>
-              <Group position="right"></Group>
+              <Group position='right'></Group>
             </Header>
           }
         >
-          <Container size="xl">
+          <Container size='xl'>
             <Center>
-              <SearchBox
-                onChange={_.debounce((e) => handleChange(e), 500)}
-              ></SearchBox>
+              <SearchBox onChange={_.debounce((e) => handleChange(e), 500)}></SearchBox>
             </Center>
             <SimpleGrid
               cols={4}
-              spacing="md"
+              spacing='md'
               breakpoints={[
-                { maxWidth: "lg", cols: 2, spacing: "md" },
-                { maxWidth: "md", cols: 1, spacing: "sm" },
-                { maxWidth: "sm", cols: 1, spacing: "sm" },
+                { maxWidth: 'lg', cols: 2, spacing: 'md' },
+                { maxWidth: 'md', cols: 1, spacing: 'sm' },
+                { maxWidth: 'sm', cols: 1, spacing: 'sm' },
               ]}
             >
               {displayAnimeList.map((info) => {
@@ -274,36 +257,30 @@ function App() {
                 );
               })}
             </SimpleGrid>
-            <Center p="md">
+            <Center p='md'>
               <Pagination
                 total={numPage}
-                position="center"
+                position='center'
                 onChange={(page: number) => changePage(page)}
                 page={nowPage}
               />
             </Center>
-            <div className="text">現在選択中のアニメ</div>
+            <div className='text'>現在選択中のアニメ</div>
             <div>
               <ScrollArea style={{ height: 200 }}>
-                <Table highlightOnHover verticalSpacing="sm" fontSize="lg">
+                <Table highlightOnHover verticalSpacing='sm' fontSize='lg'>
                   <tbody>{tableRows}</tbody>
                 </Table>
               </ScrollArea>
             </div>
-            <Center p="sm">
+            <Center p='sm'>
               <SearchButton onClick={valDisplay} />
             </Center>
 
             <ResultAnime pushCount={pushCount} likeList={likeId} />
 
             <div>
-              <Alert
-                icon={<FiAlertCircle size={16} />}
-                title="注意"
-                color="red"
-                p="md"
-                py={10}
-              >
+              <Alert icon={<FiAlertCircle size={16} />} title='注意' color='red' p='md' py={10}>
                 <p>
                   このサイトはAnnictAPIのレビュー評価をもとに学習を行い、レコメンド結果を表示しています。結果は期待にそぐわない可能性があります。
                 </p>
