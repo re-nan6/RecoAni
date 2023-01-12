@@ -110,7 +110,7 @@ export const LayoutNavbar = () => {
       </Navbar.Section>
       <Navbar.Section
         onClick={() => {
-          popularAnimeDisplay;
+          popularAnimeDisplay();
           navbarDisplay.setOpened((o) => !o);
         }}
       >
