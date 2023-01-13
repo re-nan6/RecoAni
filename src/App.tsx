@@ -224,7 +224,7 @@ function App() {
             </NavbarContext.Provider>
           }
           header={
-            <Header height={{ base: 60, md: 70 }}>
+            <Header height={{ base: 60 }}>
               <Container fluid>
                 <Group position='apart' mt={8}>
                   <Group position='left' ml={20}>
