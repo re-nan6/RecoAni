@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from './malCard.module.css';
+import styles from 'components/malCard.module.css';
 import { FiMonitor } from 'react-icons/fi';
 import { FaTwitter, FaWikipediaW } from 'react-icons/fa';
 import { RiCharacterRecognitionFill } from 'react-icons/ri';

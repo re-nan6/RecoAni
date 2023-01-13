@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react';
-import './App.css';
+import 'App.css';
 import { MalCard } from 'components/malCard';
 import { ResultAnime } from 'components/resultAnime';
 import { SearchButton } from 'components/searchButton';
@@ -13,7 +13,6 @@ import {
   Alert,
   Header,
   Burger,
-  Navbar,
   Pagination,
   MantineProvider,
   SimpleGrid,
@@ -21,7 +20,6 @@ import {
   Center,
   MediaQuery,
   Group,
-  Image,
   Table,
   ActionIcon,
   ScrollArea,
@@ -30,7 +28,7 @@ import {
   Avatar,
 } from '@mantine/core';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import SearchBox from './components/searchBox';
+import SearchBox from 'components/searchBox';
 import { AiFillGithub } from 'react-icons/ai';
 import { LayoutNavbar } from 'layouts/layoutNavbar';
 
@@ -231,7 +229,7 @@ function App() {
                     <MediaQuery largerThan='sm' styles={{ display: 'none' }}>
                       <Burger
                         opened={opened}
-                        onClick={(o) => setOpened((o) => !o)}
+                        onClick={() => setOpened((o) => !o)}
                         size='md'
                         color='black'
                         mr='xl'

@@ -1,16 +1,9 @@
-import React from 'react';
 import { RiVipCrownFill } from 'react-icons/ri';
 import { HiFire } from 'react-icons/hi';
 import { GiPalmTree } from 'react-icons/gi';
-import {
-  gql,
-  DocumentNode,
-  LazyQueryHookOptions,
-  OperationVariables,
-  QueryResult,
-} from '@apollo/client';
+import { gql } from '@apollo/client';
 import { getSeasons } from 'utils/getSeasons';
-import { Group, Navbar, NavLink, Text } from '@mantine/core';
+import { Navbar, NavLink } from '@mantine/core';
 import { useContext } from 'react';
 import { animeDisplayContext, NavbarContext } from 'App';
 
@@ -21,14 +14,6 @@ import { animeDisplayContext, NavbarContext } from 'App';
 //@param setNowPage - 現在のページ番号を変更するuseState
 //@param inputAnime - annictAPIを呼び出すためのもの
 //@return サイドバーが表示される
-
-type Props = {
-  setSearchAnime: React.Dispatch<React.SetStateAction<DocumentNode>>;
-  setNowPage: React.Dispatch<React.SetStateAction<number>>;
-  inputAnime: (
-    options?: Partial<LazyQueryHookOptions<any, OperationVariables>> | undefined,
-  ) => Promise<QueryResult<any, OperationVariables>>;
-};
 
 export const LayoutNavbar = () => {
   const animeDisplay = useContext(animeDisplayContext);

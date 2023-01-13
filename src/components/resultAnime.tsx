@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { gql, useLazyQuery, DocumentNode } from '@apollo/client';
-import styles from './resultAnime.module.css';
-import { RecommendCard } from './recommendCard';
-import { Center, SimpleGrid } from '@mantine/core';
+import styles from 'components/resultAnime.module.css';
+import { RecommendCard } from 'components/recommendCard';
+import { SimpleGrid } from '@mantine/core';
 
 //レコメンド結果一覧を表示するためのコンポーネント
 //何も選択していない場合にレコメンド結果を表示しないように例外処理してない？

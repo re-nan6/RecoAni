@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './siteTitle.module.css';
+import styles from 'components/siteTitle.module.css';
 import { Title } from '@mantine/core';
-import { AiOutlineSearch, AiFillGithub } from 'react-icons/ai';
-import { Input, Group } from '@mantine/core';
+import { AiFillGithub } from 'react-icons/ai';
+import { Group } from '@mantine/core';
 import { ActionIcon, Image } from '@mantine/core';
 
 //サイトタイトルのコンポーネント
