@@ -6,6 +6,8 @@ import { RiCharacterRecognitionFill } from 'react-icons/ri';
 import { Carousel } from '@mantine/carousel';
 import { useMediaQuery } from '@mantine/hooks';
 import { Badge, Card, Group, Image, Text, AspectRatio } from '@mantine/core';
+import { useQueries } from 'react-query';
+import axios from 'axios';
 
 //レコメンド結果を表示するカードのコンポーネント
 //例外処理まだ設定できてない(画像関連・画像とPV両方がない場合)
@@ -55,42 +57,67 @@ export const RecommendCard: React.FC<Props> = ({
 }) => {
   const [animePvList, setAnimePvList] = useState<Array<Url | null>>([]);
   const [malImage, setMalImage] = useState<string>(`${process.env.PUBLIC_URL}/noimage.png`);
-
-  //PVと画像のURLを取得するAPIを実行
-  useEffect(() => {
-    const access_api = async (param: string) => {
-      const response = await fetch(
-        `${process.env.REACT_APP_RECOANI_API_URL}/mal/pv?malAnimeId=${param}`,
-        {
-          method: 'GET',
-          headers: { Accept: 'application/json' },
-        },
-      );
-      if (!response.ok) {
-        const err = await response.json();
-        throw new Error(err);
-      }
-      const data = await response.json();
-      const PvList = data.data;
-      setAnimePvList(PvList);
-      const response2 = await fetch(
-        `${process.env.REACT_APP_RECOANI_API_URL}/mal/image?malAnimeId=${malAnimeId}`,
-        {
-          method: 'GET',
-          headers: { Accept: 'application/json' },
-        },
-      );
-      if (!response2.ok) {
-        const err = await response2.json();
-        throw new Error(err);
-      }
-      const data2 = await response2.json();
-      const url = data2.data[0]['url'];
-      setMalImage(url);
-    };
-    access_api(malAnimeId);
-  }, [malAnimeId]);
   const responsiveMatches = useMediaQuery('(min-width: 900px)');
+
+  const getRecommendCardImages = async () => {
+    const response = await axios.get(
+      `${process.env.REACT_APP_RECOANI_API_URL}/mal/image?malAnimeId=${malAnimeId}`,
+      {
+        method: 'GET',
+        headers: { Accept: 'application/json' },
+      },
+    );
+    return response;
+  };
+
+  const getRecommendCardMovies = async () => {
+    const response = await axios.get(
+      `${process.env.REACT_APP_RECOANI_API_URL}/mal/pv?malAnimeId=${malAnimeId}`,
+      {
+        method: 'GET',
+        headers: { Accept: 'application/json' },
+      },
+    );
+    return response;
+  };
+
+  const useQueryRecommendCardItems = () => {
+    return useQueries([
+      {
+        queryKey: ['getRecommendCardImages', malAnimeId],
+        queryFn: getRecommendCardImages,
+        cacheTime: Infinity,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['getRecommendCardMovies', malAnimeId],
+        queryFn: getRecommendCardMovies,
+        cacheTime: Infinity,
+        staleTime: Infinity,
+      },
+    ]);
+  };
+
+  // useQueryのcache処理
+
+  /** Imageを取得する */
+  const getRecommendCardItemsResults = useQueryRecommendCardItems();
+  const imageData = getRecommendCardItemsResults[0].data;
+  const movieData = getRecommendCardItemsResults[1].data;
+  const imageStatus = getRecommendCardItemsResults[0].status;
+  const movieStatus = getRecommendCardItemsResults[1].status;
+  useEffect(() => {
+    if (imageData) {
+      setMalImage(imageData.data.data[0]['url']);
+    }
+  }, [malAnimeId, imageStatus]);
+
+  useEffect(() => {
+    if (movieData) {
+      setAnimePvList(movieData.data.data);
+    }
+  }, [malAnimeId, movieStatus]);
+
   return (
     <Card withBorder radius='md' shadow='sm' key={malAnimeId}>
       <Card.Section withBorder>
