@@ -3,7 +3,7 @@ import styles from './malCard.module.css';
 import { FiMonitor } from 'react-icons/fi';
 import { FaTwitter, FaWikipediaW } from 'react-icons/fa';
 import { RiCharacterRecognitionFill } from 'react-icons/ri';
-import { Card, Group, Image, NavLink, Text, Tooltip } from '@mantine/core';
+import { Card, Group, Image, NavLink, Text, Tooltip, MediaQuery } from '@mantine/core';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 
@@ -85,11 +85,18 @@ export const MalCard: React.FC<Props> = ({
         <Group noWrap spacing={0}>
           <Image src={imgUrl} height={200} width={130} />
           <div>
-            <Tooltip label={animeTitle} multiline width={170}>
-              <div>
-                <Text ml={10}>{animeTitle}</Text>
-              </div>
-            </Tooltip>
+            <MediaQuery largerThan='sm' styles={{ display: 'none' }}>
+              <Text ml={10}>{animeTitle}</Text>
+            </MediaQuery>
+            <MediaQuery smallerThan='sm' styles={{ display: 'none' }}>
+              <Tooltip label={animeTitle} multiline width={170}>
+                <div style={{ width: 175 }}>
+                  <Text ml={10} truncate>
+                    {animeTitle}
+                  </Text>
+                </div>
+              </Tooltip>
+            </MediaQuery>
             <NavLink
               component='a'
               href={officialSiteUrl}
