@@ -6,7 +6,7 @@ import { FaTwitter, FaWikipediaW } from 'react-icons/fa';
 import { RiCharacterRecognitionFill } from 'react-icons/ri';
 import { Carousel } from '@mantine/carousel';
 import { useMediaQuery } from '@mantine/hooks';
-import { Badge, Card, Group, Image, Stack, Text, AspectRatio, Button } from '@mantine/core';
+import { Badge, Card, Group, Image, Stack, Text, AspectRatio, Button, Center } from '@mantine/core';
 
 //レコメンド結果を表示するカードのコンポーネント
 //例外処理まだ設定できてない(画像関連・画像とPV両方がない場合)
@@ -93,7 +93,7 @@ export const RecommendCard: React.FC<Props> = ({
   }, [malAnimeId]);
   const responsiveMatches = useMediaQuery('(min-width: 900px)');
   return (
-    <Card withBorder radius='md' p={0} shadow='sm' key={malAnimeId}>
+    <Card withBorder radius='md' shadow='sm' key={malAnimeId}>
       <Card.Section withBorder>
         <Badge radius='xs' py={2} mx={4}>
           {seasonYear}-{seasonName}
@@ -102,65 +102,73 @@ export const RecommendCard: React.FC<Props> = ({
           {title}
         </Text>
       </Card.Section>
-      <AspectRatio ratio={16 / 9}>
-        <Carousel sx={{ width: 712 }} mx='auto' height={400} withIndicators loop initialSlide={1}>
-          {recommendImgUrl && (
-            <Carousel.Slide key={recommendImgUrl}>
+
+      <Carousel mx='auto' withIndicators loop slideSize='100%'>
+        {recommendImgUrl && (
+          <Carousel.Slide key={recommendImgUrl}>
+            <AspectRatio ratio={16 / 9}>
               <Image
                 src={recommendImgUrl}
                 withPlaceholder
-                height={400}
                 placeholder={
-                  <div className={styles.portrait}>
+                  <div>
                     <Image src={malImage} withPlaceholder fit='contain' />
                   </div>
                 }
+                fit='scale-down'
               />
-            </Carousel.Slide>
-          )}
-          {!recommendImgUrl && facebookImgUrl && (
-            <Carousel.Slide key={facebookImgUrl}>
+            </AspectRatio>
+          </Carousel.Slide>
+        )}
+        {!recommendImgUrl && facebookImgUrl && (
+          <Carousel.Slide key={facebookImgUrl}>
+            <AspectRatio ratio={16 / 9}>
               <Image
                 src={facebookImgUrl}
-                height={400}
                 withPlaceholder
                 placeholder={
-                  <div className={styles.portrait}>
+                  <div>
                     <Image src={malImage} withPlaceholder fit='contain' />
                   </div>
                 }
+                fit='scale-down'
               />
-            </Carousel.Slide>
-          )}
-          {!recommendImgUrl && !facebookImgUrl && (
-            <Carousel.Slide key={malImage}>
-              <Image src={malImage} height={400} withPlaceholder fit='contain' />
-            </Carousel.Slide>
-          )}
-          {animePvList.map((info) => {
-            return (
-              info && (
-                <Carousel.Slide key={info.url.slice(-11)}>
-                  <div className={styles.youtube}>
-                    <iframe
-                      src={'https://www.youtube-nocookie.com/embed/' + info.url.slice(-11)}
-                      sandbox='allow-scripts allow-same-origin allow-popups allow-presentation'
-                      allowFullScreen
-                      key={info.url}
-                      title={info.url}
-                    />
-                  </div>
-                </Carousel.Slide>
-              )
-            );
-          })}
-          {!recommendImgUrl && !facebookImgUrl && animePvList.length === 0 && (
-            <Carousel.Slide key='noimage'>
-              <Image height={360} withPlaceholder />
-            </Carousel.Slide>
-          )}
-        </Carousel>
-      </AspectRatio>
+            </AspectRatio>
+          </Carousel.Slide>
+        )}
+        {!recommendImgUrl && !facebookImgUrl && (
+          <Carousel.Slide key={malImage}>
+            <AspectRatio ratio={16 / 9}>
+              <Image src={malImage} withPlaceholder fit='scale-down' />
+            </AspectRatio>
+          </Carousel.Slide>
+        )}
+        {animePvList.map((info) => {
+          return (
+            info && (
+              <Carousel.Slide key={info.url.slice(-11)}>
+                <AspectRatio ratio={16 / 9}>
+                  <iframe
+                    src={'https://www.youtube-nocookie.com/embed/' + info.url.slice(-11)}
+                    sandbox='allow-scripts allow-same-origin allow-popups allow-presentation allow-forms allow-top-navigation'
+                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                    allowFullScreen
+                    key={info.url}
+                    title={info.url}
+                  />
+                </AspectRatio>
+              </Carousel.Slide>
+            )
+          );
+        })}
+        {!recommendImgUrl && !facebookImgUrl && animePvList.length === 0 && (
+          <Carousel.Slide key='noimage'>
+            <AspectRatio ratio={16 / 9}>
+              <Image withPlaceholder fit='scale-down' />
+            </AspectRatio>
+          </Carousel.Slide>
+        )}
+      </Carousel>
       <Card.Section>
         <Group position='center'>
           <LinkButton label='公式サイト' href={officialSiteUrl} matches={responsiveMatches}>
