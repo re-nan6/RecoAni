@@ -87,11 +87,7 @@ export const LayoutNavbar = () => {
   // シーズン（ex. 2022-autumn）を取得する
   const seasons = getSeasons();
   return (
-    <Navbar
-      width={{ sm: 100, md: 170, lg: 200 }}
-      hiddenBreakpoint='sm'
-      hidden={!navbarDisplay.opened}
-    >
+    <Navbar width={{ sm: 130, lg: 150 }} hiddenBreakpoint='sm' hidden={!navbarDisplay.opened}>
       <Navbar.Section
         onClick={() => {
           seasonAnimeDisplay(`${seasons.currentSeason.year}-${seasons.currentSeason.season}`);
