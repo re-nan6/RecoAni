@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import styles from './recommendCard.module.css';
-import { LinkButton } from './linkButton';
+import { LinkButton } from 'components/linkButton';
 import { FiMonitor } from 'react-icons/fi';
 import { FaTwitter, FaWikipediaW } from 'react-icons/fa';
 import { RiCharacterRecognitionFill } from 'react-icons/ri';
 import { Carousel } from '@mantine/carousel';
 import { useMediaQuery } from '@mantine/hooks';
-import { Badge, Card, Group, Image, Stack, Text, AspectRatio, Button, Center } from '@mantine/core';
+import { Badge, Card, Group, Image, Text, AspectRatio } from '@mantine/core';
 
 //レコメンド結果を表示するカードのコンポーネント
 //例外処理まだ設定できてない(画像関連・画像とPV両方がない場合)
@@ -95,7 +94,7 @@ export const RecommendCard: React.FC<Props> = ({
   return (
     <Card withBorder radius='md' shadow='sm' key={malAnimeId}>
       <Card.Section withBorder>
-        <Badge radius='xs' py={2} mx={4}>
+        <Badge radius='md' py={2} mx={4} mt={4}>
           {seasonYear}-{seasonName}
         </Badge>
         <Text weight={500} size='xl' ta='left' m='xs'>
@@ -103,33 +102,33 @@ export const RecommendCard: React.FC<Props> = ({
         </Text>
       </Card.Section>
 
-      <Carousel mx='auto' withIndicators loop slideSize='100%'>
-        {recommendImgUrl && (
-          <Carousel.Slide key={recommendImgUrl}>
-            <AspectRatio ratio={16 / 9}>
-              <Image
-                src={recommendImgUrl}
-                withPlaceholder
-                placeholder={
-                  <div>
-                    <Image src={malImage} withPlaceholder fit='contain' />
-                  </div>
-                }
-                fit='scale-down'
-              />
-            </AspectRatio>
-          </Carousel.Slide>
-        )}
-        {!recommendImgUrl && facebookImgUrl && (
+      <Carousel mx='auto' sx={{ maxWidth: 640 }} withIndicators loop slideSize='100%'>
+        {facebookImgUrl && (
           <Carousel.Slide key={facebookImgUrl}>
             <AspectRatio ratio={16 / 9}>
               <Image
                 src={facebookImgUrl}
                 withPlaceholder
                 placeholder={
-                  <div>
-                    <Image src={malImage} withPlaceholder fit='contain' />
-                  </div>
+                  <AspectRatio ratio={16 / 9}>
+                    <Image src={`${process.env.PUBLIC_URL}/noimage.png`} fit='scale-down' />
+                  </AspectRatio>
+                }
+                fit='scale-down'
+              />
+            </AspectRatio>
+          </Carousel.Slide>
+        )}
+        {recommendImgUrl && !facebookImgUrl && (
+          <Carousel.Slide key={recommendImgUrl}>
+            <AspectRatio ratio={16 / 9}>
+              <Image
+                src={recommendImgUrl}
+                withPlaceholder
+                placeholder={
+                  <AspectRatio ratio={16 / 9}>
+                    <Image src={`${process.env.PUBLIC_URL}/noimage.png`} fit='scale-down' />
+                  </AspectRatio>
                 }
                 fit='scale-down'
               />
