@@ -51,7 +51,7 @@ export const MalCard: React.FC<Props> = ({
   const twitterLink = `https://twitter.com/${twitterUsername}`;
   const annictLink = `https://annict.com/works/${annictID}`;
   //画像取得を行うAPIの実行
-  const getMalurl = async () => {
+  const getMalImage = async () => {
     const data = await axios.get(
       `${process.env.REACT_APP_RECOANI_API_URL}/mal/image?malAnimeId=${malAnimeId}`,
       {
@@ -62,15 +62,15 @@ export const MalCard: React.FC<Props> = ({
     return data;
   };
 
-  const useQueryMalurl = () => {
+  const useQueryMalImage = () => {
     return useQuery({
       queryKey: ['getImage', malAnimeId],
-      queryFn: getMalurl,
+      queryFn: getMalImage,
       cacheTime: Infinity,
       staleTime: Infinity,
     });
   };
-  const { status, data } = useQueryMalurl();
+  const { status, data } = useQueryMalImage();
 
   useEffect(() => {
     if (data) {
