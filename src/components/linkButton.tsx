@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
-import styles from './linkButton.module.css';
-import { Avatar, Button, Tooltip } from '@mantine/core';
+import { Button, Tooltip } from '@mantine/core';
 
 //レコメンドカード内のボタンのコンポーネント
 
@@ -24,7 +23,6 @@ export const LinkButton: React.FC<Props> = ({ label, href, children, matches }) 
         href={href}
         target='_blank'
         size='md'
-        // className={styles.sideButton}
         variant='subtle'
         color='gray'
         p={3}

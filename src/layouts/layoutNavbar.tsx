@@ -3,7 +3,7 @@ import { HiFire } from 'react-icons/hi';
 import { GiPalmTree } from 'react-icons/gi';
 import { gql } from '@apollo/client';
 import { getSeasons } from 'utils/getSeasons';
-import { Navbar, NavLink, MediaQuery, Group, Text } from '@mantine/core';
+import { Navbar, NavLink, MediaQuery, Group } from '@mantine/core';
 import { useContext } from 'react';
 import { animeDisplayContext, NavbarContext } from 'App';
 import { ActionToggleThemeButton, GithubIcon } from 'layouts/headerComponents';
