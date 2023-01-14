@@ -85,13 +85,15 @@ export const MalCard: React.FC<Props> = ({
         <Group noWrap spacing={0}>
           <Image src={imgUrl} height={200} width={130} />
           <div>
-            <MediaQuery largerThan='sm' styles={{ display: 'none' }}>
-              <Text ml={10}>{animeTitle}</Text>
+            <MediaQuery largerThan='md' styles={{ display: 'none' }}>
+              <Text ml={10} mr={10}>
+                {animeTitle}
+              </Text>
             </MediaQuery>
-            <MediaQuery smallerThan='sm' styles={{ display: 'none' }}>
+            <MediaQuery smallerThan='md' styles={{ display: 'none' }}>
               <Tooltip label={animeTitle} multiline width={170}>
                 <div style={{ width: 175 }}>
-                  <Text ml={10} truncate>
+                  <Text ml={10} mr={10} truncate>
                     {animeTitle}
                   </Text>
                 </div>

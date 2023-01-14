@@ -285,8 +285,8 @@ function App() {
                 cols={4}
                 spacing='md'
                 breakpoints={[
-                  { maxWidth: 'lg', cols: 2, spacing: 'md' },
-                  { maxWidth: 'md', cols: 1, spacing: 'sm' },
+                  { maxWidth: 'lg', cols: 3, spacing: 'md' },
+                  { maxWidth: 'md', cols: 2, spacing: 'sm' },
                   { maxWidth: 'sm', cols: 1, spacing: 'sm' },
                 ]}
               >

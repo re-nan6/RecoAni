@@ -73,7 +73,12 @@ export const LayoutNavbar = () => {
   // シーズン（ex. 2022-autumn）を取得する
   const seasons = getSeasons();
   return (
-    <Navbar width={{ sm: 130, lg: 150 }} hiddenBreakpoint='sm' hidden={!navbarDisplay.opened}>
+    <Navbar
+      width={{ sm: 130, lg: 150 }}
+      height={900}
+      hiddenBreakpoint='sm'
+      hidden={!navbarDisplay.opened}
+    >
       <Navbar.Section
         onClick={() => {
           seasonAnimeDisplay(`${seasons.currentSeason.year}-${seasons.currentSeason.season}`);
@@ -95,7 +100,6 @@ export const LayoutNavbar = () => {
           popularAnimeDisplay();
           navbarDisplay.setOpened((o) => !o);
         }}
-        grow
       >
         <NavLink key='人気アニメ' label='人気アニメ' icon={<RiVipCrownFill size={20} />}></NavLink>
       </Navbar.Section>
@@ -106,14 +110,6 @@ export const LayoutNavbar = () => {
             <GithubIcon />
           </Group>
         </MediaQuery>
-
-        {/* <NavLink
-          key='github'
-          label='Source code'
-          component='a'
-          target='_blank'
-          href='https://github.com/re-nan6/RecoAni'
-        ></NavLink> */}
       </Navbar.Section>
     </Navbar>
   );
