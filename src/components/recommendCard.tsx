@@ -121,7 +121,7 @@ export const RecommendCard: React.FC<Props> = ({
   return (
     <Card withBorder radius='md' shadow='sm' key={malAnimeId}>
       <Card.Section withBorder>
-        <Badge radius='md' py={2} mx={4} mt={4}>
+        <Badge radius='md' color='cyan' py={2} mx={4} mt={4}>
           {seasonYear}-{seasonName}
         </Badge>
         <Text weight={500} size='xl' ta='left' m='xs'>
@@ -176,7 +176,7 @@ export const RecommendCard: React.FC<Props> = ({
                 <AspectRatio ratio={16 / 9}>
                   <iframe
                     src={'https://www.youtube-nocookie.com/embed/' + info.url.slice(-11)}
-                    sandbox='allow-scripts allow-same-origin allow-popups allow-presentation allow-forms allow-top-navigation'
+                    sandbox='allow-scripts allow-same-origin allow-popups allow-presentation allow-top-navigation'
                     allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                     allowFullScreen
                     key={info.url}
@@ -208,7 +208,7 @@ export const RecommendCard: React.FC<Props> = ({
             href={`https://twitter.com/${twitterUsername}`}
             matches={responsiveMatches}
           >
-            <FaTwitter />
+            <FaTwitter color='1D9BF0' />
             <Text hidden={!responsiveMatches} px={3}>
               Twitter
             </Text>
@@ -218,7 +218,7 @@ export const RecommendCard: React.FC<Props> = ({
             href={'https://annict.com/works/' + annictId}
             matches={responsiveMatches}
           >
-            <RiCharacterRecognitionFill />
+            <RiCharacterRecognitionFill color='F85B73' />
             <Text hidden={!responsiveMatches} px={3}>
               Annict
             </Text>

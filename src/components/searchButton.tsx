@@ -13,10 +13,8 @@ type Props = {
 
 export const SearchButton: React.FC<Props> = ({ onClick }) => {
   return (
-    <div>
-      <Button variant='outline' color='gray' size='md' onClick={onClick}>
-        おすすめのアニメを検索
-      </Button>
-    </div>
+    <Button variant='light' color='pink' size='md' onClick={onClick}>
+      おすすめのアニメを表示
+    </Button>
   );
 };
