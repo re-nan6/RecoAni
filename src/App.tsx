@@ -26,11 +26,15 @@ import {
   Tooltip,
   Title,
   Avatar,
+  ColorSchemeProvider,
+  ColorScheme,
+  Text,
 } from '@mantine/core';
+import { useLocalStorage } from '@mantine/hooks';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import SearchBox from 'components/searchBox';
-import { AiFillGithub } from 'react-icons/ai';
 import { LayoutNavbar } from 'layouts/layoutNavbar';
+import { ActionToggleThemeButton, GithubIcon } from 'layouts/headerComponents';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -205,120 +209,137 @@ function App() {
     </tr>
   ));
 
+  // ダークモード対応
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+    key: 'mantine-color-scheme',
+    defaultValue: 'light',
+    getInitialValueInEffect: true,
+  });
+  const toggleColorScheme = (value?: ColorScheme) =>
+    setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
+
   return (
-    <MantineProvider
-      theme={{
-        fontFamily: 'Noto Sans Japanese',
-      }}
-    >
-      <CustomFont />
-      <QueryClientProvider client={queryClient}>
-        <AppShell
-          navbar={
-            <NavbarContext.Provider value={{ opened, setOpened }}>
-              <animeDisplayContext.Provider value={{ setSearchAnime, setNowPage, inputAnime }}>
-                <LayoutNavbar />
-              </animeDisplayContext.Provider>
-            </NavbarContext.Provider>
-          }
-          header={
-            <Header height={{ base: 60 }}>
-              <Container fluid>
-                <Group position='apart' mt={8}>
-                  <Group position='left' ml={20}>
-                    <MediaQuery largerThan='sm' styles={{ display: 'none' }}>
-                      <Burger
-                        opened={opened}
-                        onClick={() => setOpened((o) => !o)}
-                        size='md'
-                        color='black'
-                        mr='xl'
-                      ></Burger>
-                    </MediaQuery>
-                    <MediaQuery smallerThan='sm' styles={{ display: 'none' }}>
-                      <Avatar src={`${process.env.PUBLIC_URL}/logo.png`} size={50} />
-                    </MediaQuery>
-                    <Title order={1}>RecoAni</Title>
+    <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+      <MantineProvider
+        theme={{
+          fontFamily: 'Noto Sans Japanese',
+          colorScheme,
+        }}
+        withGlobalStyles
+        withNormalizeCSS
+      >
+        <CustomFont />
+        <QueryClientProvider client={queryClient}>
+          <AppShell
+            navbar={
+              <NavbarContext.Provider value={{ opened, setOpened }}>
+                <animeDisplayContext.Provider value={{ setSearchAnime, setNowPage, inputAnime }}>
+                  <LayoutNavbar />
+                </animeDisplayContext.Provider>
+              </NavbarContext.Provider>
+            }
+            header={
+              <Header height={{ base: 60 }}>
+                <Container fluid>
+                  <Group position='apart' mt={8} style={{ display: 'flex', alignItems: 'center' }}>
+                    <Group position='left' ml={20}>
+                      <MediaQuery largerThan='sm' styles={{ display: 'none' }}>
+                        <Group>
+                          <Burger
+                            opened={opened}
+                            onClick={() => setOpened((o) => !o)}
+                            size='md'
+                            mr='xl'
+                          />
+                          <Avatar src={`${process.env.PUBLIC_URL}/logo.png`} size={45} />
+                          <Center>
+                            <Title order={1}>RecoAni</Title>
+                          </Center>
+                        </Group>
+                      </MediaQuery>
+                      <MediaQuery smallerThan='sm' styles={{ display: 'none' }}>
+                        <Group>
+                          <Avatar src={`${process.env.PUBLIC_URL}/logo.png`} size={45} />
+                          <Title order={1}>RecoAni</Title>
+                        </Group>
+                      </MediaQuery>
+                    </Group>
+                    <Group position='right' mr={20}>
+                      <MediaQuery smallerThan='sm' styles={{ display: 'none' }}>
+                        <Group>
+                          <ActionToggleThemeButton />
+                          <GithubIcon />
+                        </Group>
+                      </MediaQuery>
+                    </Group>
                   </Group>
-                  <Group position='right' mr={20}>
-                    <ActionIcon
-                      variant='default'
-                      size='lg'
-                      component='a'
-                      href='https://github.com/re-nan6/RecoAni'
-                      target='_blank'
-                    >
-                      <AiFillGithub size={25} />
-                    </ActionIcon>
-                  </Group>
-                </Group>
-              </Container>
-            </Header>
-          }
-        >
-          <Container size='xl'>
-            <Center>
-              <SearchBox onChange={_.debounce((e) => handleChange(e), 500)}></SearchBox>
-            </Center>
-            <SimpleGrid
-              cols={4}
-              spacing='md'
-              breakpoints={[
-                { maxWidth: 'lg', cols: 2, spacing: 'md' },
-                { maxWidth: 'md', cols: 1, spacing: 'sm' },
-                { maxWidth: 'sm', cols: 1, spacing: 'sm' },
-              ]}
-            >
-              {displayAnimeList.map((info) => {
-                return (
-                  <MalCard
-                    annictID={info.annictId}
-                    malAnimeId={info.malAnimeId}
-                    officialSiteUrl={info.officialSiteUrl}
-                    animeTitle={info.title}
-                    twitterUsername={info.twitterUsername}
-                    wikipediaUrl={info.wikipediaUrl}
-                    value={info.title}
-                    onChange={valChange}
-                    checked={val.includes(info.title)}
-                    key={info.annictId}
-                  />
-                );
-              })}
-            </SimpleGrid>
-            <Center p='md'>
-              <Pagination
-                total={numPage}
-                position='center'
-                onChange={(page: number) => changePage(page)}
-                page={nowPage}
-              />
-            </Center>
-            <div className='text'>現在選択中のアニメ</div>
-            <div>
-              <ScrollArea style={{ height: 200 }}>
-                <Table highlightOnHover verticalSpacing='sm' fontSize='lg'>
-                  <tbody>{tableRows}</tbody>
-                </Table>
-              </ScrollArea>
-            </div>
-            <Center p='sm'>
-              <SearchButton onClick={valDisplay} />
-            </Center>
+                </Container>
+              </Header>
+            }
+          >
+            <Container size='xl'>
+              <Center>
+                <SearchBox onChange={_.debounce((e) => handleChange(e), 500)}></SearchBox>
+              </Center>
+              <SimpleGrid
+                cols={4}
+                spacing='md'
+                breakpoints={[
+                  { maxWidth: 'lg', cols: 2, spacing: 'md' },
+                  { maxWidth: 'md', cols: 1, spacing: 'sm' },
+                  { maxWidth: 'sm', cols: 1, spacing: 'sm' },
+                ]}
+              >
+                {displayAnimeList.map((info) => {
+                  return (
+                    <MalCard
+                      annictID={info.annictId}
+                      malAnimeId={info.malAnimeId}
+                      officialSiteUrl={info.officialSiteUrl}
+                      animeTitle={info.title}
+                      twitterUsername={info.twitterUsername}
+                      wikipediaUrl={info.wikipediaUrl}
+                      value={info.title}
+                      onChange={valChange}
+                      checked={val.includes(info.title)}
+                      key={info.annictId}
+                    />
+                  );
+                })}
+              </SimpleGrid>
+              <Center p='md'>
+                <Pagination
+                  total={numPage}
+                  position='center'
+                  onChange={(page: number) => changePage(page)}
+                  page={nowPage}
+                />
+              </Center>
+              <Text size='xl'>現在選択中のアニメ</Text>
+              <div>
+                <ScrollArea style={{ height: 200 }}>
+                  <Table highlightOnHover verticalSpacing='sm' fontSize='lg'>
+                    <tbody>{tableRows}</tbody>
+                  </Table>
+                </ScrollArea>
+              </div>
+              <Center p='sm'>
+                <SearchButton onClick={valDisplay} />
+              </Center>
 
-            <ResultAnime pushCount={pushCount} likeList={likeId} />
-
-            <div>
-              <Alert icon={<FiAlertCircle size={16} />} title='注意' color='red' p='md' py={10}>
+              <ResultAnime pushCount={pushCount} likeList={likeId} />
+            </Container>
+            <Container p={20}>
+              <Alert icon={<FiAlertCircle size={16} />} title='注意' color='red' p='lg'>
                 <p>
                   このサイトはAnnictAPIのレビュー評価をもとに学習を行い、レコメンド結果を表示しています。結果は期待にそぐわない可能性があります。
                 </p>
               </Alert>
-            </div>
-          </Container>
-        </AppShell>
-      </QueryClientProvider>
-    </MantineProvider>
+            </Container>
+          </AppShell>
+        </QueryClientProvider>
+      </MantineProvider>
+    </ColorSchemeProvider>
   );
 }
 

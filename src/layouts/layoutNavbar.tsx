@@ -3,9 +3,10 @@ import { HiFire } from 'react-icons/hi';
 import { GiPalmTree } from 'react-icons/gi';
 import { gql } from '@apollo/client';
 import { getSeasons } from 'utils/getSeasons';
-import { Navbar, NavLink } from '@mantine/core';
+import { Navbar, NavLink, MediaQuery, Group, Text } from '@mantine/core';
 import { useContext } from 'react';
 import { animeDisplayContext, NavbarContext } from 'App';
+import { ActionToggleThemeButton, GithubIcon } from 'layouts/headerComponents';
 
 //ナビゲーションバーのコンポーネント
 //「今期のアニメ」等を自動で検索できるようにしたい
@@ -94,8 +95,25 @@ export const LayoutNavbar = () => {
           popularAnimeDisplay();
           navbarDisplay.setOpened((o) => !o);
         }}
+        grow
       >
         <NavLink key='人気アニメ' label='人気アニメ' icon={<RiVipCrownFill size={20} />}></NavLink>
+      </Navbar.Section>
+      <Navbar.Section>
+        <MediaQuery largerThan='sm' styles={{ display: 'none' }}>
+          <Group position='center' p={4}>
+            <ActionToggleThemeButton />
+            <GithubIcon />
+          </Group>
+        </MediaQuery>
+
+        {/* <NavLink
+          key='github'
+          label='Source code'
+          component='a'
+          target='_blank'
+          href='https://github.com/re-nan6/RecoAni'
+        ></NavLink> */}
       </Navbar.Section>
     </Navbar>
   );
