@@ -8,17 +8,13 @@ import { Button } from '@mantine/core';
 //@return 検索ボタンが表示される
 
 type Props = {
-  onClick:() => void[];
-}
-
-const SearchButton: React.FC<Props> = ({onClick}) => {
-  return (
-    <div>
-      <Button variant="outline" color="gray" size="md" onClick={onClick}>
-        おすすめのアニメを検索
-      </Button>
-    </div>
-  );
+  onClick: () => void[];
 };
 
-export default SearchButton
+export const SearchButton: React.FC<Props> = ({ onClick }) => {
+  return (
+    <Button variant='light' color='pink' size='md' onClick={onClick}>
+      おすすめのアニメを表示
+    </Button>
+  );
+};
