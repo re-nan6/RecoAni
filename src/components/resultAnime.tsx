@@ -42,7 +42,7 @@ interface animeInterface {
   wikipediaUrl: string;
   seasonName: string;
   seasonYear: number;
-  image: imageInterface;
+  image: imageInterface | null;
 }
 
 export const ResultAnime: React.FC<Props> = ({ pushCount, likeList }) => {
@@ -152,19 +152,21 @@ export const ResultAnime: React.FC<Props> = ({ pushCount, likeList }) => {
       <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'lg', cols: 1, spacing: 'sm' }]}>
         {animeList.map((info) => {
           return (
-            <RecommendCard
-              annictId={info.annictId}
-              title={info.title}
-              malAnimeId={info.malAnimeId}
-              officialSiteUrl={info.officialSiteUrl}
-              twitterUsername={info.twitterUsername}
-              wikipediaUrl={info.wikipediaUrl}
-              recommendImgUrl={info.image.recommendedImageUrl}
-              facebookImgUrl={info.image.facebookOgImageUrl}
-              seasonName={info.seasonName}
-              seasonYear={info.seasonYear}
-              key={info.annictId}
-            />
+            info.image && (
+              <RecommendCard
+                annictId={info.annictId}
+                title={info.title}
+                malAnimeId={info.malAnimeId}
+                officialSiteUrl={info.officialSiteUrl}
+                twitterUsername={info.twitterUsername}
+                wikipediaUrl={info.wikipediaUrl}
+                recommendImgUrl={info.image.recommendedImageUrl}
+                facebookImgUrl={info.image.facebookOgImageUrl}
+                seasonName={info.seasonName}
+                seasonYear={info.seasonYear}
+                key={info.annictId}
+              />
+            )
           );
         })}
       </SimpleGrid>
