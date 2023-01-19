@@ -58,6 +58,7 @@ export const RecommendCard: React.FC<Props> = ({
   const [animePvList, setAnimePvList] = useState<Array<Url | null>>([]);
   const [malImage, setMalImage] = useState<string>(`${process.env.PUBLIC_URL}/noimage.png`);
   const responsiveMatches = useMediaQuery('(min-width: 900px)');
+  const noImage = `${process.env.PUBLIC_URL}/noimage.png`;
 
   const getRecommendCardImages = async () => {
     const response = await axios.get(
@@ -133,32 +134,14 @@ export const RecommendCard: React.FC<Props> = ({
         {facebookImgUrl && (
           <Carousel.Slide key={facebookImgUrl}>
             <AspectRatio ratio={16 / 9}>
-              <Image
-                src={facebookImgUrl}
-                withPlaceholder
-                placeholder={
-                  <AspectRatio ratio={16 / 9}>
-                    <Image src={`${process.env.PUBLIC_URL}/noimage.png`} fit='scale-down' />
-                  </AspectRatio>
-                }
-                fit='scale-down'
-              />
+              <Image src={facebookImgUrl} withPlaceholder fit='scale-down' />
             </AspectRatio>
           </Carousel.Slide>
         )}
         {recommendImgUrl && !facebookImgUrl && (
           <Carousel.Slide key={recommendImgUrl}>
             <AspectRatio ratio={16 / 9}>
-              <Image
-                src={recommendImgUrl}
-                withPlaceholder
-                placeholder={
-                  <AspectRatio ratio={16 / 9}>
-                    <Image src={`${process.env.PUBLIC_URL}/noimage.png`} fit='scale-down' />
-                  </AspectRatio>
-                }
-                fit='scale-down'
-              />
+              <Image src={recommendImgUrl} withPlaceholder fit='scale-down' />
             </AspectRatio>
           </Carousel.Slide>
         )}
@@ -190,7 +173,7 @@ export const RecommendCard: React.FC<Props> = ({
         {!recommendImgUrl && !facebookImgUrl && animePvList.length === 0 && (
           <Carousel.Slide key='noimage'>
             <AspectRatio ratio={16 / 9}>
-              <Image withPlaceholder fit='scale-down' />
+              <Image src={noImage} withPlaceholder fit='scale-down' />
             </AspectRatio>
           </Carousel.Slide>
         )}
