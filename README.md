@@ -8,23 +8,25 @@
 
 Annictユーザーのアニメレビュー評価をもとに、アニメのレコメンドを行うサイトです。
 
-## スクリーンショット
+## 🆕
+- レスポンシブ&ダークモードに対応
+## 📸スクリーンショット
 
-### ホーム画面
+### 🏠ホーム画面
 
-![RecoAni1](https://user-images.githubusercontent.com/67001442/210780978-300a6d1e-863a-40af-97c6-fe373abb1234.png)
+![RecoAni1](https://user-images.githubusercontent.com/61731151/212463624-24a19134-67f3-4afc-957f-68355f48da45.jpg)
 
-### レコメンド結果
+### 💫レコメンド結果
 
-![RecoAni2](https://user-images.githubusercontent.com/67001442/210781050-cc15038d-a093-437f-bfcc-851cab283f73.png)
+![RecoAni2](https://user-images.githubusercontent.com/61731151/212463472-235e1bea-d565-490d-a22e-286d32efc8c9.jpg)
 
-## バックエンド部分
+## 📫バックエンド
 
 [RecoAni-API](https://github.com/fastsnowy/RecoAni-API)
 
 レコメンド結果の取得やアニメ画像・PV取得はこちらで行っています。
 
-## コントリビューター
+## 👥Contributor
 
 <table>
   <tbody>
@@ -35,6 +37,6 @@ Annictユーザーのアニメレビュー評価をもとに、アニメのレ�
    </tbody>
 </table>
 
-## ライセンス
+## 📄ライセンス
 
 [MIT](LICENSE)

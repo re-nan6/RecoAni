@@ -1,11 +1,11 @@
 .Display {
-    height: auto;
-    opacity: 1;
+  height: auto;
+  opacity: 1;
 }
 
 .Hidden {
-    height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: 0.8s;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: 0.8s;
 }
