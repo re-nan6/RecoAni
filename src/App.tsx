@@ -177,7 +177,9 @@ function App() {
     } else {
       inputAnime();
     }
+    setNowPage(1);
   };
+
 
   //ページ遷移をした際の処理
   const changePage = (page: number) => {
